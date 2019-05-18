@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Classes.DaxFiles
+﻿namespace Classes.DaxFiles
 {
     class DaxHeaderEntry
     {
-        internal int id;
-        internal int offset;
-        internal int rawSize; // decodeSize
-        internal int compSize; // dataLength
+        internal int Id;
+        internal int Offset;
+        internal int DataSize; // decodeSize
+        internal int CompressedSize; // dataLength
     }
 }
