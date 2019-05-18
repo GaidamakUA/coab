@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Threading;
-using Classes;
-using Logging;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
+using Logging;
 
 namespace Main
 {
     static class Program
     {
-        static MainForm main;
-        static Thread engineThread;
+        private static MainForm _main;
+        private static Thread _engineThread;
 
         /// <summary>
         /// The main entry point for the application.
@@ -25,7 +23,7 @@ namespace Main
             AppDomain.CurrentDomain.UnhandledException
                 += delegate(object sender, UnhandledExceptionEventArgs args)
                 {
-                    var exception = (Exception)args.ExceptionObject;
+                    var exception = (Exception) args.ExceptionObject;
 
                     string logFile = Path.Combine(Logger.GetPath(), "Crash Log.txt");
 
@@ -37,7 +35,8 @@ namespace Main
                         tw.WriteLine("Unhandled exception: " + exception);
                     }
 
-                    MessageBox.Show(string.Format("Unexpected Error, please send '{0}' to simeon.pilgrim@gmail.com", logFile), "Unexpected Error");
+                    MessageBox.Show($"Unexpected Error, please send '{logFile}' to simeon.pilgrim@gmail.com",
+                        "Unexpected Error");
                     Environment.Exit(1);
                 };
 
@@ -47,29 +46,25 @@ namespace Main
 
             Logger.SetExitFunc(engine.seg043.print_and_exit);
 
-            main = new MainForm();
+            _main = new MainForm();
 
-            ThreadStart threadDelegate = new ThreadStart(EngineThread);
-            engineThread = new Thread(threadDelegate);
-            engineThread.Name = "Engine";
-            engineThread.Start();
+            ThreadStart threadDelegate = EngineThread;
+            _engineThread = new Thread(threadDelegate) {Name = "Engine"};
+            _engineThread.Start();
 
 
-            Application.Run(main);
+            Application.Run(_main);
         }
 
-        public delegate void VoidDelegate();
+        private delegate void VoidDelegate();
 
-        static void EngineStopped()
+        private static void EngineStopped()
         {
-            VoidDelegate d = delegate()
-            {
-                Application.Exit();
-            };
-            main.Invoke(d);
+            VoidDelegate d = Application.Exit;
+            _main.Invoke(d);
         }
 
-        static void EngineThread()
+        private static void EngineThread()
         {
             engine.seg001.__SystemInit(EngineStopped);
             engine.seg001.PROGRAM();

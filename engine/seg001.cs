@@ -5,26 +5,27 @@ namespace engine
 {
     public class seg001
     {
-        internal static System.Threading.Thread EngineThread;
+        private static System.Threading.Thread _engineThread;
 
         public delegate void VoidDelegate();
-        static VoidDelegate EngineStoppedCallback;
+
+        private static VoidDelegate _engineStoppedCallback;
 
         internal static void EngineStop()
         {
-            EngineStoppedCallback();
-            EngineThread.Abort();
+            _engineStoppedCallback();
+            _engineThread.Abort();
         }
 
         public static void __SystemInit(VoidDelegate stoppedCallback)
         {
-            EngineThread = System.Threading.Thread.CurrentThread;
-            EngineStoppedCallback = stoppedCallback;
+            _engineThread = System.Threading.Thread.CurrentThread;
+            _engineStoppedCallback = stoppedCallback;
 
             ConfigGame();
         }
 
-        internal static void ConfigGame()
+        private static void ConfigGame()
         {
             gbl.exe_path = System.IO.Directory.GetCurrentDirectory();
 
@@ -49,63 +50,6 @@ namespace engine
 
             seg044.PlaySound(Sound.sound_0);
 
-            //Logging.Logger.Debug("Field_6 & 0x0F == 0");
-            //foreach (var s in gbl.spellCastingTable )
-            //{
-            //    if (s != null && (s.field_6 & 0x0f) == 0)
-            //    {
-            //        Logging.Logger.Debug("{0} {1}", s.spellIdx, (Spells)s.spellIdx);
-            //    }
-            //}
-            //Logging.Logger.Debug("");
-            //Logging.Logger.Debug("Field_6 & 0x0F == 5");
-            //foreach (var s in gbl.spellCastingTable)
-            //{
-            //    if (s != null && (s.field_6 & 0x0f) == 5)
-            //    {
-            //        Logging.Logger.Debug("{0} {1}", s.spellIdx, (Spells)s.spellIdx);
-            //    }
-            //}
-            //Logging.Logger.Debug("");
-            //Logging.Logger.Debug("Field_6 & 0x0F == 15");
-            //foreach (var s in gbl.spellCastingTable)
-            //{
-            //    if (s != null && (s.field_6 & 0x0f) == 15)
-            //    {
-            //        Logging.Logger.Debug("{0} {1}", s.spellIdx, (Spells)s.spellIdx);
-            //    }
-            //}
-            //Logging.Logger.Debug("");
-            //Logging.Logger.Debug("Field_6 & 0x0F >= 8 <= 14");
-            //foreach (var s in gbl.spellCastingTable)
-            //{
-            //    if (s != null)
-            //    {
-            //        int v = s.field_6 & 0x0f;
-            //        if (v >= 8 && v <= 14)
-            //        {
-            //            Logging.Logger.Debug("{0} {1}", s.spellIdx, (Spells)s.spellIdx);
-
-            //        }
-            //    }
-            //}
-            //Logging.Logger.Debug("");
-            //Logging.Logger.Debug("Field_6 & 0x0F otherwise");
-            //foreach (var s in gbl.spellCastingTable)
-            //{
-            //    if (s != null)
-            //    {
-            //        int v = s.field_6 & 0x0f;
-            //        if (v >= 1 && v <= 7 && v != 5)
-            //        {
-            //            Logging.Logger.Debug("{0} {1} {2}", s.spellIdx, (Spells)s.spellIdx, (v & 3)+1);
-            //        }
-            //    }
-            //}
-            //Logging.Logger.Debug("");
-
-
-
             if (Cheats.skip_title_screen == false)
             {
                 ovr002.title_screen();
@@ -114,7 +58,8 @@ namespace engine
             gbl.displayInputSecondsToWait = 30;
             gbl.displayInputTimeoutValue = 'D';
 
-            char inputKey = ovr027.displayInput(false, 0, gbl.defaultMenuColors, "Play Demo", "Curse of the Azure Bonds v1.3 ");
+            char inputKey = ovr027.displayInput(false, 0, gbl.defaultMenuColors, "Play Demo",
+                "Curse of the Azure Bonds v1.3 ");
 
             gbl.displayInputSecondsToWait = 0;
             gbl.displayInputTimeoutValue = '\0';
@@ -159,7 +104,8 @@ namespace engine
                     gbl.displayInputSecondsToWait = 10;
                     gbl.displayInputTimeoutValue = 'D';
 
-                    inputKey = ovr027.displayInput(false, 0, gbl.defaultMenuColors, "Play Demo", "Curse of the Azure Bonds v1.3 ");
+                    inputKey = ovr027.displayInput(false, 0, gbl.defaultMenuColors, "Play Demo",
+                        "Curse of the Azure Bonds v1.3 ");
 
                     gbl.displayInputSecondsToWait = 0;
                     gbl.displayInputTimeoutValue = '\0';
@@ -311,7 +257,7 @@ namespace engine
 
             for (gbl.byte_1AD44 = 0; gbl.byte_1AD44 <= 0x0b; gbl.byte_1AD44++)
             {
-                ovr034.chead_cbody_comspr_icon((byte)(gbl.byte_1AD44 + 0x0D), gbl.byte_1AD44, "COMSPR");
+                ovr034.chead_cbody_comspr_icon((byte) (gbl.byte_1AD44 + 0x0D), gbl.byte_1AD44, "COMSPR");
             }
 
             ovr034.chead_cbody_comspr_icon(0x19, 0x19, "COMSPR");

@@ -48,13 +48,10 @@ namespace engine
                 }
                 else if (arg_0 >= Sound.sound_2 && arg_0 <= Sound.sound_e)
                 {
-                    int sampleId = (int)arg_0 - 1;
+                    int sampleId = (int) arg_0 - 1;
                     if (sounds[sampleId] != null)
                     {
                         sounds[sampleId].Play();
-                    }
-                    else
-                    {
                     }
                 }
                 else if (arg_0 == Sound.sound_f)
@@ -67,7 +64,8 @@ namespace engine
 
         internal static void SoundInit()
         {
-            var resources = new System.Resources.ResourceManager("Main.Resource", System.Reflection.Assembly.GetEntryAssembly());
+            var resources =
+                new System.Resources.ResourceManager("Main.Resource", System.Reflection.Assembly.GetEntryAssembly());
 
             sounds = new System.Media.SoundPlayer[13];
 
