@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Classes.DaxFiles
 {
     public class DaxCache
     {
-        static Dictionary<string, DaxFileCache> fileCache = new Dictionary<string, DaxFileCache>();
+        private static readonly Dictionary<string, DaxFileCache> FileCache = new Dictionary<string, DaxFileCache>();
 
-        public static byte[] LoadDax(string file_name, int block_id)
+        public static byte[] LoadDax(string fileName, int blockId)
         {
             DaxFileCache dfc;
 
-            file_name = file_name.ToLower();
+            fileName = fileName.ToLower();
 
-            if (!fileCache.TryGetValue(file_name, out dfc))
+            if (!FileCache.TryGetValue(fileName, out dfc))
             {
-                dfc = new DaxFileCache(file_name);
-                fileCache.Add(file_name, dfc);
+                dfc = new DaxFileCache(fileName);
+                FileCache.Add(fileName, dfc);
             }
 
-            return dfc.GetData(block_id);
+            return dfc.GetData(blockId);
         }
     }
 }
