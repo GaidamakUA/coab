@@ -41,12 +41,13 @@ namespace engine
         }
 
 
-        internal static void display_char01(char ch, int repeatCount, int bgColor, int fgColor, int YCol, int XCol) // display_char01
+        internal static void
+            display_char01(char ch, int repeatCount, int bgColor, int fgColor, int YCol, int XCol) // display_char01
         {
             if (XCol < 40 &&
                 YCol < 25)
             {
-                char index = (char)(char.ToUpper(ch) % 0x40);
+                char index = (char) (char.ToUpper(ch) % 0x40);
 
                 for (int i = 0; i < 8; i++)
                 {
@@ -55,7 +56,7 @@ namespace engine
 
                 for (int i = 0; i < repeatCount; i++)
                 {
-                    Display.DisplayMono8x8(XCol + i, YCol, gbl.monoCharData, bgColor, fgColor);
+                    Display.DisplayMono8X8(XCol + i, YCol, gbl.monoCharData, bgColor, fgColor);
                 }
             }
         }
@@ -81,10 +82,10 @@ namespace engine
                     display_char01(ch, 1, bgColor, fgColor, yCol, xCol);
                     xCol++;
                 }
+
                 Display.Update();
             }
         }
-
 
 
         internal static int displayStringSlow(string text
@@ -110,21 +111,22 @@ namespace engine
         internal static void text_skip_space(string text, int text_max, ref int text_index) /* sub_10854 */
         {
             while (text_index < text_max &&
-                text[text_index - 1] == ' ')
+                   text[text_index - 1] == ' ')
             {
                 text_index += 1;
             }
         }
 
-        internal static int[,] bounds = new int[3, 4] { 
-            { 0x16, 0x26, 0x11, 1 }, 
-            { 0x16, 0x26, 0x15, 1 },
-            { 0x15, 0x26, 1, 0x17 } // TextRegion.CombatSummary
+        internal static int[,] bounds = new int[3, 4]
+        {
+            {0x16, 0x26, 0x11, 1},
+            {0x16, 0x26, 0x15, 1},
+            {0x15, 0x26, 1, 0x17} // TextRegion.CombatSummary
         };
 
         internal static void press_any_key(string text, bool clearArea, int fgColor, TextRegion region)
         {
-            int r = (int)region;
+            int r = (int) region;
             press_any_key(text, clearArea, fgColor, bounds[r, 0], bounds[r, 1], bounds[r, 2], bounds[r, 3]);
         }
 
@@ -167,14 +169,14 @@ namespace engine
                     //text.LastIndexOfAny(syms, text_start);
 
                     while (text_end < input_lenght &&
-                        puncutation.MemberOf(text[text_end - 1]) == true)
+                           puncutation.MemberOf(text[text_end - 1]) == true)
                     {
                         text_end++;
                     }
 
                     while (text_end < input_lenght &&
-                        puncutation.MemberOf(text[text_end - 1]) == false &&
-                        text[text_end - 1] != ' ')
+                           puncutation.MemberOf(text[text_end - 1]) == false &&
+                           text[text_end - 1] != ' ')
                     {
                         text_end++;
                     }
@@ -182,7 +184,7 @@ namespace engine
                     if (text[text_end - 1] != ' ')
                     {
                         while (text_end + 1 < input_lenght &&
-                            puncutation.MemberOf(text[text_end]) == true)
+                               puncutation.MemberOf(text[text_end]) == true)
                         {
                             text_end++;
                         }
@@ -244,7 +246,7 @@ namespace engine
 
             do
             {
-                ch = (char)seg043.GetInputKey();
+                ch = (char) seg043.GetInputKey();
 
                 if (ch >= 0x20 && ch <= 0x7A)
                 {
@@ -264,7 +266,6 @@ namespace engine
                     displaySpaceChar(24, --xPos);
                     //xPos -= 1;
                 }
-
             } while (ch != 0x0d && ch != 0x1B && gbl.inDemo == false);
 
             ovr027.ClearPromptAreaNoUpdate();
@@ -283,14 +284,14 @@ namespace engine
                 string input = getUserInputString(6, bgColor, fgColor, prompt);
 
                 good_input = int.TryParse(input, out value);
-        
+
                 if (good_input)
                 {
                     good_input = (value < 0x00010000 && value >= 0);
                 }
             } while (good_input == false);
 
-            return (ushort)value;
+            return (ushort) value;
         }
 
 

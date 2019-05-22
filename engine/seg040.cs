@@ -19,14 +19,14 @@ namespace engine
         }
 
 
-
         internal static void OverlayUnbounded(DaxBlock source, int arg_8, int itemIdex, int rowY, int colX)
         {
             draw_combat_picture(source, rowY + 1, colX + 1, itemIdex);
         }
 
 
-        internal static void OverlayBounded(DaxBlock source, int arg_8, int itemIndex, int rowY, int colX) /* sub_E353 */
+        internal static void
+            OverlayBounded(DaxBlock source, int arg_8, int itemIndex, int rowY, int colX) /* sub_E353 */
         {
             draw_combat_picture(source, rowY + 1, colX + 1, itemIndex);
         }
@@ -93,7 +93,8 @@ namespace engine
                             byte color = dax_block.data[offset];
 
                             if (color == color_no_draw)
-                            { }
+                            {
+                            }
                             else if (color == color_re_color_from)
                             {
                                 Display.SetPixel3(pixX, pixY, color_re_color_to);
@@ -129,13 +130,7 @@ namespace engine
 
         internal static void SetPaletteColor(int color, int index)
         {
-            int newColor = color;
-
-            //if (color >= 8)
-            //{
-            //  newColor += 8;
-            //}
-
+            var newColor = color;
             Display.SetEgaPalette(index, newColor);
         }
 
