@@ -130,8 +130,7 @@ namespace engine
 
         internal static void SetPaletteColor(int color, int index)
         {
-            var newColor = color;
-            Display.SetEgaPalette(index, newColor);
+            Display.SetColorMap(index, color);
         }
 
 

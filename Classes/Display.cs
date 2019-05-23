@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -12,7 +14,7 @@ namespace Classes
 
     public static class Display
     {
-        private static readonly Color[] OrigEgaColors =
+        private static readonly Color[] EgaColors =
         {
             Color.FromArgb(0, 0, 0),
             Color.FromArgb(0, 0, 173),
@@ -32,15 +34,14 @@ namespace Classes
             Color.FromArgb(255, 255, 255)
         };
 
-        private static readonly Color[] EgaColours = (Color[]) OrigEgaColors.Clone();
+        private static readonly Dictionary<int, int> EgaColorMap = new Dictionary<int, int>();
 
-        private static readonly int[,] Ram;
-        private static Bitmap _videoRam = new Bitmap(OutputWidth, OutputHeight, PixelFormat.Format24bppRgb);
-        private static Bitmap _videoRamBkUp;
         private const int OutputWidth = 320;
         private const int OutputHeight = 200;
 
-        public static Bitmap Bitmap;
+        private static Bitmap _bitmapModel = new Bitmap(OutputWidth, OutputHeight, PixelFormat.Format24bppRgb);
+        public static Bitmap Bitmap = new Bitmap(OutputWidth, OutputHeight, PixelFormat.Format24bppRgb);
+        private static Bitmap _bitmapModelBackUp;
 
         public delegate void VoidDelegate();
 
@@ -49,13 +50,6 @@ namespace Classes
         public static VoidDelegate UpdateCallback
         {
             set => _updateCallback = value;
-        }
-
-        static Display()
-        {
-            Ram = new int[OutputHeight, OutputWidth];
-
-            Bitmap = new Bitmap(OutputWidth, OutputHeight, PixelFormat.Format24bppRgb);
         }
 
         private static readonly int[] MonoBitMask = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
@@ -71,33 +65,30 @@ namespace Classes
 
                 for (int i = 0; i < 8; i++)
                 {
-                    Ram[pY, pX + i] = (value & MonoBitMask[i]) != 0 ? fgColor : bgColor;
-                    SetVidPixel(pX + i, pY, Ram[pY, pX + i]);
+                    var egaColour = (value & MonoBitMask[i]) != 0 ? fgColor : bgColor;
+                    SetVidPixel(pX + i, pY, egaColour);
                 }
             }
         }
 
-        public static void SetEgaPalette(int index, int colour16)
+        public static void SetColorMap(int mappedTo, int original)
         {
-            EgaColours[index] = OrigEgaColors[colour16];
-
-            for (var y = 0; y < OutputHeight; y++)
+            if (mappedTo == original)
             {
-                for (var x = 0; x < OutputWidth; x++)
-                {
-                    var egaColor = Ram[y, x];
-                    var colour = EgaColours[egaColor];
-                    _videoRam.SetPixel(x, y, colour);
-                }
+                EgaColorMap.Remove(original);
+            }
+            else
+            {
+                EgaColorMap.Add(original, mappedTo);
             }
 
-            Display.Update();
+            Update();
         }
 
         private static void SetVidPixel(int x, int y, int egaColour)
         {
-            var colour = EgaColours[egaColour];
-            _videoRam.SetPixel(x, y, colour);
+            var colour = EgaColors[egaColour];
+            _bitmapModel.SetPixel(x, y, colour);
         }
 
         private static int _noUpdateCount;
@@ -116,40 +107,64 @@ namespace Classes
         public static void Update()
         {
             if (_noUpdateCount != 0) return;
-
-            Bitmap = _videoRam;
-
-            _updateCallback?.Invoke();
+            ForceUpdate();
         }
 
         public static void ForceUpdate()
         {
-            Bitmap = _videoRam;
+            if (EgaColorMap.Count == 0)
+            {
+                Bitmap = _bitmapModel;
+            }
+            else
+            {
+                ColorMap[] remapTable = new ColorMap[EgaColorMap.Count];
+                var index = 0;
+                foreach (var keyValuePair in EgaColorMap)
+                {
+                    var colorMap = new ColorMap();
+                    colorMap.OldColor = EgaColors[keyValuePair.Key];
+                    colorMap.NewColor = EgaColors[keyValuePair.Value];
+                    remapTable[index++] = colorMap;
+                }
+
+                var attributes = new ImageAttributes();
+                attributes.SetRemapTable(remapTable, ColorAdjustType.Bitmap);
+                Bitmap = new Bitmap(OutputWidth, OutputHeight, PixelFormat.Format24bppRgb);
+                var graphics = Graphics.FromImage(Bitmap);
+                graphics.DrawImage(_bitmapModel,
+                    new Rectangle(0, 0, OutputWidth, OutputHeight),
+                    0,
+                    0,
+                    OutputWidth,
+                    OutputHeight,
+                    GraphicsUnit.Pixel,
+                    attributes);
+            }
+
             _updateCallback?.Invoke();
         }
 
         public static void SaveVidRam()
         {
-            _videoRamBkUp = (Bitmap) _videoRam.Clone();
+            _bitmapModelBackUp = (Bitmap) _bitmapModel.Clone();
         }
 
         public static void RestoreVidRam()
         {
-            _videoRam = _videoRamBkUp;
+            _bitmapModel = _bitmapModelBackUp;
         }
 
         public static byte GetPixel(int x, int y)
         {
-            return (byte) Ram[y, x];
+            return (byte) Array.IndexOf(EgaColors, _bitmapModel.GetPixel(x, y));
         }
 
         public static void SetPixel3(int x, int y, int value)
         {
             if (value < 16)
             {
-                Ram[y, x] = value;
-
-                SetVidPixel(x, y, Ram[y, x]);
+                SetVidPixel(x, y, value);
             }
         }
     }

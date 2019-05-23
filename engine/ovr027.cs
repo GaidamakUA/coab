@@ -1,6 +1,6 @@
-using Classes;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
@@ -11,7 +11,9 @@ namespace engine
             return (list.Count > index) ? list[index] : null;
         }
 
-        static Set highlightable_text = new Set('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+        static Set highlightable_text = new Set('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
+            'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+            'Z');
 
 
         internal class highlight
@@ -119,17 +121,22 @@ namespace engine
             }
         }
 
-		static Set alpha_number_input = new Set(' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //unk_6C398
-		static Set number_input = new Set('1', '2', '3', '4', '5', '6', '7', '8', '9', '\\'); //unk_6C3B8
-		static char[] keypad_ctrl_codes = { 'O', 'P', 'Q', 'K', ' ', 'M', 'G', 'H', 'I' };
+        static Set alpha_number_input = new Set(' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
+            'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z'); //unk_6C398
 
-        internal static char displayInput(bool useOverlay, byte arg_6, MenuColorSet colors, string displayInputString, string displayExtraString)
+        static Set number_input = new Set('1', '2', '3', '4', '5', '6', '7', '8', '9', '\\'); //unk_6C3B8
+        static char[] keypad_ctrl_codes = {'O', 'P', 'Q', 'K', ' ', 'M', 'G', 'H', 'I'};
+
+        internal static char displayInput(bool useOverlay, byte arg_6, MenuColorSet colors, string displayInputString,
+            string displayExtraString)
         {
             bool dummyBool;
             return displayInput(out dummyBool, useOverlay, arg_6, colors, displayInputString, displayExtraString);
         }
 
-        internal static char displayInput(out bool specialKeyPressed, bool useOverlay, byte accept_ctrlkeys, MenuColorSet colors, string displayInputString, string displayExtraString)
+        internal static char displayInput(out bool specialKeyPressed, bool useOverlay, byte accept_ctrlkeys,
+            MenuColorSet colors, string displayInputString, string displayExtraString)
         {
             int highlistCount;
 
@@ -206,11 +213,11 @@ namespace engine
                 }
                 else if (seg049.KEYPRESSED() == true)
                 {
-                    input_key = (char)seg043.GetInputKey();
+                    input_key = (char) seg043.GetInputKey();
 
                     if (input_key == 0)
                     {
-                        input_key = (char)seg043.GetInputKey();
+                        input_key = (char) seg043.GetInputKey();
 
                         if (accept_ctrlkeys != 0)
                         {
@@ -250,7 +257,8 @@ namespace engine
                             gbl.menuSelectedWord--;
                         }
 
-                        display_highlighed_text(gbl.menuSelectedWord, colors.highlight, displayInputString, displayInputXOffset, colors.foreground, highlights);
+                        display_highlighed_text(gbl.menuSelectedWord, colors.highlight, displayInputString,
+                            displayInputXOffset, colors.foreground, highlights);
                     }
                     else if (input_key == '.')
                     {
@@ -261,7 +269,8 @@ namespace engine
                             gbl.menuSelectedWord = 0;
                         }
 
-                        display_highlighed_text(gbl.menuSelectedWord, colors.highlight, displayInputString, displayInputXOffset, colors.foreground, highlights);
+                        display_highlighed_text(gbl.menuSelectedWord, colors.highlight, displayInputString,
+                            displayInputXOffset, colors.foreground, highlights);
                     }
                     else
                     {
@@ -288,7 +297,8 @@ namespace engine
 
                                         gbl.menuSelectedWord = var_61;
 
-                                        display_highlighed_text(gbl.menuSelectedWord, colors.highlight, displayInputString, displayInputXOffset, colors.foreground, highlights);
+                                        display_highlighed_text(gbl.menuSelectedWord, colors.highlight,
+                                            displayInputString, displayInputXOffset, colors.foreground, highlights);
                                     }
                                 }
                             }
@@ -323,7 +333,6 @@ namespace engine
                 }
 
                 System.Threading.Thread.Sleep(20);
-
             } while (stopLoop == false);
 
             gbl.area_ptr.picture_fade = 0;
@@ -350,7 +359,7 @@ namespace engine
 
         internal static void ClearPromptAreaNoUpdate()
         {
-            seg041.DrawRectangle(0, 0x18, 0x27, 0x18, 0);
+            seg041.DrawRectangle(0x18, 0x27, 0x18, 0);
         }
 
         static void sub_6C897(int index,
@@ -370,8 +379,10 @@ namespace engine
 
                 if (menu.Text.Length < displayFillWidth)
                 {
-                    seg041.display_char01(' ', displayFillWidth - menu.Text.Length, 0, 0, yCol, menu.Text.Length + xStart);
+                    seg041.display_char01(' ', displayFillWidth - menu.Text.Length, 0, 0, yCol,
+                        menu.Text.Length + xStart);
                 }
+
                 yCol++;
             }
         }
@@ -397,7 +408,8 @@ namespace engine
         }
 
 
-        static void ListItemNormal(int index, List<MenuItem> list, int yCol, int xCol, int normalColor, int headingColor)
+        static void ListItemNormal(int index, List<MenuItem> list, int yCol, int xCol, int normalColor,
+            int headingColor)
         {
             MenuItem menu_item = getStringListEntry(list, index);
 
@@ -447,12 +459,12 @@ namespace engine
 
                     if (index < gbl.menuScreenIndex)
                     {
-                        index = (short)(gbl.menuScreenIndex + listDisplayHeight - 1);
+                        index = (short) (gbl.menuScreenIndex + listDisplayHeight - 1);
                     }
 
                     if ((list.Count - 1) < index)
                     {
-                        index = (short)(list.Count - 1);
+                        index = (short) (list.Count - 1);
                     }
                 }
             }
@@ -472,7 +484,7 @@ namespace engine
                 gbl.menuScreenIndex += listDisplayHeight;
                 if ((list.Count - listDisplayHeight) < gbl.menuScreenIndex)
                 {
-                    gbl.menuScreenIndex = (short)(list.Count - listDisplayHeight);
+                    gbl.menuScreenIndex = (short) (list.Count - listDisplayHeight);
                 }
             }
             else
@@ -494,7 +506,8 @@ namespace engine
         }
 
 
-        static int menu_scroll_in_page(bool backwardsStep, int index, List<MenuItem> list, int listDisplayHeight) // sub_6CDCA
+        static int menu_scroll_in_page(bool backwardsStep, int index, List<MenuItem> list,
+            int listDisplayHeight) // sub_6CDCA
         {
             if (backwardsStep == true)
             {
@@ -516,12 +529,12 @@ namespace engine
 
                 if (index < gbl.menuScreenIndex)
                 {
-                    index = (short)(gbl.menuScreenIndex + listDisplayHeight - 1);
+                    index = (short) (gbl.menuScreenIndex + listDisplayHeight - 1);
                 }
 
                 if ((list.Count - 1) < index)
                 {
-                    index = (short)(list.Count - 1);
+                    index = (short) (list.Count - 1);
                 }
             }
 
@@ -548,7 +561,7 @@ namespace engine
             gbl.menuSelectedWord = 1;
 
             int listDisplayWidth = (endX - startX) + 1;
-            int listDisplayHeight = (short)((endY - startY) + 1);
+            int listDisplayHeight = (short) ((endY - startY) + 1);
 
             int listCount = stringList.Count;
 
@@ -627,15 +640,19 @@ namespace engine
                         case 'I':
                             if (showPrevious == true)
                             {
-                                menu_scroll_page(false, ref index_ptr, stringList, listDisplayHeight, endY, endX, startY, startX, colors.foreground, colors.prompt, listDisplayWidth);
+                                menu_scroll_page(false, ref index_ptr, stringList, listDisplayHeight, endY, endX,
+                                    startY, startX, colors.foreground, colors.prompt, listDisplayWidth);
                             }
+
                             break;
 
                         case 'Q':
                             if (showNext == true)
                             {
-                                menu_scroll_page(true, ref index_ptr, stringList, listDisplayHeight, endY, endX, startY, startX, colors.foreground, colors.prompt, listDisplayWidth);
+                                menu_scroll_page(true, ref index_ptr, stringList, listDisplayHeight, endY, endX, startY,
+                                    startX, colors.foreground, colors.prompt, listDisplayWidth);
                             }
+
                             break;
                     }
                 }
@@ -644,15 +661,17 @@ namespace engine
                     switch (input_key)
                     {
                         case 'P':
-                            menu_scroll_page(false, ref index_ptr, stringList, listDisplayHeight, endY, endX, startY, startX, colors.foreground, colors.prompt, listDisplayWidth);
+                            menu_scroll_page(false, ref index_ptr, stringList, listDisplayHeight, endY, endX, startY,
+                                startX, colors.foreground, colors.prompt, listDisplayWidth);
                             break;
 
                         case 'N':
 
-                            menu_scroll_page(true, ref index_ptr, stringList, listDisplayHeight, endY, endX, startY, startX, colors.foreground, colors.prompt, listDisplayWidth);
+                            menu_scroll_page(true, ref index_ptr, stringList, listDisplayHeight, endY, endX, startY,
+                                startX, colors.foreground, colors.prompt, listDisplayWidth);
                             break;
 
-                        case (char)0x1B:
+                        case (char) 0x1B:
                         case '\0':
                         case 'E':
                             result_ptr = null;
@@ -682,7 +701,6 @@ namespace engine
             do
             {
                 inputKey = displayInput(false, 0, colors, "Yes No", inputString);
-
             } while (inputKey != 'N' && inputKey != 'Y');
 
             return inputKey;
