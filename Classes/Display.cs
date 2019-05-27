@@ -140,6 +140,7 @@ namespace Classes
                     OutputHeight,
                     GraphicsUnit.Pixel,
                     attributes);
+                graphics.Dispose();
             }
 
             _updateCallback?.Invoke();
@@ -166,6 +167,19 @@ namespace Classes
             {
                 SetVidPixel(x, y, value);
             }
+        }
+
+        public static void ClearRectangle(int x, int y, int width, int height)
+        {
+            DrawRectangle(x, y, width, height, 0);
+        }
+
+        public static void DrawRectangle(int x, int y, int width, int height, int egaColour)
+        {
+            var colour = EgaColors[egaColour];
+            var graphics = Graphics.FromImage(_bitmapModel);
+            graphics.FillRectangle(new SolidBrush(colour), x, y, width, height);
+            graphics.Dispose();
         }
     }
 }

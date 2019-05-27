@@ -134,24 +134,15 @@ namespace engine
         }
 
 
-        internal static void DrawColorBlock(int color, int lineCount, int colWidth, int lineY, int colX)
+        internal static void DrawColorBlock(int colour, int lineCount, int colWidth, int lineY, int colX)
         {
             int minY = lineY + 8;
-            int maxY = minY + lineCount;
+            int height = lineCount;
 
             int minX = (colX * 8) + 8;
-            int maxX = minX + (colWidth * 8);
+            int widht = colWidth * 8;
 
-            for (int pixY = minY; pixY < maxY; pixY++)
-            {
-                for (int pixX = minX; pixX < maxX; pixX++)
-                {
-                    if (pixX >= 0 && pixX < 320 && pixY >= 0 && pixY < 200)
-                    {
-                        Display.SetPixel3(pixX, pixY, color);
-                    }
-                }
-            }
+            Display.DrawRectangle(minX, minY, widht, height, colour);
         }
     }
 }

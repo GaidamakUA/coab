@@ -215,7 +215,7 @@ namespace engine
 
         internal static void draw8x8_clear_area(int yEnd, int xEnd, int yStart, int xStart)
         {
-            seg041.DrawRectangle(yEnd, xEnd, yStart, xStart);
+            seg041.ClearRectangle(yEnd, xEnd, yStart, xStart);
         }
     }
 }

@@ -359,7 +359,7 @@ namespace engine
 
         internal static void ClearPromptAreaNoUpdate()
         {
-            seg041.DrawRectangle(0x18, 0x27, 0x18, 0);
+            seg041.ClearRectangle(0x18, 0x27, 0x18, 0);
         }
 
         static void sub_6C897(int index,

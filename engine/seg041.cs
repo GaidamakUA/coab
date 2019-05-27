@@ -4,20 +4,15 @@ namespace engine
 {
     class seg041
     {
-        internal static void DrawRectangle(int yEnd, int xEnd, int yStart, int xStart)
+        internal static void ClearRectangle(int yEnd, int xEnd, int yStart, int xStart)
         {
-            xStart *= 8;
+            var x = xStart * 8;
             xEnd = (xEnd + 1) * 8;
-            yStart *= 8;
+            var width = xEnd - x;
+            var y = yStart * 8;
             yEnd = (yEnd + 1) * 8;
-
-            for (int x = xStart; x < xEnd; x++)
-            {
-                for (int y = yStart; y < yEnd; y++)
-                {
-                    Display.SetPixel3(x, y, 0);
-                }
-            }
+            var height = yEnd - y;
+            Display.ClearRectangle(x, y, width, height);
         }
 
 
@@ -317,7 +312,7 @@ namespace engine
 
         internal static void ClearScreen()
         {
-            DrawRectangle(0x18, 0x27, 0, 0);
+            ClearRectangle(0x18, 0x27, 0, 0);
         }
 
 
