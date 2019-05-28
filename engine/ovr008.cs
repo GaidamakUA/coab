@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Classes;
 using Logging;
-using System.Collections.Generic;
 
 namespace engine
 {
@@ -143,9 +143,10 @@ namespace engine
             do
             {
                 ovr027.ClearPromptArea();
-                seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+                Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
 
-                seg042.load_decode_dax(out block_mem, out block_size, block_id, string.Format("ECL{0}.dax", gbl.game_area));
+                seg042.load_decode_dax(out block_mem, out block_size, block_id,
+                    string.Format("ECL{0}.dax", gbl.game_area));
             } while (block_size < 2);
 
             gbl.ecl_ptr.SetData(block_mem, 2, block_size - 2);
@@ -256,7 +257,7 @@ namespace engine
                     gbl.game_state == GameState.DungeonMap &&
                     gbl.byte_1EE95 == false)
                 {
-                    gbl.byte_1EE96 = (byte)gbl.area2_ptr.HeadBlockId;
+                    gbl.byte_1EE96 = (byte) gbl.area2_ptr.HeadBlockId;
                     gbl.spriteChanged = true;
                     if (gbl.area2_ptr.HeadBlockId == 0xff)
                     {
@@ -267,7 +268,7 @@ namespace engine
                     }
                     else
                     {
-                        set_and_draw_head_body(pic_block_id, (byte)gbl.area2_ptr.HeadBlockId);
+                        set_and_draw_head_body(pic_block_id, (byte) gbl.area2_ptr.HeadBlockId);
                         flags[1] = true;
                         gbl.byte_1EE8D = false;
                     }
@@ -283,17 +284,18 @@ namespace engine
                 arg_0 += 0x40;
             }
 
-            return (char)arg_0;
+            return (char) arg_0;
         }
 
         internal static uint deflateChar(char ch)
         {
-            uint output = (uint)ch;
+            uint output = (uint) ch;
 
             if (output >= 0x40)
             {
                 output -= 0x40;
             }
+
             return output;
         }
 
@@ -332,7 +334,7 @@ namespace engine
             if (index == -1)
                 index = gbl.TeamList.Count;
 
-            return (ushort)index;
+            return (ushort) index;
         }
 
 
@@ -346,23 +348,23 @@ namespace engine
 
             if (arg_4 == 0x15)
             {
-                return_val = (byte)gbl.SelectedPlayer.stats2.Int.full;
+                return_val = (byte) gbl.SelectedPlayer.stats2.Int.full;
             }
             else if (arg_4 == 0x18)
             {
-                return_val = (byte)gbl.SelectedPlayer.stats2.Con.full;
+                return_val = (byte) gbl.SelectedPlayer.stats2.Con.full;
             }
             else if (arg_4 == 0x72)
             {
-                return_val = (ushort)gbl.SelectedPlayer.race;
+                return_val = (ushort) gbl.SelectedPlayer.race;
             }
             else if (arg_4 == 0x73)
             {
-                return_val = (ushort)gbl.SelectedPlayer._class;
+                return_val = (ushort) gbl.SelectedPlayer._class;
             }
             else if (arg_4 == 0x9b)
             {
-                return_val = gbl.SelectedPlayer.saveVerse[(int)SaveVerseType.Petrification];
+                return_val = gbl.SelectedPlayer.saveVerse[(int) SaveVerseType.Petrification];
             }
             else if (arg_4 == 0xa0)
             {
@@ -380,27 +382,27 @@ namespace engine
             }
             else if (arg_4 == 0xBB)
             {
-                return_val = (ushort)gbl.SelectedPlayer.Money.GetCoins(Money.Copper);
+                return_val = (ushort) gbl.SelectedPlayer.Money.GetCoins(Money.Copper);
             }
             else if (arg_4 == 0xBD)
             {
-                return_val = (ushort)gbl.SelectedPlayer.Money.GetCoins(Money.Electrum);
+                return_val = (ushort) gbl.SelectedPlayer.Money.GetCoins(Money.Electrum);
             }
             else if (arg_4 == 0xBF)
             {
-                return_val = (ushort)gbl.SelectedPlayer.Money.GetCoins(Money.Silver);
+                return_val = (ushort) gbl.SelectedPlayer.Money.GetCoins(Money.Silver);
             }
             else if (arg_4 == 0xC1)
             {
-                return_val = (ushort)gbl.SelectedPlayer.Money.GetCoins(Money.Gold);
+                return_val = (ushort) gbl.SelectedPlayer.Money.GetCoins(Money.Gold);
             }
             else if (arg_4 == 0xC3)
             {
-                return_val = (ushort)gbl.SelectedPlayer.Money.GetCoins(Money.Platinum);
+                return_val = (ushort) gbl.SelectedPlayer.Money.GetCoins(Money.Platinum);
             }
             else if (arg_4 == 0xC9)
             {
-                return_val = (ushort)gbl.SelectedPlayer.SkillLevel(SkillType.MagicUser);
+                return_val = (ushort) gbl.SelectedPlayer.SkillLevel(SkillType.MagicUser);
             }
             else if (arg_4 == 0xD6)
             {
@@ -412,11 +414,11 @@ namespace engine
             }
             else if (arg_4 == 0xE4)
             {
-                return_val = (ushort)(gbl.SelectedPlayer.field_192 & 1);
+                return_val = (ushort) (gbl.SelectedPlayer.field_192 & 1);
             }
             else if (arg_4 == 0xF7)
             {
-                return_val = (ushort)gbl.SelectedPlayer.field_13C;
+                return_val = (ushort) gbl.SelectedPlayer.field_13C;
             }
             else if (arg_4 == 0xF9)
             {
@@ -574,7 +576,7 @@ namespace engine
             else if (switch_var >= 0x20 && switch_var <= 0x70)
             {
                 int var_1 = switch_var - 0x1f;
-                Logger.DebugWrite("Set Spell for: {0} slot: {1} to: {2}", gbl.SelectedPlayer, var_1, (byte)set_value);
+                Logger.DebugWrite("Set Spell for: {0} slot: {1} to: {2}", gbl.SelectedPlayer, var_1, (byte) set_value);
                 gbl.SelectedPlayer.spellList.AddLearnt(set_value & 0x0ff);
                 //gbl.SelectedPlayer.spell_list[var_1] = (byte)(set_value);
             }
@@ -585,7 +587,7 @@ namespace engine
                     set_value -= 0x32;
                 }
 
-                gbl.SelectedPlayer.control_morale = (byte)(set_value);
+                gbl.SelectedPlayer.control_morale = (byte) (set_value);
             }
             else if (switch_var == 0xbb)
             {
@@ -609,11 +611,11 @@ namespace engine
             }
             else if (switch_var == 0xf7)
             {
-                gbl.SelectedPlayer.field_13C = (short)(set_value);
+                gbl.SelectedPlayer.field_13C = (short) (set_value);
             }
             else if (switch_var == 0xf9)
             {
-                gbl.SelectedPlayer.field_13E = (byte)(set_value);
+                gbl.SelectedPlayer.field_13E = (byte) (set_value);
             }
             else if (switch_var == 0x100)
             {
@@ -653,7 +655,7 @@ namespace engine
             }
             else if (switch_var == 0x312)
             {
-                seg042.set_game_area((byte)(set_value));
+                seg042.set_game_area((byte) (set_value));
             }
             else if (switch_var == 0x322)
             {
@@ -727,7 +729,7 @@ namespace engine
             }
             else if (memType == 3)
             {
-                gbl.ecl_ptr[location + 0x8000] = (byte)value;
+                gbl.ecl_ptr[location + 0x8000] = (byte) value;
             }
             else if (memType == 4)
             {
@@ -765,11 +767,11 @@ namespace engine
                     {
                         case 0xE3:
                             gbl.positionChanged = true;
-                            gbl.mapPosX = (sbyte)(value);
+                            gbl.mapPosX = (sbyte) (value);
                             break;
 
                         case 0xE4:
-                            gbl.mapPosY = (sbyte)(value);
+                            gbl.mapPosY = (sbyte) (value);
                             gbl.positionChanged = true;
                             break;
 
@@ -838,6 +840,7 @@ namespace engine
                     {
                         val = gbl.area2_ptr.field_800_Get((loc * 2) + 0x800);
                     }
+
                     break;
 
                 case 2:
@@ -854,15 +857,15 @@ namespace engine
                         switch (loc)
                         {
                             case 0x00B1:
-                                val = (ushort)gbl.word_1D918;
+                                val = (ushort) gbl.word_1D918;
                                 break;
 
                             case 0x00FB:
-                                val = (ushort)gbl.word_1D914;
+                                val = (ushort) gbl.word_1D914;
                                 break;
 
                             case 0x00FC:
-                                val = (ushort)gbl.word_1D916;
+                                val = (ushort) gbl.word_1D916;
                                 break;
 
                             case 0x033D:
@@ -880,15 +883,15 @@ namespace engine
                         switch (loc)
                         {
                             case 0:
-                                val = (ushort)gbl.mapPosX;
+                                val = (ushort) gbl.mapPosX;
                                 break;
 
                             case 0x01:
-                                val = (ushort)gbl.mapPosY;
+                                val = (ushort) gbl.mapPosY;
                                 break;
 
                             case 0x02:
-                                val = (ushort)(gbl.mapDirection / 2);
+                                val = (ushort) (gbl.mapDirection / 2);
                                 break;
 
                             case 0x03:
@@ -903,6 +906,7 @@ namespace engine
                                 break;
                         }
                     }
+
                     break;
             }
 
@@ -926,7 +930,7 @@ namespace engine
             {
                 if (text_len > 0)
                 {
-                    var_104 = (byte)(text_len - 1);
+                    var_104 = (byte) (text_len - 1);
 
                     for (int i = 0; i <= var_104; i++)
                     {
@@ -959,7 +963,7 @@ namespace engine
             {
                 if (text_len > 0)
                 {
-                    var_104 = (byte)(text_len - 1);
+                    var_104 = (byte) (text_len - 1);
                     for (int i = 0; i <= var_104; i++)
                     {
                         gbl.stru_1B2CA[((i + loc) * 2) + 0x0C00] = text[i];
@@ -974,7 +978,7 @@ namespace engine
                 {
                     for (int i = 0; i <= text_len - 1; i++)
                     {
-                        gbl.ecl_ptr[0x8000 + i + loc] = (byte)text[i];
+                        gbl.ecl_ptr[0x8000 + i + loc] = (byte) text[i];
                     }
                 }
 
@@ -994,30 +998,29 @@ namespace engine
                 uint bits = deflateChar(ch) & 0x3F;
                 if (state == 1)
                 {
-                    data[curr] = (byte)(bits << 2);
+                    data[curr] = (byte) (bits << 2);
                     last = curr++;
                     state = 2;
                 }
                 else if (state == 2)
                 {
-                    data[last] |= (byte)(bits >> 4);
-                    data[curr] = (byte)(bits << 4);
+                    data[last] |= (byte) (bits >> 4);
+                    data[curr] = (byte) (bits << 4);
                     last = curr++;
                     state = 3;
                 }
                 else if (state == 3)
                 {
-                    data[last] |= (byte)(bits >> 2);
-                    data[curr] = (byte)(bits << 6);
+                    data[last] |= (byte) (bits >> 2);
+                    data[curr] = (byte) (bits << 6);
                     last = curr++;
                     state = 4;
                 }
                 else //if (state == 4)
                 {
-                    data[last] |= (byte)(bits);
+                    data[last] |= (byte) (bits);
                     state = 1;
                 }
-
             }
 
             return data;
@@ -1055,6 +1058,7 @@ namespace engine
                         state = 1;
                         break;
                 }
+
                 lastByte = thisByte;
             }
 
@@ -1070,7 +1074,7 @@ namespace engine
                 data[i] = gbl.ecl_ptr[gbl.ecl_offset + 0x8000 + 1 + i];
             }
 
-            gbl.ecl_offset += (ushort)inputLength;
+            gbl.ecl_offset += (ushort) inputLength;
 
             gbl.unk_1D972[strIndex] = DecompressString(data);
         }
@@ -1086,9 +1090,10 @@ namespace engine
                 case 0:
                     while (gbl.area_ptr.field_6A00_Get(((offset + location) * 2) + 0x6A00) != 0)
                     {
-                        sb.Append((char)((byte)gbl.area_ptr.field_6A00_Get(((offset + location) * 2) + 0x6A00)));
+                        sb.Append((char) ((byte) gbl.area_ptr.field_6A00_Get(((offset + location) * 2) + 0x6A00)));
                         offset++;
                     }
+
                     break;
 
                 case 1:
@@ -1100,33 +1105,37 @@ namespace engine
                     {
                         while (gbl.area2_ptr.field_800_Get(((offset + location) << 1) + 0x800) != 0)
                         {
-                            sb.Append((char)((byte)gbl.area2_ptr.field_800_Get(((offset + location) << 1) + 0x800)));
+                            sb.Append((char) ((byte) gbl.area2_ptr.field_800_Get(((offset + location) << 1) + 0x800)));
                             offset++;
                         }
                     }
+
                     break;
 
                 case 2:
                     while (gbl.stru_1B2CA[((offset + location) << 1) + 0x0C00] != 0)
                     {
-                        sb.Append((char)gbl.stru_1B2CA[((offset + location) << 1) + 0x0C00]);
+                        sb.Append((char) gbl.stru_1B2CA[((offset + location) << 1) + 0x0C00]);
                         offset++;
                     }
+
                     break;
 
                 case 3:
                     while (gbl.ecl_ptr[offset + location + 0x8000] != 0)
                     {
-                        sb.Append((char)gbl.ecl_ptr[offset + location + 0x8000]);
+                        sb.Append((char) gbl.ecl_ptr[offset + location + 0x8000]);
                         offset++;
                     }
+
                     break;
             }
 
             gbl.unk_1D972[strIndex] = sb.ToString();
         }
 
-        static Set unk_31673 = new Set(48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90); 
+        static Set unk_31673 = new Set(48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
+            75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90);
 
         internal static string buildMenuStrings(ref string MenuString)
         {
@@ -1164,10 +1173,12 @@ namespace engine
             return sbA.ToString();
         }
 
-        static Set validkeys = new Set(48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90); // unk_3178A
+        static Set validkeys = new Set(48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
+            75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90); // unk_3178A
 
 
-        internal static int sub_317AA(bool useOverlay, bool acceptReturn, MenuColorSet colors, string displayString, string extraString)
+        internal static int sub_317AA(bool useOverlay, bool acceptReturn, MenuColorSet colors, string displayString,
+            string extraString)
         {
             char key_pressed;
             int ret_val;
@@ -1177,7 +1188,8 @@ namespace engine
             do
             {
                 bool special_key_pressed;
-                key_pressed = ovr027.displayInput(out special_key_pressed, useOverlay, 1, colors, displayString, extraString);
+                key_pressed = ovr027.displayInput(out special_key_pressed, useOverlay, 1, colors, displayString,
+                    extraString);
 
                 if (special_key_pressed == true)
                 {
@@ -1418,7 +1430,7 @@ namespace engine
                 {
                     gbl.textYCol = 0x11;
                     clear_text_area = true;
-                    seg041.DisplayAndPause("press <enter>/<return> to continue", 15);
+                    Seg041.DisplayAndPause("press <enter>/<return> to continue", 15);
                 }
                 else
                 {
@@ -1427,7 +1439,7 @@ namespace engine
 
                 gbl.textXCol = 0x26;
 
-                seg041.press_any_key(text, clear_text_area, 15, 0x16, 0x26, 17, 1);
+                Seg041.press_any_key(text, clear_text_area, 15, 0x16, 0x26, 17, 1);
 
                 ovr025.damage_player(damage, player);
                 seg037.draw8x8_clear_area(0x0f, 0x26, 1, 0x11);

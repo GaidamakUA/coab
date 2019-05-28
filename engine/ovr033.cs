@@ -7,12 +7,13 @@ namespace engine
     {
         const int MaxSize = 4;
 
-        static Point[][] Steps = new Point[][] {
+        static Point[][] Steps = new Point[][]
+        {
             new Point[] { },
-            new Point[] { new Point( 0, 0 ) },
-            new Point[] { new Point( 0, 0 ), new Point(  0,  1 ) },
-            new Point[] { new Point( 0, 0 ), new Point(  1,  0 ) },
-            new Point[] { new Point( 0, 0 ), new Point(  1,  0 ), new Point( 0,  1 ), new Point(  1,  1 ) }   
+            new Point[] {new Point(0, 0)},
+            new Point[] {new Point(0, 0), new Point(0, 1)},
+            new Point[] {new Point(0, 0), new Point(1, 0)},
+            new Point[] {new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1)}
         };
 
         internal static Point[] GetSizeBasedMapDeltas(int size) /*sub_7400F*/
@@ -67,7 +68,8 @@ namespace engine
                 {
                     int i = gbl.mapToBackGroundTile[p + pos];
 
-                    ovr034.DrawIsoTile(gbl.BackGroundTiles[i].tile_index, (screenPos.y + p.y) * 3, (screenPos.x + p.x) * 3);
+                    ovr034.DrawIsoTile(gbl.BackGroundTiles[i].tile_index, (screenPos.y + p.y) * 3,
+                        (screenPos.x + p.x) * 3);
 
                     if (gbl.mapToBackGroundTile.drawTargetCursor == true)
                     {
@@ -88,7 +90,7 @@ namespace engine
                 PlayerOnScreen(false, player_index) == true)
             {
                 // draws the player icon over focus box
-                ovr034.draw_combat_icon(gbl.player_array[player_index].icon_id, 
+                ovr034.draw_combat_icon(gbl.player_array[player_index].icon_id,
                     Icon.Normal,
                     gbl.player_array[player_index].actions.direction,
                     gbl.CombatMap[player_index].screenPos.y,
@@ -203,7 +205,8 @@ namespace engine
                     {
                         int tileIdx = gbl.mapToBackGroundTile[map + delta];
                         //THIS DRAWS BACKGROUND MAP.
-                        ovr034.DrawIsoTile(gbl.BackGroundTiles[tileIdx].tile_index, (screen.y + delta.y) * 3, (screen.x + delta.x) * 3);
+                        ovr034.DrawIsoTile(gbl.BackGroundTiles[tileIdx].tile_index, (screen.y + delta.y) * 3,
+                            (screen.x + delta.x) * 3);
                     }
                 }
             }
@@ -324,14 +327,17 @@ namespace engine
 
                     for (int j = 0; j <= 6; j++)
                     {
-                        ovr034.DrawIsoTile(gbl.BackGroundTiles[gbl.mapToBackGroundTile[mapX, mapY]].tile_index, screenRowY, screenColX);
+                        ovr034.DrawIsoTile(gbl.BackGroundTiles[gbl.mapToBackGroundTile[mapX, mapY]].tile_index,
+                            screenRowY, screenColX);
 
                         screenColX += IconColumnSize;
                         mapX++;
                     }
+
                     screenRowY += IconColumnSize;
                     mapY++;
                 }
+
                 calculatePlayerScreenPositions();
 
                 return true;
@@ -430,7 +436,8 @@ namespace engine
         }
 
 
-        internal static void getGroundInformation(out int groundTile, out int playerIndex, byte direction, Player player) /* sub_74D04 */
+        internal static void getGroundInformation(out int groundTile, out int playerIndex, byte direction,
+            Player player) /* sub_74D04 */
         {
             playerIndex = 0;
             groundTile = 0x17;
@@ -475,7 +482,8 @@ namespace engine
             }
         }
 
-        internal static void getGroundInformation(out bool isPoisonousCloud, out bool isNoxiousCloud, out int groundTile, out int playerIndex, int direction, Player player) /* sub_74D04 */
+        internal static void getGroundInformation(out bool isPoisonousCloud, out bool isNoxiousCloud,
+            out int groundTile, out int playerIndex, int direction, Player player) /* sub_74D04 */
         {
             playerIndex = 0;
             groundTile = 0x17;
@@ -536,7 +544,7 @@ namespace engine
             if (gbl.game_state != GameState.Combat)
             {
                 seg044.PlaySound(Sound.sound_5);
-                seg041.GameDelay();
+                Seg041.GameDelay();
             }
             else
             {
@@ -593,7 +601,7 @@ namespace engine
 
 
                     // clean-up combat stuff
-                    seg041.GameDelay();
+                    Seg041.GameDelay();
                     RedrawPlayerBackground(player_index);
 
                     gbl.CombatMap[GetPlayerIndex(player)].size = 0;
@@ -621,7 +629,7 @@ namespace engine
 
                 int player_index = GetPlayerIndex(player);
 
-                gbl.CombatMap[player_index].size = (byte)(player.field_DE & 0x7F);
+                gbl.CombatMap[player_index].size = (byte) (player.field_DE & 0x7F);
                 gbl.CombatMap[player_index].pos = pos;
 
                 int playerIdx;
@@ -641,11 +649,13 @@ namespace engine
                     if (arg_0 == true &&
                         player.actions.nonTeamMember == false)
                     {
-                        var downed = gbl.downedPlayers.FindLast(cell => cell.target == player && cell.originalBackgroundTile != gbl.Tile_DownPlayer);
+                        var downed = gbl.downedPlayers.FindLast(cell =>
+                            cell.target == player && cell.originalBackgroundTile != gbl.Tile_DownPlayer);
                         if (downed != null)
                         {
                             ground_tile = downed.originalBackgroundTile;
                         }
+
                         gbl.downedPlayers.RemoveAll(cell => cell.target == player);
 
                         bool found = gbl.downedPlayers.Exists(cell => cell.target != null && cell.map == pos);

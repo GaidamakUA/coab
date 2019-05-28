@@ -5,12 +5,12 @@ namespace engine
 {
     class ovr030
     {
-        static byte[] fadeOldColors = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-        static byte[] fadeNewColors = { 12, 12, 12, 12, 4, 5, 6, 7, 12, 12, 10, 12, 12, 12, 14, 12 };
-        static byte[] transparentOldColors = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-        static byte[] transparentNewColors = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 };
+        static byte[] fadeOldColors = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        static byte[] fadeNewColors = {12, 12, 12, 12, 4, 5, 6, 7, 12, 12, 10, 12, 12, 12, 14, 12};
+        static byte[] transparentOldColors = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        static byte[] transparentNewColors = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15};
 
-        internal static void DrawMaybeOverlayed(DaxBlock dax_block, bool useOverlay, int rowY, int colX)// sub_7000A
+        internal static void DrawMaybeOverlayed(DaxBlock dax_block, bool useOverlay, int rowY, int colX) // sub_7000A
         {
             if (dax_block != null)
             {
@@ -42,7 +42,7 @@ namespace engine
                     if (gbl.AnimationsOn)
                     {
                         ovr027.ClearPromptAreaNoUpdate();
-                        seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+                        Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
                     }
 
                     DaxArrayFreeDaxBlocks(daxArray);
@@ -55,11 +55,12 @@ namespace engine
                     short uncompressed_size;
                     byte[] uncompressed_data;
 
-                    seg042.load_decode_dax(out uncompressed_data, out uncompressed_size, block_id, file_name + gbl.game_area.ToString() + ".dax");
+                    seg042.load_decode_dax(out uncompressed_data, out uncompressed_size, block_id,
+                        file_name + gbl.game_area.ToString() + ".dax");
 
                     if (uncompressed_size == 0)
                     {
-                        seg041.DisplayAndPause("PIC not found", 14);
+                        Seg041.DisplayAndPause("PIC not found", 14);
                     }
                     else
                     {
@@ -112,7 +113,8 @@ namespace engine
                                 {
                                     first_frame_ega_layout = new byte[ega_encoded_size + 1];
 
-                                    System.Array.Copy(uncompressed_data, src_offset, first_frame_ega_layout, 0, ega_encoded_size + 1);
+                                    System.Array.Copy(uncompressed_data, src_offset, first_frame_ega_layout, 0,
+                                        ega_encoded_size + 1);
                                 }
                                 else
                                 {
@@ -128,7 +130,8 @@ namespace engine
 
                             if ((masked & 1) > 0)
                             {
-                                daxArray.frames[frame].picture.Recolor(false, transparentNewColors, transparentOldColors);
+                                daxArray.frames[frame].picture
+                                    .Recolor(false, transparentNewColors, transparentOldColors);
                             }
 
                             src_offset += ega_encoded_size + 1;
@@ -176,7 +179,7 @@ namespace engine
 
                 if (gbl.headX_dax == null)
                 {
-                    seg041.DisplayAndPause("head not found", 14);
+                    Seg041.DisplayAndPause("head not found", 14);
                 }
 
                 gbl.current_head_id = head_id;
@@ -188,7 +191,7 @@ namespace engine
                 gbl.bodyX_dax = seg040.LoadDax(0, 0, body_id, "BODY" + text);
                 if (gbl.bodyX_dax == null)
                 {
-                    seg041.DisplayAndPause("body not found", 14);
+                    Seg041.DisplayAndPause("body not found", 14);
                 }
 
                 gbl.current_body_id = body_id;
@@ -222,7 +225,8 @@ namespace engine
             if (arg_0.frames[sprite_index - 1].picture != null)
             {
                 DaxBlock block = arg_0.frames[sprite_index - 1].picture;
-                seg040.OverlayBounded(arg_0.frames[sprite_index - 1].picture, 1, 0, block.y_pos + 3 - 1, block.x_pos + 3 - 1);
+                seg040.OverlayBounded(arg_0.frames[sprite_index - 1].picture, 1, 0, block.y_pos + 3 - 1,
+                    block.x_pos + 3 - 1);
                 seg040.DrawOverlay();
             }
         }

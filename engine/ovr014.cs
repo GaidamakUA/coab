@@ -22,20 +22,20 @@ namespace engine
 
             ovr024.CheckAffectsEffect(player, CheckType.Movement);
 
-            player.attack2_AttacksLeft = (byte)ThisRoundActionCount(gbl.halfActionsLeft);
+            player.attack2_AttacksLeft = (byte) ThisRoundActionCount(gbl.halfActionsLeft);
 
             action.maxSweapTargets = player.attackLevel;
 
             if (player.in_combat == true)
             {
-                action.delay = (sbyte)(ovr024.roll_dice(6, 1) + ovr025.DexReactionAdj(player));
+                action.delay = (sbyte) (ovr024.roll_dice(6, 1) + ovr025.DexReactionAdj(player));
 
                 if (action.delay < 1)
                 {
                     action.delay = 1;
                 }
 
-                if ((((int)player.combat_team + 1) & gbl.area2_ptr.field_596) != 0)
+                if ((((int) player.combat_team + 1) & gbl.area2_ptr.field_596) != 0)
                 {
                     action.delay -= 6;
                 }
@@ -110,7 +110,8 @@ namespace engine
             Slay = 3
         }
 
-        static void DisplayAttackMessage(bool attackHits, int attackDamge, int actualDamage, AttackType attack, Player target, Player attacker) /* backstab */
+        static void DisplayAttackMessage(bool attackHits, int attackDamge, int actualDamage, AttackType attack,
+            Player target, Player attacker) /* backstab */
         {
             string text;
 
@@ -162,7 +163,6 @@ namespace engine
                     }
 
                     text += "of damage";
-
                 }
 
                 ovr025.damage_player(actualDamage, target);
@@ -174,12 +174,12 @@ namespace engine
 
             if (target.health_status != Status.gone)
             {
-                seg041.press_any_key(text, true, 10, line + 3, 0x26, line, 0x17);
+                Seg041.press_any_key(text, true, 10, line + 3, 0x26, line, 0x17);
             }
 
             line = gbl.textYCol + 1;
 
-            seg041.GameDelay();
+            Seg041.GameDelay();
 
             if (actualDamage > 0)
             {
@@ -193,12 +193,12 @@ namespace engine
 
                 if (target.health_status == Status.dying)
                 {
-                    seg041.displayString("and is Dying", 0, 10, line, 0x17);
+                    Seg041.displayString("and is Dying", 0, 10, line, 0x17);
                 }
 
                 if (target.health_status == Status.dead ||
                     target.health_status == Status.stoned ||
-                    target.health_status == Status.gone )
+                    target.health_status == Status.gone)
                 {
                     ovr025.DisplayPlayerStatusString(false, line, "is killed", target);
                 }
@@ -215,7 +215,7 @@ namespace engine
                 }
                 else
                 {
-                    seg041.GameDelay();
+                    Seg041.GameDelay();
                 }
             }
 
@@ -377,7 +377,8 @@ namespace engine
                         {
                             if (attacker.actions.delay > 0 ||
                                 attacker.actions.AttacksReceived == 0 ||
-                                ovr032.CanSeeCombatant(tmpDir % 8, ovr033.PlayerMapPos(player), ovr033.PlayerMapPos(attacker)) == true)
+                                ovr032.CanSeeCombatant(tmpDir % 8, ovr033.PlayerMapPos(player),
+                                    ovr033.PlayerMapPos(attacker)) == true)
                             {
                                 byte attackIndex = 1;
                                 if (attacker.attacksCount == 0)
@@ -420,7 +421,6 @@ namespace engine
                 }
             }
         }
-
 
 
         internal static void flee_battle(Player player)
@@ -508,10 +508,10 @@ namespace engine
             if (player.actions.field_8 == false ||
                 attacks < origAttacks ||
                 (player.actions.field_8 == true &&
-                  attacks < (origAttacks * 2) &&
-                  foundRanged == false))
+                 attacks < (origAttacks * 2) &&
+                 foundRanged == false))
             {
-                player.attack1_AttacksLeft = (byte)attacks;
+                player.attack1_AttacksLeft = (byte) attacks;
             }
         }
 
@@ -550,7 +550,8 @@ namespace engine
                     nearTargets.Remove(targetepi);
                     nearTargets.Insert(0, targetepi);
 
-                    foreach (var sweepepi in nearTargets.FindAll(e => e.player.hitBonus == 0).GetRange(0, sweepableCount))
+                    foreach (var sweepepi in nearTargets.FindAll(e => e.player.hitBonus == 0)
+                        .GetRange(0, sweepableCount))
                     {
                         var sweeptarget = sweepepi.player;
                         RecalcAttacksReceived(sweeptarget, attacker);
@@ -600,15 +601,19 @@ namespace engine
             return false;
         }
 
-        static sbyte[] /*seg600:0369*/ unk_16679 = { 0, 
-        17, 17,  0,  0,  1, 17,  0,  0, 32, 32, 
-        10,  7,  4,  1,  1,  0,  0, -1, -1, -1 };
+        static sbyte[] /*seg600:0369*/
+            unk_16679 =
+            {
+                0,
+                17, 17, 0, 0, 1, 17, 0, 0, 32, 32,
+                10, 7, 4, 1, 1, 0, 0, -1, -1, -1
+            };
 
         internal static void turns_undead(Player player)
         {
             ovr025.DisplayPlayerStatusString(false, 10, "turns undead...", player);
             ovr027.ClearPromptArea();
-            seg041.GameDelay();
+            Seg041.GameDelay();
 
             bool any_turned = false;
             byte var_6 = 0;
@@ -811,7 +816,7 @@ namespace engine
                 for (int attackIdx = attacker.actions.attackIdx; attackIdx >= 1; attackIdx--)
                 {
                     while (attacker.AttacksLeft(attackIdx) > 0 &&
-                        targetNotInCombat == false)
+                           targetNotInCombat == false)
                     {
                         attacker.AttacksLeftDec(attackIdx);
                         attacker.actions.attackIdx = attackIdx;
@@ -830,7 +835,7 @@ namespace engine
 
                             if (target.in_combat == true)
                             {
-                                ovr024.CheckAffectsEffect(attacker, (CheckType)attackIdx + 1);
+                                ovr024.CheckAffectsEffect(attacker, (CheckType) attackIdx + 1);
                             }
 
                             if (target.in_combat == false)
@@ -901,7 +906,8 @@ namespace engine
         }
 
 
-        internal static bool AttackTarget(Item rangedWeapon, int attackType, Player target, Player attacker) // sub_3F9DB
+        internal static bool
+            AttackTarget(Item rangedWeapon, int attackType, Player target, Player attacker) // sub_3F9DB
         {
             int dir = 0;
 
@@ -945,9 +951,9 @@ namespace engine
                 DrawRangedAttack(rangedWeapon, target, attacker);
             }
 
-            if (attacker.activeItems.primaryWeapon != null && 
+            if (attacker.activeItems.primaryWeapon != null &&
                 (attacker.activeItems.primaryWeapon.type == ItemType.Sling ||
-                attacker.activeItems.primaryWeapon.type == ItemType.StaffSling))
+                 attacker.activeItems.primaryWeapon.type == ItemType.StaffSling))
             {
                 DrawRangedAttack(attacker.activeItems.primaryWeapon, target, attacker);
             }
@@ -1070,8 +1076,9 @@ namespace engine
                 else if (ground_tile == gbl.Tile_DownPlayer)
                 {
                     var_8 = gbl.downedPlayers.FindLast(cell => cell.target != null && cell.map == map &&
-                        cell.target.health_status != Status.tempgone && cell.target.health_status != Status.running &&
-                        cell.target.health_status != Status.unconscious);
+                                                               cell.target.health_status != Status.tempgone &&
+                                                               cell.target.health_status != Status.running &&
+                                                               cell.target.health_status != Status.unconscious);
                 }
             }
 
@@ -1090,16 +1097,21 @@ namespace engine
             return target_found;
         }
 
-        static Affects[] unk_18ADB = { Affects.bless, Affects.snake_charm, Affects.paralyze, Affects.sleep, Affects.helpless }; // seg600:27CB first is filler (off by 1)
+        static Affects[] unk_18ADB =
+        {
+            Affects.bless, Affects.snake_charm, Affects.paralyze, Affects.sleep, Affects.helpless
+        }; // seg600:27CB first is filler (off by 1)
 
-        internal static bool sub_4001C(DownedPlayerTile arg_0, bool canTargetEmptyGround, QuickFight quick_fight, int spellId)
+        internal static bool sub_4001C(DownedPlayerTile arg_0, bool canTargetEmptyGround, QuickFight quick_fight,
+            int spellId)
         {
             bool var_2 = false;
             if (quick_fight == QuickFight.False)
             {
                 bool allowTarget = spellId != 0x53;
 
-                var_2 = aim_menu(arg_0, allowTarget, canTargetEmptyGround, false, ovr023.SpellRange(spellId), gbl.SelectedPlayer);
+                var_2 = aim_menu(arg_0, allowTarget, canTargetEmptyGround, false, ovr023.SpellRange(spellId),
+                    gbl.SelectedPlayer);
                 gbl.SelectedPlayer.actions.target = arg_0.target;
             }
             else if (gbl.spellCastingTable[spellId].field_E == 0)
@@ -1117,7 +1129,7 @@ namespace engine
                 int var_9 = 1;
 
                 while (var_9 > 0 &&
-                        var_2 == false)
+                       var_2 == false)
                 {
                     bool var_3 = true;
 
@@ -1285,13 +1297,15 @@ namespace engine
                     else
                     {
                         /* TODO it doesn't make sense to mask the low nibble then shift it out */
-                        var scl = ovr032.Rebuild_SortedCombatantList(1, (gbl.spellCastingTable[spellId].field_6 & 0x0f) >> 4, gbl.targetPos, sc => true);
+                        var scl = ovr032.Rebuild_SortedCombatantList(1,
+                            (gbl.spellCastingTable[spellId].field_6 & 0x0f) >> 4, gbl.targetPos, sc => true);
 
                         gbl.spellTargets.Clear();
                         foreach (var sc in scl)
                         {
                             gbl.spellTargets.Add(sc.player);
                         }
+
                         gbl.byte_1D2C7 = true;
                     }
                 }
@@ -1304,7 +1318,8 @@ namespace engine
             {
                 if (sub_4001C(var_C, true, quick_fight, spellId) == true)
                 {
-                    var scl = ovr032.Rebuild_SortedCombatantList(1, gbl.spellCastingTable[spellId].field_6 & 7, gbl.targetPos, sc => true);
+                    var scl = ovr032.Rebuild_SortedCombatantList(1, gbl.spellCastingTable[spellId].field_6 & 7,
+                        gbl.targetPos, sc => true);
 
                     gbl.spellTargets.Clear();
                     foreach (var sc in scl)
@@ -1401,7 +1416,7 @@ namespace engine
 
             if (spell_id > 0)
             {
-                sbyte delay = (sbyte)(gbl.spellCastingTable[spell_id].castingDelay / 3);
+                sbyte delay = (sbyte) (gbl.spellCastingTable[spell_id].castingDelay / 3);
 
                 if (delay == 0)
                 {
@@ -1482,6 +1497,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
 
                     case 2:
@@ -1494,6 +1510,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
 
                     case 4:
@@ -1506,6 +1523,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
 
                     case 6:
@@ -1518,6 +1536,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
 
                     case 1:
@@ -1532,6 +1551,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
 
                     case 3:
@@ -1546,6 +1566,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
 
                     case 5:
@@ -1560,6 +1581,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
 
                     case 7:
@@ -1574,6 +1596,7 @@ namespace engine
                         {
                             solved = true;
                         }
+
                         break;
                 }
 
@@ -1627,6 +1650,7 @@ namespace engine
                             ovr025.load_missile_dax(false, 0, Icon.Normal, iconId + (dir % 4));
                         }
                     }
+
                     seg044.PlaySound(Sound.sound_c);
                     break;
 
@@ -1749,7 +1773,8 @@ namespace engine
         }
 
 
-        internal static char aim_sub_menu(bool showTarget, bool showRange, int maxRange, Player target, Player attacker) /* Aim_menu */
+        internal static char
+            aim_sub_menu(bool showTarget, bool showRange, int maxRange, Player target, Player attacker) /* Aim_menu */
         {
             string text = string.Empty;
             int range = ovr025.getTargetRange(target, attacker);
@@ -1758,7 +1783,7 @@ namespace engine
             if (showRange == true)
             {
                 string range_txt = "Range = " + range.ToString() + "  ";
-                seg041.displayString(range_txt, 0, 10, 0x17, 0);
+                Seg041.displayString(range_txt, 0, 10, 0x17, 0);
             }
 
             if (range <= maxRange)
@@ -1784,7 +1809,8 @@ namespace engine
                     {
                         Item dummyItem;
                         if (ovr025.GetCurrentAttackItem(out dummyItem, attacker) == true &&
-                            (ovr025.BuildNearTargets(1, attacker).Count == 0 || ovr025.is_weapon_ranged_melee(attacker) == true))
+                            (ovr025.BuildNearTargets(1, attacker).Count == 0 ||
+                             ovr025.is_weapon_ranged_melee(attacker) == true))
                         {
                             text = "Target ";
                         }
@@ -1856,7 +1882,8 @@ namespace engine
 
         static Set asc_41342 = new Set(0, 69, 84);
 
-        internal static bool Target(DownedPlayerTile arg_0, bool allowTarget, bool canTargetEmptyGround, bool showRange, int maxRange, Player target, Player player01)
+        internal static bool Target(DownedPlayerTile arg_0, bool allowTarget, bool canTargetEmptyGround, bool showRange,
+            int maxRange, Player target, Player player01)
         {
             Item dummyItem;
 
@@ -1894,7 +1921,7 @@ namespace engine
                     {
                         string range_text = "Range = " + (range / 2).ToString() + "  ";
 
-                        seg041.displayString(range_text, 0, 10, 0x17, 0);
+                        Seg041.displayString(range_text, 0, 10, 0x17, 0);
                     }
                 }
                 else
@@ -1956,9 +1983,9 @@ namespace engine
                             can_target = false;
                         }
                         else if (ovr025.is_weapon_ranged(player01) == true &&
-                             (ovr025.GetCurrentAttackItem(out dummyItem, player01) == false ||
-                             (ovr025.BuildNearTargets(1, player01).Count > 0 &&
-                                ovr025.is_weapon_ranged_melee(player01) == false)))
+                                 (ovr025.GetCurrentAttackItem(out dummyItem, player01) == false ||
+                                  (ovr025.BuildNearTargets(1, player01).Count > 0 &&
+                                   ovr025.is_weapon_ranged_melee(player01) == false)))
                         {
                             can_target = false;
                         }
@@ -2014,6 +2041,7 @@ namespace engine
                             arg_4 = false;
                             arg_0.Clear();
                         }
+
                         break;
 
                     case 'H':
@@ -2078,7 +2106,8 @@ namespace engine
         }
 
 
-        internal static Player step_combat_list(bool arg_2, int step, ref int list_index, ref Point attackerPos, SortedCombatant[] sorted_list) /* sub_41932 */
+        internal static Player step_combat_list(bool arg_2, int step, ref int list_index, ref Point attackerPos,
+            SortedCombatant[] sorted_list) /* sub_41932 */
         {
             if (arg_2 == true)
             {
@@ -2118,7 +2147,8 @@ namespace engine
         static Set unk_41B05 = new Set(71, 72, 73, 75, 77, 79, 80, 81);
 
 
-        internal static bool aim_menu(DownedPlayerTile arg_0, bool allowTarget, bool canTargetEmptyGround, bool showRange, int maxRange, Player attacker) /* sub_41B25 */
+        internal static bool aim_menu(DownedPlayerTile arg_0, bool allowTarget, bool canTargetEmptyGround,
+            bool showRange, int maxRange, Player attacker) /* sub_41B25 */
         {
             Player target; /* var_E5 */
 
@@ -2190,7 +2220,8 @@ namespace engine
                             case 'O':
                             case 'Q':
                             case 'I':
-                                arg_4 = Target(arg_0, allowTarget, canTargetEmptyGround, showRange, maxRange, target, attacker);
+                                arg_4 = Target(arg_0, allowTarget, canTargetEmptyGround, showRange, maxRange, target,
+                                    attacker);
                                 ovr025.load_missile_dax(false, 0, 0, 0x19);
 
                                 sorted_list = copy_sorted_players(attacker);
@@ -2222,7 +2253,7 @@ namespace engine
                     ovr033.RedrawPosition(ovr033.PlayerMapPos(target));
 
                     target = step_combat_list((arg_4 == false && unk_41AE5.MemberOf(input) == false), target_step,
-                       ref list_index, ref attackerPos, sorted_list);
+                        ref list_index, ref attackerPos, sorted_list);
                 }
             }
 
@@ -2242,10 +2273,10 @@ namespace engine
             Player target = player.actions.target;
 
             if (clear_target == true ||
-                 (target != null &&
-                   (target.combat_team == player.combat_team ||
-                    target.in_combat == false ||
-                    CanSeeTargetA(target, player) == false)))
+                (target != null &&
+                 (target.combat_team == player.combat_team ||
+                  target.in_combat == false ||
+                  CanSeeTargetA(target, player) == false)))
             {
                 player.actions.target = null;
             }
@@ -2440,7 +2471,7 @@ namespace engine
 
         internal static void sub_425C6(Effect add_remove, object param, Player player)
         {
-            Affect affect = (Affect)param;
+            Affect affect = (Affect) param;
 
             gbl.spell_target = gbl.player_array[affect.affect_data];
 
@@ -2481,7 +2512,7 @@ namespace engine
 
         internal static void AffectOwlbearHugRoundAttack(Effect arg_0, object param, Player player) // sub_426FC
         {
-            Affect affect = (Affect)param;
+            Affect affect = (Affect) param;
 
             gbl.spell_target = gbl.player_array[affect.affect_data];
 
@@ -2524,10 +2555,12 @@ namespace engine
                 gbl.spell_target = player.actions.target;
                 ovr025.DisplayPlayerStatusString(true, 12, "hugs " + gbl.spell_target.name, player);
 
-                ovr024.add_affect(false, ovr033.GetPlayerIndex(gbl.spell_target), 0, Affects.clear_movement, gbl.spell_target);
+                ovr024.add_affect(false, ovr033.GetPlayerIndex(gbl.spell_target), 0, Affects.clear_movement,
+                    gbl.spell_target);
                 ovr013.CallAffectTable(Effect.Add, null, gbl.spell_target, Affects.clear_movement);
 
-                ovr024.add_affect(true, ovr033.GetPlayerIndex(gbl.spell_target), 0, Affects.owlbear_hug_round_attack, player);
+                ovr024.add_affect(true, ovr033.GetPlayerIndex(gbl.spell_target), 0, Affects.owlbear_hug_round_attack,
+                    player);
             }
         }
 

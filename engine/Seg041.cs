@@ -2,8 +2,11 @@ using Classes;
 
 namespace engine
 {
-    class seg041
+    internal static class Seg041
     {
+        private const int FontCharactersCount = 177;
+        private static byte[][] FontData = new byte[FontCharactersCount][];
+
         internal static void ClearRectangle(int yEnd, int xEnd, int yStart, int xStart)
         {
             var x = xStart * 8;
@@ -15,7 +18,6 @@ namespace engine
             Display.ClearRectangle(x, y, width, height);
         }
 
-
         internal static void Load8x8Tiles() // load_8x8d1_201
         {
             byte[] block_ptr;
@@ -23,18 +25,16 @@ namespace engine
 
             seg042.load_decode_dax(out block_ptr, out block_size, 201, "8X8d1.dax");
 
-            if (block_size != 0)
+            if (block_size == 0) return;
+            for (int i = 0, j = 0; i < block_size && j < 177; i += 8, j++)
             {
-                for (int i = 0, j = 0; i < block_size && j < 177; i += 8, j++)
+                FontData[j] = new byte[8];
+                for (int k = 0; k < 8 && (i + k) < block_size; k++)
                 {
-                    for (int k = 0; k < 8 && (i + k) < block_size; k++)
-                    {
-                        gbl.dax_8x8d1_201[j, k] = block_ptr[i + k];
-                    }
+                    FontData[j][k] = block_ptr[i + k];
                 }
             }
         }
-
 
         internal static void
             display_char01(char ch, int repeatCount, int bgColor, int fgColor, int YCol, int XCol) // display_char01
@@ -43,20 +43,16 @@ namespace engine
                 YCol < 25)
             {
                 char index = (char) (char.ToUpper(ch) % 0x40);
-
-                for (int i = 0; i < 8; i++)
-                {
-                    gbl.monoCharData[i] = gbl.dax_8x8d1_201[index, i];
-                }
+                byte[] monoCharData = FontData[index];
 
                 for (int i = 0; i < repeatCount; i++)
                 {
-                    Display.DisplayMono8X8(XCol + i, YCol, gbl.monoCharData, bgColor, fgColor);
+                    Display.DisplayMono8X8(XCol + i, YCol, monoCharData, bgColor, fgColor);
                 }
             }
         }
 
-        internal static void displaySpaceChar(int yCol, int xCol)
+        internal static void DisplaySpaceChar(int yCol, int xCol)
         {
             if (xCol >= 0 && xCol <= 0x27 &&
                 yCol >= 0 && yCol <= 0x18)
@@ -101,7 +97,6 @@ namespace engine
 
             return text_index;
         }
-
 
         internal static void text_skip_space(string text, int text_max, ref int text_index) /* sub_10854 */
         {
@@ -227,7 +222,6 @@ namespace engine
             }
         }
 
-
         internal static string getUserInputString(byte inputLen, byte bgColor, byte fgColor, string prompt)
         {
             ovr027.ClearPromptAreaNoUpdate();
@@ -248,9 +242,6 @@ namespace engine
                     if (resultString.Length < inputLen)
                     {
                         resultString += ch.ToString();
-
-                        //var_2A++;
-
                         displayString(ch.ToString(), 0, 15, 0x18, xPos++);
                     }
                 }
@@ -258,8 +249,7 @@ namespace engine
                 {
                     resultString = seg051.Copy(resultString.Length - 1, 0, resultString);
 
-                    displaySpaceChar(24, --xPos);
-                    //xPos -= 1;
+                    DisplaySpaceChar(24, --xPos);
                 }
             } while (ch != 0x0d && ch != 0x1B && gbl.inDemo == false);
 

@@ -1,5 +1,5 @@
-using Classes;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
@@ -48,7 +48,6 @@ namespace engine
                 total += gbl.pooled_money.GetExpWorth();
 
 
-
                 foreach (Item item_ptr in gbl.items_pointer)
                 {
                     if (item_ptr == gbl.item_ptr) break;
@@ -80,6 +79,7 @@ namespace engine
                             {
                                 new_exp = exp_to_add + (exp_to_add / 10);
                             }
+
                             break;
 
                         case ClassId.fighter:
@@ -87,6 +87,7 @@ namespace engine
                             {
                                 new_exp = exp_to_add + (exp_to_add / 10);
                             }
+
                             break;
 
                         case ClassId.paladin:
@@ -95,6 +96,7 @@ namespace engine
                             {
                                 new_exp = exp_to_add + (exp_to_add / 10);
                             }
+
                             break;
 
                         case ClassId.ranger:
@@ -104,6 +106,7 @@ namespace engine
                             {
                                 new_exp = exp_to_add + (exp_to_add / 10);
                             }
+
                             break;
 
                         case ClassId.magic_user:
@@ -111,6 +114,7 @@ namespace engine
                             {
                                 new_exp = exp_to_add + (exp_to_add / 10);
                             }
+
                             break;
 
                         case ClassId.thief:
@@ -118,6 +122,7 @@ namespace engine
                             {
                                 new_exp = exp_to_add + (exp_to_add / 10);
                             }
+
                             break;
 
 
@@ -126,17 +131,17 @@ namespace engine
                                 (player._class >= ClassId.mc_c_r && player._class <= ClassId.mc_f_t) ||
                                 player._class == ClassId.mc_f_t)
                             {
-                               // duel class
+                                // duel class
                                 new_exp = exp_to_add / 2;
                             }
                             else if (player._class == ClassId.mc_c_f_m ||
-                                player._class == ClassId.mc_f_mu_t)
+                                     player._class == ClassId.mc_f_mu_t)
                             {
                                 // triple class
                                 new_exp = exp_to_add / 3;
                             }
-                            break;
 
+                            break;
                     }
 
                     player.exp += new_exp;
@@ -144,27 +149,28 @@ namespace engine
             }
         }
 
-        static Affects[] affects_array = new Affects[] {
-											Affects.sticks_to_snakes,
-											Affects.charm_person,
-											Affects.reduce,
-											Affects.silence_15_radius,
-											Affects.spiritual_hammer,
-											Affects.fumbling,
-											Affects.confuse,
-											Affects.affect_in_stinking_cloud,
-											Affects.snake_charm,
-											Affects.paralyze,
-											Affects.sleep,
-											Affects.clear_movement,
-											Affects.affect_in_cloud_kill,
-											Affects.entangle,
-											Affects.affect_89,
-											Affects.affect_8b,
-											Affects.fear,
-											Affects.owlbear_hug_round_attack,
-											Affects.helpless
-										};
+        static Affects[] affects_array = new Affects[]
+        {
+            Affects.sticks_to_snakes,
+            Affects.charm_person,
+            Affects.reduce,
+            Affects.silence_15_radius,
+            Affects.spiritual_hammer,
+            Affects.fumbling,
+            Affects.confuse,
+            Affects.affect_in_stinking_cloud,
+            Affects.snake_charm,
+            Affects.paralyze,
+            Affects.sleep,
+            Affects.clear_movement,
+            Affects.affect_in_cloud_kill,
+            Affects.entangle,
+            Affects.affect_89,
+            Affects.affect_8b,
+            Affects.fear,
+            Affects.owlbear_hug_round_attack,
+            Affects.helpless
+        };
 
         internal static void CleanupPlayersStateAfterCombat() // sub_2D556
         {
@@ -284,6 +290,7 @@ namespace engine
                                     {
                                         player.health_status = Status.unconscious;
                                     }
+
                                     break;
 
                                 case Status.unconscious:
@@ -298,6 +305,7 @@ namespace engine
                                         player.in_combat = true;
                                         player.hit_point_current = 1;
                                     }
+
                                     break;
                             }
                         }
@@ -309,7 +317,6 @@ namespace engine
                             {
                                 player.health_status = Status.okey;
                                 player.in_combat = true;
-
                             }
                             else
                             {
@@ -387,7 +394,7 @@ namespace engine
             {
                 if (gbl.party_fled == true)
                 {
-                    seg041.displayString("The party has fled.", 0, 10, 3, 1);
+                    Seg041.displayString("The party has fled.", 0, 10, 3, 1);
 
                     exp = 0;
 
@@ -401,7 +408,7 @@ namespace engine
                         (gbl.battleWon == false && gbl.area2_ptr.isDuel == true))
                     {
                         gbl.area2_ptr.field_58E = 0x80;
-                        seg041.displayString("You have lost the fight.", 0, 10, 3, 1);
+                        Seg041.displayString("You have lost the fight.", 0, 10, 3, 1);
 
                         exp = 0;
                     }
@@ -409,18 +416,18 @@ namespace engine
                     {
                         if (gbl.combat_type == CombatType.duel)
                         {
-                            seg041.displayString("You have won the duel.", 0, 10, 3, 1);
+                            Seg041.displayString("You have won the duel.", 0, 10, 3, 1);
                         }
                         else
                         {
-                            seg041.displayString("The party has won.", 0, 10, 3, 1);
+                            Seg041.displayString("The party has won.", 0, 10, 3, 1);
                         }
                     }
                 }
             }
             else
             {
-                seg041.displayString("The party has found Treasure!", 0, 10, 3, 1);
+                Seg041.displayString("The party has found Treasure!", 0, 10, 3, 1);
             }
 
             string text;
@@ -433,10 +440,11 @@ namespace engine
                 text = "Each character receives " + exp.ToString();
             }
 
-            seg041.displayString(text, 0, 10, 5, 1);
-            seg041.displayString("experience points.", 0, 10, 7, 1);
+            Seg041.displayString(text, 0, 10, 5, 1);
+            Seg041.displayString("experience points.", 0, 10, 7, 1);
 
-            ovr027.displayInput(false, 1, new MenuColorSet(15, 15, 15), "press <enter>/<return> to continue", string.Empty);
+            ovr027.displayInput(false, 1, new MenuColorSet(15, 15, 15), "press <enter>/<return> to continue",
+                string.Empty);
         }
 
 
@@ -452,15 +460,15 @@ namespace engine
             }
 
             gbl.items_pointer.ForEach(item =>
-                {
-                    ovr025.ItemDisplayNameBuild(false, false, 0, 0, item);
-                    list.Insert(0, new MenuItem(item.name, item));
-                });
+            {
+                ovr025.ItemDisplayNameBuild(false, false, 0, 0, item);
+                list.Insert(0, new MenuItem(item.name, item));
+            });
 
             bool redrawMenuItems = true;
             MenuItem selected;
             key = ovr027.sl_select_item(out selected, ref index, ref redrawMenuItems, true, list,
-                 0x16, 0x26, 1, 1, gbl.defaultMenuColors, "Take", "Items: ");
+                0x16, 0x26, 1, 1, gbl.defaultMenuColors, "Take", "Items: ");
 
             selectedItem = selected != null ? selected.Item : null;
         }
@@ -586,7 +594,7 @@ namespace engine
                             gbl.SelectedPlayer.in_combat == true)
                         {
                             can_detect_magic = true;
-                            spellId = (byte)id;
+                            spellId = (byte) id;
                             break;
                         }
                     }
@@ -624,6 +632,7 @@ namespace engine
                         {
                             ovr022.poolMoney();
                         }
+
                         break;
 
                     case 'S':
@@ -640,8 +649,9 @@ namespace engine
 
                         if (money_present == true || items_present == true)
                         {
-                            seg041.press_any_key("There is still treasure left.  ", true, 10, TextRegion.NormalBottom);
-                            seg041.press_any_key("Do you want to go back and claim your treasure?", false, 15, TextRegion.NormalBottom);
+                            Seg041.press_any_key("There is still treasure left.  ", true, 10, TextRegion.NormalBottom);
+                            Seg041.press_any_key("Do you want to go back and claim your treasure?", false, 15,
+                                TextRegion.NormalBottom);
                             int menu_selected = ovr008.sub_317AA(false, false, gbl.defaultMenuColors, "~Yes ~No", "");
 
                             if (menu_selected == 1)
@@ -657,6 +667,7 @@ namespace engine
                         {
                             done = true;
                         }
+
                         break;
 
                     case 'G':
@@ -747,15 +758,17 @@ namespace engine
                         player.health_status == Status.okey &&
                         player.npcTreasureShareCount > 0)
                     {
-                        string output = player.name + " takes and hides " + ((player.sex == 0) ? "his" : "her") + " share.";
+                        string output = player.name + " takes and hides " + ((player.sex == 0) ? "his" : "her") +
+                                        " share.";
 
-                        seg041.press_any_key(output, true, 10, 0x16, 0x22, yCol + 5, 5);
+                        Seg041.press_any_key(output, true, 10, 0x16, 0x22, yCol + 5, 5);
 
                         yCol += 2;
                     }
                 }
 
-                ovr027.displayInput(false, 1, new MenuColorSet(15, 15, 15), "press <enter>/<return> to continue", string.Empty);
+                ovr027.displayInput(false, 1, new MenuColorSet(15, 15, 15), "press <enter>/<return> to continue",
+                    string.Empty);
             }
         }
 
@@ -804,8 +817,9 @@ namespace engine
                     seg037.DrawFrame_Outer();
                     gbl.textXCol = 2;
                     gbl.textYCol = 6;
-                    seg041.press_any_key("The monsters rejoice for the party has been destroyed", true, 10, 0x16, 0x25, 5, 2);
-                    seg041.DisplayAndPause("Press any key to continue", 13);
+                    Seg041.press_any_key("The monsters rejoice for the party has been destroyed", true, 10, 0x16, 0x25,
+                        5, 2);
+                    Seg041.DisplayAndPause("Press any key to continue", 13);
                 }
 
                 gbl.DelayBetweenCharacters = true;

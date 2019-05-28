@@ -1,8 +1,7 @@
-using Classes;
 using System.Collections.Generic;
-using Logging;
 using System.IO;
-using System;
+using Classes;
+using Logging;
 
 namespace engine
 {
@@ -41,8 +40,9 @@ namespace engine
 
 
                     string fullNameText =
-                        string.Compare(Path.GetExtension(filePath), ".sav", true) == 0 ?
-                        string.Format("{0,-15} from save game {1}", playerName, filePath[7]) : playerName;
+                        string.Compare(Path.GetExtension(filePath), ".sav", true) == 0
+                            ? string.Format("{0,-15} from save game {1}", playerName, filePath[7])
+                            : playerName;
 
                     bool found = gbl.TeamList.Find(player => playerName == player.name.Trim()) != null;
 
@@ -57,26 +57,31 @@ namespace engine
             }
         }
 
-        static int[] PlayerNameOffset = { 0, 0, 4 };
-        static int[] NpcFileOffset = { 0xf7, 0x84, 0x13 };
+        static int[] PlayerNameOffset = {0, 0, 4};
+        static int[] NpcFileOffset = {0xf7, 0x84, 0x13};
 
-        internal static void BuildLoadablePlayersLists(out List<MenuItem> fileNames, out List<MenuItem> displayNames) // sub_47465
+        internal static void
+            BuildLoadablePlayersLists(out List<MenuItem> fileNames, out List<MenuItem> displayNames) // sub_47465
         {
             displayNames = new List<MenuItem>();
             fileNames = new List<MenuItem>();
 
             if (gbl.import_from == ImportSource.Curse)
             {
-                BuildLoadablePlayersLists(ref fileNames, ref displayNames, Player.StructSize, NpcFileOffset[0], PlayerNameOffset[0], "*.guy");
+                BuildLoadablePlayersLists(ref fileNames, ref displayNames, Player.StructSize, NpcFileOffset[0],
+                    PlayerNameOffset[0], "*.guy");
             }
             else if (gbl.import_from == ImportSource.Pool)
             {
-                BuildLoadablePlayersLists(ref fileNames, ref displayNames, PoolRadPlayer.StructSize, NpcFileOffset[1], PlayerNameOffset[1], "*.cha");
-                BuildLoadablePlayersLists(ref fileNames, ref displayNames, PoolRadPlayer.StructSize, NpcFileOffset[1], PlayerNameOffset[1], "*.sav");
+                BuildLoadablePlayersLists(ref fileNames, ref displayNames, PoolRadPlayer.StructSize, NpcFileOffset[1],
+                    PlayerNameOffset[1], "*.cha");
+                BuildLoadablePlayersLists(ref fileNames, ref displayNames, PoolRadPlayer.StructSize, NpcFileOffset[1],
+                    PlayerNameOffset[1], "*.sav");
             }
             else if (gbl.import_from == ImportSource.Hillsfar)
             {
-                BuildLoadablePlayersLists(ref fileNames, ref  displayNames, HillsFarPlayer.StructSize, NpcFileOffset[2], PlayerNameOffset[2], "*.hil");
+                BuildLoadablePlayersLists(ref fileNames, ref displayNames, HillsFarPlayer.StructSize, NpcFileOffset[2],
+                    PlayerNameOffset[2], "*.hil");
             }
         }
 
@@ -89,10 +94,11 @@ namespace engine
 
             Player player = gbl.SelectedPlayer;
 
-            char[] sizeToken = new char[] { '\0', 'S', 'T' };
+            char[] sizeToken = new char[] {'\0', 'S', 'T'};
 
             ovr034.chead_cbody_comspr_icon(11, player.head_icon, "CHEAD" + sizeToken[player.icon_size].ToString());
-            ovr034.chead_cbody_comspr_icon(player.icon_id, player.weapon_icon, "CBODY" + sizeToken[player.icon_size].ToString());
+            ovr034.chead_cbody_comspr_icon(player.icon_id, player.weapon_icon,
+                "CBODY" + sizeToken[player.icon_size].ToString());
 
             gbl.combat_icons[player.icon_id].MergeIcon(gbl.combat_icons[11]);
 
@@ -109,8 +115,8 @@ namespace engine
 
                 for (int i = 0; i < 6; i++)
                 {
-                    newColors[gbl.default_icon_colours[i]] = (byte)(player.icon_colours[i] & 0x0F);
-                    newColors[gbl.default_icon_colours[i] + 8] = (byte)((player.icon_colours[i] & 0xF0) >> 4);
+                    newColors[gbl.default_icon_colours[i]] = (byte) (player.icon_colours[i] & 0x0F);
+                    newColors[gbl.default_icon_colours[i] + 8] = (byte) ((player.icon_colours[i] & 0xF0) >> 4);
                 }
 
                 gbl.combat_icons[player.icon_id].Recolor(false, newColors, oldColors);
@@ -155,8 +161,8 @@ namespace engine
             input_key = 'N';
 
             while (input_key == 'N' &&
-                arg_0.Length == 0 &&
-                seg042.file_find(Path.Combine(Config.GetSavePath(), file_text) + ext_text) == true)
+                   arg_0.Length == 0 &&
+                   seg042.file_find(Path.Combine(Config.GetSavePath(), file_text) + ext_text) == true)
             {
                 input_key = ovr027.yes_no(gbl.alertMenuColors, "Overwrite " + file_text + "? ");
 
@@ -166,7 +172,7 @@ namespace engine
 
                     while (file_text == string.Empty)
                     {
-                        file_text = seg041.getUserInputString(8, 0, 10, "New file name: ");
+                        file_text = Seg041.getUserInputString(8, 0, 10, "New file name: ");
                     }
                 }
             }
@@ -225,8 +231,8 @@ namespace engine
                 {
                     return true;
                 }
-
             }
+
             return false;
         }
 
@@ -236,12 +242,12 @@ namespace engine
             /* nested function, arg_0 is BP */
             Player player = new Player();
 
-            player.race = (Race)bp_var_1C0.race;
+            player.race = (Race) bp_var_1C0.race;
             player.sex = bp_var_1C0.sex;
 
             player.name = bp_var_1C0.name;
 
-            int race = (int)player.race;
+            int race = (int) player.race;
             int sex = player.sex;
 
             player.stats2.Str.Load(bp_var_1C0.stat_str);
@@ -266,12 +272,12 @@ namespace engine
             player.stats2.Str00.EnforceRaceSexLimits(race, sex);
 
             player.thac0 = bp_var_1C0.thac0;
-            player._class = (ClassId)bp_var_1C0._class;
+            player._class = (ClassId) bp_var_1C0._class;
             player.age = bp_var_1C0.age;
             player.hit_point_max = bp_var_1C0.hp_max;
 
             System.Array.Copy(bp_var_1C0.field_33, player.spellBook, 0x38);
-            player.spellBook[(int)Spells.animate_dead - 1] = 0;
+            player.spellBook[(int) Spells.animate_dead - 1] = 0;
 
             player.attackLevel = bp_var_1C0.field_6B;
             player.field_DE = bp_var_1C0.field_6C;
@@ -297,7 +303,7 @@ namespace engine
 
             System.Array.Copy(bp_var_1C0.field_96, player.ClassLevel, 8);
 
-            player.monsterType = (MonsterType)bp_var_1C0.field_9F;
+            player.monsterType = (MonsterType) bp_var_1C0.field_9F;
             player.alignment = bp_var_1C0.field_A0;
 
             player.attacksCount = bp_var_1C0.field_A1;
@@ -352,12 +358,12 @@ namespace engine
             //call	Move(Any &,Any &,Word)
 
             player.weaponsHandsUsed = bp_var_1C0.field_100;
-            player.field_186 = (sbyte)bp_var_1C0.field_101;
+            player.field_186 = (sbyte) bp_var_1C0.field_101;
             player.weight = bp_var_1C0.field_102;
 
-            player.health_status = (Status)bp_var_1C0.field_10C;
+            player.health_status = (Status) bp_var_1C0.field_10C;
             player.in_combat = bp_var_1C0.field_10D != 0;
-            player.combat_team = (CombatTeam)bp_var_1C0.field_10E;
+            player.combat_team = (CombatTeam) bp_var_1C0.field_10E;
             player.hitBonus = bp_var_1C0.field_110;
 
             player.ac = bp_var_1C0.field_111;
@@ -372,16 +378,17 @@ namespace engine
             player.attack1_DiceSize = bp_var_1C0.field_117;
             player.attack2_DiceSize = bp_var_1C0.field_118;
 
-            player.attack1_DamageBonus = (sbyte)bp_var_1C0.field_119;
+            player.attack1_DamageBonus = (sbyte) bp_var_1C0.field_119;
             player.attack2_DamageBonus = bp_var_1C0.field_11A;
             player.hit_point_current = bp_var_1C0.field_11B;
-            player.movement = (byte)bp_var_1C0.field_11C;
+            player.movement = (byte) bp_var_1C0.field_11C;
 
             return player;
         }
 
 
-        internal static void TransferHillsFarCharacter(HillsFarPlayer hf_player, Player player, Player previousSelectPlayer) // sub_48F35
+        internal static void TransferHillsFarCharacter(HillsFarPlayer hf_player, Player player,
+            Player previousSelectPlayer) // sub_48F35
         {
             if (player.stats2.Str.cur < hf_player.stat_str)
             {
@@ -430,7 +437,8 @@ namespace engine
                 {
                     ovr022.DropCoins(slot, player.Money.GetCoins(slot), player);
                 }
-                ovr022.addPlayerGold((short)(hf_player.field_28 / 5));
+
+                ovr022.addPlayerGold((short) (hf_player.field_28 / 5));
             }
 
             if (player.age < hf_player.age)
@@ -438,10 +446,10 @@ namespace engine
                 player.age = hf_player.age;
             }
 
-            player.cleric_lvl = (hf_player.field_B7 > 0) ? (byte)1 : (byte)0;
-            player.magic_user_lvl = (hf_player.field_B8 > 0) ? (byte)1 : (byte)0;
-            player.fighter_lvl = (hf_player.field_B9 > 0) ? (byte)1 : (byte)0;
-            player.thief_lvl = (hf_player.field_BA > 0) ? (byte)1 : (byte)0;
+            player.cleric_lvl = (hf_player.field_B7 > 0) ? (byte) 1 : (byte) 0;
+            player.magic_user_lvl = (hf_player.field_B8 > 0) ? (byte) 1 : (byte) 0;
+            player.fighter_lvl = (hf_player.field_B9 > 0) ? (byte) 1 : (byte) 0;
+            player.thief_lvl = (hf_player.field_BA > 0) ? (byte) 1 : (byte) 0;
 
             player.HitDice = 1;
 
@@ -454,7 +462,7 @@ namespace engine
             gbl.SelectedPlayer = previousSelectPlayer;
 
             player.hit_point_max = hf_player.field_21;
-            player.hit_point_rolled = (byte)(player.hit_point_max - ovr018.get_con_hp_adj(player));
+            player.hit_point_rolled = (byte) (player.hit_point_max - ovr018.get_con_hp_adj(player));
             player.hit_point_current = hf_player.field_20;
         }
 
@@ -476,11 +484,13 @@ namespace engine
         static Set asc_49280 = new Set(18, 26, 47, 48, 97, 107, 124);
 
 
-        static ClassId[] HillsFarClassMap = {
-    ClassId.unknown,    ClassId.thief,      ClassId.fighter,    ClassId.mc_f_t, ClassId.magic_user,
-    ClassId.mc_mu_t,    ClassId.mc_f_mu,    ClassId.mc_f_mu_t,  ClassId.cleric, ClassId.mc_c_t,
-    ClassId.mc_c_f,     ClassId.unknown,    ClassId.mc_c_mu,    ClassId.unknown, ClassId.mc_c_f_m, 
-    ClassId.unknown};
+        static ClassId[] HillsFarClassMap =
+        {
+            ClassId.unknown, ClassId.thief, ClassId.fighter, ClassId.mc_f_t, ClassId.magic_user,
+            ClassId.mc_mu_t, ClassId.mc_f_mu, ClassId.mc_f_mu_t, ClassId.cleric, ClassId.mc_c_t,
+            ClassId.mc_c_f, ClassId.unknown, ClassId.mc_c_mu, ClassId.unknown, ClassId.mc_c_f_m,
+            ClassId.unknown
+        };
 
 
         internal static void import_char01(ref Player player, string arg_8)
@@ -489,7 +499,7 @@ namespace engine
 
             seg042.find_and_open_file(out file, false, Path.Combine(Config.GetSavePath(), arg_8));
 
-            seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+            Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
 
 
             if (gbl.import_from == ImportSource.Curse)
@@ -499,7 +509,6 @@ namespace engine
                 seg051.Close(file);
 
                 player = new Player(data, 0);
-
             }
             else if (gbl.import_from == ImportSource.Pool)
             {
@@ -603,7 +612,6 @@ namespace engine
                     }
 
                     seg051.Close(file);
-
                 }
             }
 
@@ -644,8 +652,8 @@ namespace engine
 
                 if (hf_player.field_1D > 0)
                 {
-                    Item newItem = new Item(0, Affects.helpless, (Affects)hf_player.field_1D,
-                        (short)(hf_player.field_1D * 200), 0, 0,
+                    Item newItem = new Item(0, Affects.helpless, (Affects) hf_player.field_1D,
+                        (short) (hf_player.field_1D * 200), 0, 0,
                         false, 0, false, 0, 0, 0x57, 0xa7, 0xa8, ItemType.Necklace, true);
 
                     player.items.Add(newItem);
@@ -653,8 +661,8 @@ namespace engine
 
                 if (hf_player.field_23 > 0)
                 {
-                    Item newItem = new Item(0, Affects.poison_plus_4, (Affects)hf_player.field_23,
-                        (short)(hf_player.field_23 * 0x15E), 0, 1,
+                    Item newItem = new Item(0, Affects.poison_plus_4, (Affects) hf_player.field_23,
+                        (short) (hf_player.field_23 * 0x15E), 0, 1,
                         false, 0, false, 0, 1, 0x45, 0xa7, 0xce, ItemType.WandB, true);
 
                     player.items.Add(newItem);
@@ -662,8 +670,8 @@ namespace engine
 
                 if (hf_player.field_86 > 0)
                 {
-                    Item newItem = new Item(0, Affects.helpless, (Affects)hf_player.field_86,
-                        (short)(hf_player.field_86 * 0xc8), 0, 0,
+                    Item newItem = new Item(0, Affects.helpless, (Affects) hf_player.field_86,
+                        (short) (hf_player.field_86 * 0xc8), 0, 0,
                         false, 0, false, 0, 0, 0x42, 0xa7, 0xa8, ItemType.RingInvis, true);
 
                     player.items.Add(newItem);
@@ -671,8 +679,8 @@ namespace engine
 
                 if (hf_player.field_87 > 0)
                 {
-                    Item newItem = new Item(0, Affects.highConRegen, (Affects)hf_player.field_87,
-                        (short)(hf_player.field_87 * 0x190), 0, (short)(hf_player.field_87 * 10),
+                    Item newItem = new Item(0, Affects.highConRegen, (Affects) hf_player.field_87,
+                        (short) (hf_player.field_87 * 0x190), 0, (short) (hf_player.field_87 * 10),
                         false, 0, false, 0, 0, 0x40, 0xa7, 0xb9, ItemType.Necklace, true);
 
                     player.items.Add(newItem);
@@ -686,7 +694,8 @@ namespace engine
                 {
                     byte[] data = new byte[PoolRadPlayer.StructSize];
 
-                    string savename = System.IO.Path.Combine(Config.GetSavePath(), Path.ChangeExtension(arg_8, fileExt));
+                    string savename =
+                        System.IO.Path.Combine(Config.GetSavePath(), Path.ChangeExtension(arg_8, fileExt));
 
                     seg042.find_and_open_file(out file, false, savename);
 
@@ -709,7 +718,8 @@ namespace engine
 
                     for (int i = 0; i < 6; i++)
                     {
-                        player.icon_colours[i] = (byte)(((gbl.default_icon_colours[i] + 8) << 4) + gbl.default_icon_colours[i]);
+                        player.icon_colours[i] =
+                            (byte) (((gbl.default_icon_colours[i] + 8) << 4) + gbl.default_icon_colours[i]);
                     }
 
                     player.base_ac = 50;
@@ -720,7 +730,7 @@ namespace engine
                     player.field_140 = 1;
                     player.field_DE = 1;
 
-                    player.mod_id = seg051.Random((byte)0xff);
+                    player.mod_id = seg051.Random((byte) 0xff);
                     player.icon_id = 0x0A;
 
                     player.attacksCount = 2;
@@ -738,7 +748,7 @@ namespace engine
                     player.stats2.Con.Load(hf_player.stat_con);
                     player.stats2.Cha.Load(hf_player.stat_cha);
 
-                    player.race = (Race)(hf_player.field_2D + 1);
+                    player.race = (Race) (hf_player.field_2D + 1);
 
                     if (player.race == Race.half_orc)
                     {
@@ -785,10 +795,10 @@ namespace engine
                     player._class = HillsFarClassMap[hf_player.field_35 & 0x0F];
                     player.age = hf_player.age;
 
-                    player.cleric_lvl = (hf_player.field_B7 > 0) ? (byte)1 : (byte)0;
-                    player.magic_user_lvl = (hf_player.field_B8 > 0) ? (byte)1 : (byte)0;
-                    player.fighter_lvl = (hf_player.field_B9 > 0) ? (byte)1 : (byte)0;
-                    player.thief_lvl = (hf_player.field_BA > 0) ? (byte)1 : (byte)0;
+                    player.cleric_lvl = (hf_player.field_B7 > 0) ? (byte) 1 : (byte) 0;
+                    player.magic_user_lvl = (hf_player.field_B8 > 0) ? (byte) 1 : (byte) 0;
+                    player.fighter_lvl = (hf_player.field_B9 > 0) ? (byte) 1 : (byte) 0;
+                    player.thief_lvl = (hf_player.field_BA > 0) ? (byte) 1 : (byte) 0;
                     player.HitDice = 1;
                     player.sex = hf_player.field_2C;
                     player.alignment = hf_player.alignment;
@@ -807,7 +817,7 @@ namespace engine
                     ovr022.addPlayerGold(300);
                     gbl.SelectedPlayer = PreviousSelectedPlayer;
                     player.hit_point_max = hf_player.field_21;
-                    player.hit_point_rolled = (byte)(player.hit_point_max - ovr018.get_con_hp_adj(player));
+                    player.hit_point_rolled = (byte) (player.hit_point_max - ovr018.get_con_hp_adj(player));
                     player.hit_point_current = hf_player.field_20;
                 }
             }
@@ -833,7 +843,7 @@ namespace engine
             {
                 if (exit)
                 {
-                    seg041.DisplayAndPause("Unable to load monster", 15);
+                    Seg041.DisplayAndPause("Unable to load monster", 15);
                     seg043.print_and_exit();
                 }
                 else
@@ -881,7 +891,7 @@ namespace engine
             {
                 Player player = load_mob(monster_id);
 
-                player.mod_id = (byte)monster_id;
+                player.mod_id = (byte) monster_id;
 
                 AssignPlayerIconId(player);
 
@@ -910,7 +920,7 @@ namespace engine
             player.icon_id = 0;
 
             while (player.icon_id < 8 &&
-                icon_slot[player.icon_id] == true)
+                   icon_slot[player.icon_id] == true)
             {
                 player.icon_id += 1;
             }
@@ -951,7 +961,8 @@ namespace engine
                 do
                 {
                     bool speical_key;
-                    char input_key = ovr027.displayInput(out speical_key, false, 0, gbl.defaultMenuColors, games_list, "Load Which Game: ");
+                    char input_key = ovr027.displayInput(out speical_key, false, 0, gbl.defaultMenuColors, games_list,
+                        "Load Which Game: ");
 
                     stop_loop = input_key == 0x00; // Escape
                     save_letter = '\0';
@@ -959,7 +970,8 @@ namespace engine
                     if (save_game_keys.MemberOf(input_key) == true)
                     {
                         save_letter = input_key;
-                        string file_name = Path.Combine(Config.GetSavePath(), "savgam" + save_letter.ToString() + ".dat");
+                        string file_name = Path.Combine(Config.GetSavePath(),
+                            "savgam" + save_letter.ToString() + ".dat");
                         stop_loop = seg042.file_find(file_name);
                     }
                 } while (stop_loop == false);
@@ -979,7 +991,7 @@ namespace engine
             seg042.find_and_open_file(out file, true, file_name);
 
             ovr027.ClearPromptArea();
-            seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+            Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
             gbl.reload_ecl_and_pictures = true;
 
             byte[] data = new byte[0x2000];
@@ -1000,17 +1012,17 @@ namespace engine
             gbl.ecl_ptr = new EclBlock(data, 0);
 
             seg051.BlockRead(5, data, file);
-            gbl.mapPosX = (sbyte)data[0];
-            gbl.mapPosY = (sbyte)data[1];
+            gbl.mapPosX = (sbyte) data[0];
+            gbl.mapPosY = (sbyte) data[1];
             gbl.mapDirection = data[2];
             gbl.mapWallType = data[3];
             gbl.mapWallRoof = data[4];
 
             seg051.BlockRead(1, data, file);
-            gbl.last_game_state = (GameState)data[0];
+            gbl.last_game_state = (GameState) data[0];
 
             seg051.BlockRead(1, data, file);
-            gbl.game_state = (GameState)data[0];
+            gbl.game_state = (GameState) data[0];
 
             for (int i = 0; i < 3; i++)
             {
@@ -1102,8 +1114,8 @@ namespace engine
             gbl.game_state = GameState.StartGameMenu;
         }
 
-        static Set unk_4AEA0 = new Set(0, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74); 
-        static Set unk_4AEEF = new Set(0, 2, 18); 
+        static Set unk_4AEA0 = new Set(0, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74);
+        static Set unk_4AEEF = new Set(0, 2, 18);
 
 
         internal static void SaveGame()
@@ -1114,8 +1126,8 @@ namespace engine
 
             do
             {
-                inputKey = ovr027.displayInput((gbl.game_state == GameState.Camping), 0, gbl.defaultMenuColors, "A B C D E F G H I J", "Save Which Game: ");
-
+                inputKey = ovr027.displayInput((gbl.game_state == GameState.Camping), 0, gbl.defaultMenuColors,
+                    "A B C D E F G H I J", "Save Which Game: ");
             } while (unk_4AEA0.MemberOf(inputKey) == false);
 
             if (inputKey != '\0')
@@ -1132,17 +1144,17 @@ namespace engine
 
                     if (unk_4AEEF.MemberOf(var_1FC) == false)
                     {
-                        seg041.DisplayAndPause("Unexpected error during save: " + var_1FC.ToString(), 14);
+                        Seg041.DisplayAndPause("Unexpected error during save: " + var_1FC.ToString(), 14);
                         seg051.Close(save_file);
                         return;
                     }
                 } while (unk_4AEEF.MemberOf(var_1FC) == false);
 
                 ovr027.ClearPromptArea();
-                seg041.displayString("Saving...Please Wait", 0, 10, 0x18, 0);
+                Seg041.displayString("Saving...Please Wait", 0, 10, 0x18, 0);
 
-                gbl.area_ptr.game_speed = (byte)gbl.game_speed_var;
-                gbl.area_ptr.pics_on = (byte)(((gbl.PicsOn) ? 0x02 : 0) | ((gbl.AnimationsOn) ? 0x01 : 0));
+                gbl.area_ptr.game_speed = (byte) gbl.game_speed_var;
+                gbl.area_ptr.pics_on = (byte) (((gbl.PicsOn) ? 0x02 : 0) | ((gbl.AnimationsOn) ? 0x01 : 0));
                 gbl.area2_ptr.game_area = gbl.game_area;
 
                 byte[] data = new byte[0x1E00];
@@ -1155,23 +1167,24 @@ namespace engine
                 seg051.BlockWrite(0x400, gbl.stru_1B2CA.ToByteArray(), save_file);
                 seg051.BlockWrite(0x1E00, gbl.ecl_ptr.ToByteArray(), save_file);
 
-                data[0] = (byte)gbl.mapPosX;
-                data[1] = (byte)gbl.mapPosY;
+                data[0] = (byte) gbl.mapPosX;
+                data[1] = (byte) gbl.mapPosY;
                 data[2] = gbl.mapDirection;
                 data[3] = gbl.mapWallType;
                 data[4] = gbl.mapWallRoof;
                 seg051.BlockWrite(5, data, save_file);
 
-                data[0] = (byte)gbl.last_game_state;
+                data[0] = (byte) gbl.last_game_state;
                 seg051.BlockWrite(1, data, save_file);
-                data[0] = (byte)gbl.game_state;
+                data[0] = (byte) gbl.game_state;
                 seg051.BlockWrite(1, data, save_file);
 
                 for (int i = 0; i < 3; i++)
                 {
-                    Sys.ShortToArray((short)gbl.setBlocks[i].blockId, data, (i * 4) + 0);
-                    Sys.ShortToArray((short)gbl.setBlocks[i].setId, data, (i * 4) + 2);
+                    Sys.ShortToArray((short) gbl.setBlocks[i].blockId, data, (i * 4) + 0);
+                    Sys.ShortToArray((short) gbl.setBlocks[i].setId, data, (i * 4) + 2);
                 }
+
                 seg051.BlockWrite(12, data, save_file);
 
                 int party_count = 0;
@@ -1181,13 +1194,14 @@ namespace engine
                     var_171[party_count - 1] = "CHRDAT" + inputKey + party_count.ToString();
                 }
 
-                data[0] = (byte)party_count;
+                data[0] = (byte) party_count;
                 seg051.BlockWrite(1, data, save_file);
 
                 for (int i = 0; i < party_count; i++)
                 {
                     Sys.StringToArray(data, 0x29 * i, 0x29, var_171[i]);
                 }
+
                 seg051.BlockWrite(0x148, data, save_file);
                 seg051.Close(save_file);
 

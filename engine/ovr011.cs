@@ -1,12 +1,12 @@
-using Classes;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
     class ovr011
     {
         // the 2 is made up.
-        static byte[, , ,] unk_1AB1C = new byte[2, 4, 6, 11]; //seg600:480C unk_1AB1C
+        static byte[,,,] unk_1AB1C = new byte[2, 4, 6, 11]; //seg600:480C unk_1AB1C
 
         internal static void set_background_tile(int tileId, int y, int x) /* sub_37046 */
         {
@@ -22,8 +22,8 @@ namespace engine
             }
         }
 
-        static int[] dir_x_offset /*seg600:034C unk_1665B*/ = { 0, 1, 0, -1 };
-        static int[] dir_y_offset /*seg600:0350 unk_1665F*/ = { -1, 0, 1, 0 };
+        static int[] dir_x_offset /*seg600:034C unk_1665B*/ = {0, 1, 0, -1};
+        static int[] dir_y_offset /*seg600:0350 unk_1665F*/ = {-1, 0, 1, 0};
 
         internal static void sub_370D3()
         {
@@ -35,17 +35,17 @@ namespace engine
                 byte_1AD3E = false;
             }
             else if (gbl.dir_0_flags == 1 && gbl.dir_4_flags == 1 &&
-                (gbl.dir_2_flags != 1 || gbl.dir_6_flags != 1))
+                     (gbl.dir_2_flags != 1 || gbl.dir_6_flags != 1))
             {
                 byte_1AD3E = false;
             }
             else if (gbl.dir_2_flags == 1 && gbl.dir_6_flags == 1 &&
-                (gbl.dir_0_flags != 1 || gbl.dir_4_flags != 1))
+                     (gbl.dir_0_flags != 1 || gbl.dir_4_flags != 1))
             {
                 byte_1AD3E = false;
             }
             else if (gbl.dir_0_flags == 3 || gbl.dir_2_flags == 3 ||
-                gbl.dir_4_flags == 3 || gbl.dir_6_flags == 3)
+                     gbl.dir_4_flags == 3 || gbl.dir_6_flags == 3)
             {
                 byte_1AD3E = false;
             }
@@ -201,7 +201,7 @@ namespace engine
             byte var_1;
 
             bool var_6 = (get_dir_flags(6, mapY - 1, mapX) == 0 &&
-                            get_dir_flags(0, mapY, mapX - 1) == 0);
+                          get_dir_flags(0, mapY, mapX - 1) == 0);
 
             for (var_1 = 1; var_1 <= 4; var_1++)
             {
@@ -228,6 +228,7 @@ namespace engine
                                 {
                                     var_2 = 0x0D;
                                 }
+
                                 break;
                         }
                     }
@@ -289,6 +290,7 @@ namespace engine
                             {
                                 var_3 = 0x0A;
                             }
+
                             break;
 
                         case 3:
@@ -300,6 +302,7 @@ namespace engine
                             {
                                 var_3 = 7;
                             }
+
                             break;
 
                         case 1:
@@ -311,6 +314,7 @@ namespace engine
                             {
                                 var_3 = 3;
                             }
+
                             break;
                     }
                 }
@@ -515,18 +519,21 @@ namespace engine
                     build_background_tiles_2();
                     build_backgrould_tiles_3(mapX, mapY);
                     build_background_tiles_4(mapX, mapY);
-                    gbl.byte_1AD3D = (byte)(ovr031.get_wall_x2(mapY, mapX) & 0x40);
+                    gbl.byte_1AD3D = (byte) (ovr031.get_wall_x2(mapY, mapX) & 0x40);
                     sub_370D3();
                 }
             }
         }
 
-        static int[] CityInfo = { /* unk_16664 seg600:0354 */
+        static int[] CityInfo =
+        {
+            /* unk_16664 seg600:0354 */
             0x00, 0x18, 0x11, 0x15, 0x01, 0x01, 0x60, 0x14, // 354 - 35B
             0x08, 0x01, 0x00, 0x21, 0x71, 0x09, 0x06, 0x04, // 35C - 363
             0x01, 0x09, 0x09, 0x08, 0x59, 0x00, 0x11, 0x11, // 364 - 36B
             0x00, 0x00, 0x01, 0x11, 0x00, 0x00, 0x20, 0x20, // 36C - 373
-            0x0A};
+            0x0A
+        };
 
         static int GetCityInfo() // sub_37991
         {
@@ -650,7 +657,8 @@ namespace engine
         }
 
 
-        static void SetGroupMapStepped(int stepE, int stepD, int stepC, int stepB, int stepA, int map_y, int map_x) // sub_37CA2
+        static void SetGroupMapStepped(int stepE, int stepD, int stepC, int stepB, int stepA, int map_y,
+            int map_x) // sub_37CA2
         {
             int roll = ovr024.roll_dice(100, 1);
 
@@ -816,7 +824,7 @@ namespace engine
                         if (morale == 0 ||
                             morale > 0x66)
                         {
-                            player.control_morale = (byte)(gbl.area2_ptr.field_58C + Control.NPC_Base);
+                            player.control_morale = (byte) (gbl.area2_ptr.field_58C + Control.NPC_Base);
                         }
                     }
                 }
@@ -824,10 +832,10 @@ namespace engine
         }
 
 
-		static int min_placement_column = 0;
-		static int max_placement_column = 10;
-		static int min_placement_row = 0;
-		static int max_placement_row = 5;
+        static int min_placement_column = 0;
+        static int max_placement_column = 10;
+        static int min_placement_row = 0;
+        static int max_placement_row = 5;
 
         static bool row_column_both_out_of_range(int row, int column) /* sub_38202 */
         {
@@ -843,7 +851,8 @@ namespace engine
         }
 
 
-        static bool try_place_combatant(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int player_index) /* sub_38233 */
+        static bool try_place_combatant(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8,
+            int player_index) /* sub_38233 */
         {
             if (arg_8 < 0 || arg_8 > 10 ||
                 arg_6 < 0 || arg_6 > 5 ||
@@ -865,29 +874,37 @@ namespace engine
                     gbl.BackGroundTiles[groundTile].move_cost < 0xFF)
                 {
                     unk_1AB1C[gbl.currentTeam, arg_0, arg_6, arg_8] = 0;
-					return true;
+                    return true;
                 }
                 else
                 {
-					return false;
+                    return false;
                 }
             }
         }
 
-        static int[,] direction_165EC = { { 8, 4, 6, 2 }, { 8, 6, 4, 0 }, { 8, 0, 6, 2 }, { 8, 2, 0, 4 } }; /*seg600:02DC unk_165EC*/
-        static int[,] direction_165FC = { { 0, 0, 2, 6 }, { 2, 2, 0, 4 }, { 4, 4, 2, 6 }, { 6, 6, 4, 0 } }; /*seg600:02EC unk_165FC*/
+        static int[,]
+            direction_165EC = {{8, 4, 6, 2}, {8, 6, 4, 0}, {8, 0, 6, 2}, {8, 2, 0, 4}}; /*seg600:02DC unk_165EC*/
 
-        static int[] HalfDirToIso = { 7, 2, 3, 6 }; /*seg600:02FC unk_1660C */
+        static int[,]
+            direction_165FC = {{0, 0, 2, 6}, {2, 2, 0, 4}, {4, 4, 2, 6}, {6, 6, 4, 0}}; /*seg600:02EC unk_165FC*/
 
-        static byte[] /*seg600:0300*/ unk_16610 = { 5, 4, 5, 6, 3, 8, 7, 2 };
-        static byte[] /*seg600:0308*/ unk_16618 = { 3, 2, 2, 3, 0, 2, 5, 3 };
+        static int[] HalfDirToIso = {7, 2, 3, 6}; /*seg600:02FC unk_1660C */
 
-        static byte[, ,] unk_16620 = new byte[5, 6, 2] { // unk_16620 seg600:0310 
-                {{1,0},{1,0},{1,0},{2,9},{3,10},{4,10}}, // 310 - 31B
-                {{0,2},{0,3},{1,4},{2,5},{3,6},{4,7}}, // 31C - 327
-                {{0,6},{0,7},{1,8},{1,0},{1,0},{1,0}}, // 328 - 333
-                {{3,6},{4,7},{5,8},{6,9},{7,10},{8,10}}, // 334 - 33F
-                {{0,6},{0,7},{1,8},{2,9},{3,10},{4,10}}, // 340 - 31B
+        static byte[] /*seg600:0300*/
+            unk_16610 = {5, 4, 5, 6, 3, 8, 7, 2};
+
+        static byte[] /*seg600:0308*/
+            unk_16618 = {3, 2, 2, 3, 0, 2, 5, 3};
+
+        static byte[,,] unk_16620 = new byte[5, 6, 2]
+        {
+            // unk_16620 seg600:0310 
+            {{1, 0}, {1, 0}, {1, 0}, {2, 9}, {3, 10}, {4, 10}}, // 310 - 31B
+            {{0, 2}, {0, 3}, {1, 4}, {2, 5}, {3, 6}, {4, 7}}, // 31C - 327
+            {{0, 6}, {0, 7}, {1, 8}, {1, 0}, {1, 0}, {1, 0}}, // 328 - 333
+            {{3, 6}, {4, 7}, {5, 8}, {6, 9}, {7, 10}, {8, 10}}, // 334 - 33F
+            {{0, 6}, {0, 7}, {1, 8}, {2, 9}, {3, 10}, {4, 10}}, // 340 - 31B
         };
 
         enum tri_state
@@ -924,45 +941,45 @@ namespace engine
                 switch (state)
                 {
                     case tri_state.start:
-                        {
-                            int iso_dir = HalfDirToIso[(half_dir + 2) % 4];
-                            int delta_x = gbl.MapDirectionXDelta[iso_dir];
-                            int delta_y = gbl.MapDirectionYDelta[iso_dir];
+                    {
+                        int iso_dir = HalfDirToIso[(half_dir + 2) % 4];
+                        int delta_x = gbl.MapDirectionXDelta[iso_dir];
+                        int delta_y = gbl.MapDirectionYDelta[iso_dir];
 
-                            base_x = unk_16610[(var_14 > 0 ? 4 : 0) + half_dir] + (row_scale * delta_x);
-                            base_y = unk_16618[(var_14 > 0 ? 4 : 0) + half_dir] + (row_scale * delta_y);
-                            cur_x = base_x;
-                            cur_y = base_y;
-                            col_scale = 1;
-                            state = tri_state.right;
-                            var_13 = 1;
-                        }
+                        base_x = unk_16610[(var_14 > 0 ? 4 : 0) + half_dir] + (row_scale * delta_x);
+                        base_y = unk_16618[(var_14 > 0 ? 4 : 0) + half_dir] + (row_scale * delta_y);
+                        cur_x = base_x;
+                        cur_y = base_y;
+                        col_scale = 1;
+                        state = tri_state.right;
+                        var_13 = 1;
+                    }
                         break;
 
                     case tri_state.right:
-                        {
-                            int delta_x = gbl.MapDirectionXDelta[HalfDirToIso[(half_dir + 1) % 4]];
-                            int delta_y = gbl.MapDirectionYDelta[HalfDirToIso[(half_dir + 1) % 4]];
+                    {
+                        int delta_x = gbl.MapDirectionXDelta[HalfDirToIso[(half_dir + 1) % 4]];
+                        int delta_y = gbl.MapDirectionYDelta[HalfDirToIso[(half_dir + 1) % 4]];
 
-                            cur_x = base_x + (delta_x * col_scale);
-                            cur_y = base_y + (delta_y * col_scale);
-                            state = tri_state.left;
-                            var_13 += 1;
-                        }
+                        cur_x = base_x + (delta_x * col_scale);
+                        cur_y = base_y + (delta_y * col_scale);
+                        state = tri_state.left;
+                        var_13 += 1;
+                    }
                         break;
 
                     case tri_state.left:
-                        {
-                            int delta_x = gbl.MapDirectionXDelta[HalfDirToIso[(half_dir + 3) % 4]];
-                            int delta_y = gbl.MapDirectionYDelta[HalfDirToIso[(half_dir + 3) % 4]];
+                    {
+                        int delta_x = gbl.MapDirectionXDelta[HalfDirToIso[(half_dir + 3) % 4]];
+                        int delta_y = gbl.MapDirectionYDelta[HalfDirToIso[(half_dir + 3) % 4]];
 
-                            cur_x = base_x + (delta_x * col_scale);
-                            cur_y = base_y + (delta_y * col_scale);
+                        cur_x = base_x + (delta_x * col_scale);
+                        cur_y = base_y + (delta_y * col_scale);
 
-                            state = tri_state.right;
-                            col_scale += 1;
-                            var_13 += 1;
-                        }
+                        state = tri_state.right;
+                        col_scale += 1;
+                        var_13 += 1;
+                    }
                         break;
                 }
 
@@ -1001,6 +1018,7 @@ namespace engine
                                 row_scale++;
                             }
                         }
+
                         state = tri_state.start;
                         first_row = false;
                     }
@@ -1058,14 +1076,17 @@ namespace engine
             {
                 gbl.CombatMap[i].size = 0;
             }
+
             ovr033.setup_mapToPlayerIndex_and_playerScreen();
 
             gbl.team_start_x[0] = 0;
             gbl.team_start_y[0] = 0;
             gbl.team_direction[0] = gbl.mapDirection / 2;
 
-            gbl.team_start_x[1] = (gbl.area2_ptr.encounter_distance * gbl.MapDirectionXDelta[gbl.mapDirection]) + gbl.team_start_x[0];
-            gbl.team_start_y[1] = (gbl.area2_ptr.encounter_distance * gbl.MapDirectionYDelta[gbl.mapDirection]) + gbl.team_start_y[0];
+            gbl.team_start_x[1] = (gbl.area2_ptr.encounter_distance * gbl.MapDirectionXDelta[gbl.mapDirection]) +
+                                  gbl.team_start_x[0];
+            gbl.team_start_y[1] = (gbl.area2_ptr.encounter_distance * gbl.MapDirectionYDelta[gbl.mapDirection]) +
+                                  gbl.team_start_y[0];
             gbl.team_direction[1] = ((gbl.mapDirection + 4) % 8) / 2;
 
             gbl.half_team_count[0] = (gbl.friends_count + 1) / 2;
@@ -1113,7 +1134,7 @@ namespace engine
 
                 gbl.player_array[loop_var] = player;
 
-                gbl.currentTeam = (sbyte)player.combat_team;
+                gbl.currentTeam = (sbyte) player.combat_team;
 
                 gbl.CombatMap[loop_var].size = player.field_DE & 7;
 
@@ -1179,9 +1200,9 @@ namespace engine
             gbl.current_head_id = 0xff;
             gbl.current_body_id = 0xff;
             ovr027.ClearPromptArea();
-            seg041.GameDelay();
+            Seg041.GameDelay();
 
-            seg041.displayString("A battle begins...", 0, 0x0a, 0x18, 0);
+            Seg041.displayString("A battle begins...", 0, 0x0a, 0x18, 0);
 
             gbl.AutoPCsCastMagic = false; // TODO review this...
             gbl.combat_round = 0;

@@ -131,7 +131,6 @@ namespace engine
             gbl.area2_ptr = new Area2();
             gbl.stru_1B2CA = new Struct_1B2CA();
             gbl.ecl_ptr = new EclBlock();
-            gbl.dax_8x8d1_201 = new byte[177, 8];
             gbl.geo_ptr.LoadData(new byte[0x402]);
 
             ovr016.BuildEffectNameMap();
@@ -248,9 +247,9 @@ namespace engine
             gbl.sky_dax_251 = null;
             gbl.sky_dax_252 = null;
             gbl.gameWon = false;
-            seg041.Load8x8Tiles();
+            Seg041.Load8x8Tiles();
             ovr027.ClearPromptArea();
-            seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+            Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
 
             ovr038.Load8x8D(4, 0xca);
             ovr038.Load8x8D(0, 0xcb);

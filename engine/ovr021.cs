@@ -1,11 +1,11 @@
-using Classes;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
     class ovr021
     {
-        static int[] timeScales = { 10, 10, 6, 24, 30, 12, 0x100 }; //word_1A13C
+        static int[] timeScales = {10, 10, 6, 24, 30, 12, 0x100}; //word_1A13C
 
 
         static void CheckAffectsTimingOut(int timeSlot, int timeSteps) // sub_5801E
@@ -68,7 +68,7 @@ namespace engine
                             }
                             else if (var_3 < affect.minutes)
                             {
-                                affect.minutes -= (ushort)var_3;
+                                affect.minutes -= (ushort) var_3;
                                 gbl.affects_timed_out[player_count] = true;
                             }
                             else
@@ -111,12 +111,13 @@ namespace engine
         {
             for (int i = 0; i <= 6; i++)
             {
-                if (arg_0[i] >= timeScales[i])/* short arrays */
+                if (arg_0[i] >= timeScales[i]) /* short arrays */
                 {
                     if (i != 6)
                     {
                         arg_0[i + 1] += 1;
-                        arg_0[i] -= timeScales[i]; ;
+                        arg_0[i] -= timeScales[i];
+                        ;
                     }
                     else
                     {
@@ -165,7 +166,7 @@ namespace engine
 
             for (int i = 0; i <= 6; i++)
             {
-                gbl.area_ptr.field_6A00_Set(0x6A00 + ((0x4BC6 + i) * 2), (ushort)rest_time[i]);
+                gbl.area_ptr.field_6A00_Set(0x6A00 + ((0x4BC6 + i) * 2), (ushort) rest_time[i]);
             }
 
             CheckAffectsTimingOut(time_slot, amount);
@@ -184,7 +185,7 @@ namespace engine
                     int var_1 = time_index + 1;
 
                     while (gbl.timeToRest[var_1] == 0 &&
-                        var_1 < 5)
+                           var_1 < 5)
                     {
                         var_1 += 1;
                     }
@@ -228,26 +229,26 @@ namespace engine
 
             colors[highlight_time] = 15;
 
-            seg041.displayString("Rest Time:", 0, 10, 17, 1);
+            Seg041.displayString("Rest Time:", 0, 10, 17, 1);
             int col_x = 11;
 
             string text = format_time(gbl.timeToRest.field_8);
-            seg041.displayString(text, 0, colors[4], 0x11, col_x + 1);
-            seg041.displayString(":", 0, 10, 17, col_x + 3);
+            Seg041.displayString(text, 0, colors[4], 0x11, col_x + 1);
+            Seg041.displayString(":", 0, 10, 17, col_x + 3);
             col_x += 3;
 
             text = format_time(gbl.timeToRest.field_6);
-            seg041.displayString(text, 0, colors[3], 0x11, col_x + 1);
-            seg041.displayString(":", 0, 10, 17, col_x + 3);
+            Seg041.displayString(text, 0, colors[3], 0x11, col_x + 1);
+            Seg041.displayString(":", 0, 10, 17, col_x + 3);
             col_x += 3;
 
             text = format_time((gbl.timeToRest.field_4 * 10) + gbl.timeToRest.field_2);
 
-            seg041.displayString(text, 0, colors[2], 0x11, col_x + 1);
+            Seg041.displayString(text, 0, colors[2], 0x11, col_x + 1);
         }
 
 
-        static Set unk_58731 = new Set(0, 69, 82 );
+        static Set unk_58731 = new Set(0, 69, 82);
 
         static bool resting_time_menu() /* sub_58751 */
         {
@@ -261,7 +262,8 @@ namespace engine
                 display_resting_time(time_index);
                 bool control_key;
 
-                input_key = ovr027.displayInput(out control_key, false, 1, gbl.defaultMenuColors, "Rest Days Hours Mins Add Subtract Exit", string.Empty);
+                input_key = ovr027.displayInput(out control_key, false, 1, gbl.defaultMenuColors,
+                    "Rest Days Hours Mins Add Subtract Exit", string.Empty);
 
                 if (control_key == true)
                 {
@@ -291,6 +293,7 @@ namespace engine
                             {
                                 time_index = 4;
                             }
+
                             input_key = 'X';
                             break;
 
@@ -376,14 +379,14 @@ namespace engine
                     display_resting_time(0);
                 }
 
-                seg041.displayString("The Whole Party Is Healed", 0, 10, 19, 1);
+                Seg041.displayString("The Whole Party Is Healed", 0, 10, 19, 1);
 
                 if (update_ui)
                 {
                     ovr025.PartySummary(gbl.SelectedPlayer);
                 }
 
-                seg041.GameDelay();
+                Seg041.GameDelay();
                 ovr025.ClearPlayerTextArea();
                 gbl.rest_10_seconds = 0;
             }
@@ -422,16 +425,17 @@ namespace engine
                 {
                     for (int spellIdx = 1; spellIdx < 4 && next_scribe_lvl == 0; spellIdx++)
                     {
-                        if (item.getAffect(spellIdx) > (Affects)0x80)
+                        if (item.getAffect(spellIdx) > (Affects) 0x80)
                         {
                             if (findNext == true)
                             {
-                                next_scribe_lvl = gbl.spellCastingTable[(int)item.getAffect(spellIdx) & 0x7F].spellLevel;
+                                next_scribe_lvl = gbl.spellCastingTable[(int) item.getAffect(spellIdx) & 0x7F]
+                                    .spellLevel;
                             }
                             else
                             {
-                                byte spellId = (byte)((int)item.getAffect(spellIdx) & 0x7F);
-                                player.LearnSpell((Spells)spellId);
+                                byte spellId = (byte) ((int) item.getAffect(spellIdx) & 0x7F);
+                                player.LearnSpell((Spells) spellId);
                                 ovr023.remove_spell_from_scroll(spellId, item, player);
 
                                 display_resting_time(0);
@@ -546,10 +550,10 @@ namespace engine
             }
 
             while (stop_resting == false &&
-                (gbl.timeToRest.field_8 > 0 ||
-                 gbl.timeToRest.field_6 > 0 ||
-                 gbl.timeToRest.field_4 > 0 ||
-                 gbl.timeToRest.field_2 > 0))
+                   (gbl.timeToRest.field_8 > 0 ||
+                    gbl.timeToRest.field_6 > 0 ||
+                    gbl.timeToRest.field_4 > 0 ||
+                    gbl.timeToRest.field_2 > 0))
             {
                 if (interactive_resting == true &&
                     seg049.KEYPRESSED() == true)
@@ -595,10 +599,10 @@ namespace engine
                             {
                                 ovr025.ClearPlayerTextArea();
                                 display_resting_time(0);
-                                seg041.displayString("Your repose is suddenly interrupted!", 0, 15, 0x13, 1);
+                                Seg041.displayString("Your repose is suddenly interrupted!", 0, 15, 0x13, 1);
                                 stop_resting = true;
                                 resting_intetrupted = true;
-                                seg041.GameDelay();
+                                Seg041.GameDelay();
                             }
                         }
                     }

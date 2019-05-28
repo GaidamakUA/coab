@@ -42,6 +42,7 @@ namespace engine
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -158,13 +159,12 @@ namespace engine
                             }
                         }
                         else if (player.stats2.Str00.cur >= 51 &&
-                            player.stats2.Str00.cur <= 99)
+                                 player.stats2.Str00.cur <= 99)
                         {
                             if (ovr024.roll_dice(6, 1) <= 4)
                             {
                                 bash_worked = true;
                             }
-
                         }
                         else if (player.stats2.Str00.cur == 100)
                         {
@@ -256,7 +256,7 @@ namespace engine
 
         static bool TeamMemberHasSpell(Spells spellId)
         {
-            return gbl.TeamList.Exists(p => p.spellList.HasSpell((int)spellId));
+            return gbl.TeamList.Exists(p => p.spellList.HasSpell((int) spellId));
         }
 
 
@@ -264,9 +264,9 @@ namespace engine
         {
             foreach (Player player in gbl.TeamList)
             {
-                if (player.spellList.HasSpell((int)Spells.knock))
+                if (player.spellList.HasSpell((int) Spells.knock))
                 {
-                    player.spellList.ClearSpell((int)Spells.knock);
+                    player.spellList.ClearSpell((int) Spells.knock);
                     return true;
                 }
             }
@@ -359,7 +359,8 @@ namespace engine
                 {
                     bool special_key;
 
-                    input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors, "Area Cast View Encamp Search Look", string.Empty);
+                    input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors,
+                        "Area Cast View Encamp Search Look", string.Empty);
 
                     if (special_key == false)
                     {
@@ -375,8 +376,9 @@ namespace engine
                                 }
                                 else
                                 {
-                                    seg041.DisplayStatusText(0, 14, "Not Here");
+                                    Seg041.DisplayStatusText(0, 14, "Not Here");
                                 }
+
                                 break;
 
                             case 'C':
@@ -385,6 +387,7 @@ namespace engine
                                     gbl.menuSelectedWord = 1;
                                     ovr016.cast_spell();
                                 }
+
                                 break;
 
                             case 'V':
@@ -419,14 +422,14 @@ namespace engine
                                 break;
 
                             case 'P': // turn 180
-                                gbl.mapDirection = (byte)((gbl.mapDirection + 4) % 8);
+                                gbl.mapDirection = (byte) ((gbl.mapDirection + 4) % 8);
 
                                 gbl.mapWallType = ovr031.getMap_wall_type(gbl.mapDirection, gbl.mapPosY, gbl.mapPosX);
                                 ovr031.Draw3dWorld(gbl.mapDirection, gbl.mapPosY, gbl.mapPosX);
                                 break;
 
                             case 'K': // turn left
-                                gbl.mapDirection = (byte)((gbl.mapDirection + 6) % 8);
+                                gbl.mapDirection = (byte) ((gbl.mapDirection + 6) % 8);
 
                                 seg044.PlaySound(Sound.sound_a);
                                 gbl.mapWallType = ovr031.getMap_wall_type(gbl.mapDirection, gbl.mapPosY, gbl.mapPosX);
@@ -434,7 +437,7 @@ namespace engine
                                 break;
 
                             case 'M': // turn right
-                                gbl.mapDirection = (byte)((gbl.mapDirection + 2) % 8);
+                                gbl.mapDirection = (byte) ((gbl.mapDirection + 2) % 8);
 
                                 seg044.PlaySound(Sound.sound_a);
 
@@ -450,7 +453,6 @@ namespace engine
                     }
 
                     ovr025.display_map_position_time();
-
                 } while (stop_loop == false);
             }
 

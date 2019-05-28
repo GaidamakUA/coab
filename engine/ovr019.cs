@@ -97,14 +97,14 @@ namespace engine
 
                 if (var_3[var_5] > 1)
                 {
-                    unk_1ADFB[var_5].field_2 = (byte)(var_3[var_5] + 8);
+                    unk_1ADFB[var_5].field_2 = (byte) (var_3[var_5] + 8);
                 }
 
                 unk_1ADFB[var_5].field_3 = var_3[var_5];
 
                 unk_1ADFB[var_5].field_4 = 1;
 
-                byte var_15 = (byte)(seg051.Random(20) + 25);
+                byte var_15 = (byte) (seg051.Random(20) + 25);
 
                 if (gbl.byte_1ADFA < var_15)
                 {
@@ -118,10 +118,10 @@ namespace engine
                 var_12 = seg051.Random__Real() * (System.Math.PI * 2.0);
 
                 d = (seg051.Random(10) + 24) * System.Math.Sin(var_C) * System.Math.Sin(var_12);
-                int var_1A = (int)d + arg_6;
+                int var_1A = (int) d + arg_6;
 
                 d = (seg051.Random(10) + 24) * System.Math.Cos(var_C) * System.Math.Sin(var_12);
-                int var_1C = (int)d + arg_4;
+                int var_1C = (int) d + arg_4;
 
                 for (int var_4 = 1; var_4 <= 0x28; var_4++)
                 {
@@ -132,22 +132,22 @@ namespace engine
 
                     var_21.field_00 = arg_A;
                     var_21.field_02 = arg_8;
-                    var_21.field_08 = (short)(var_21.field_00 << 5);
-                    var_21.field_0A = (short)(var_21.field_02 << 5);
+                    var_21.field_08 = (short) (var_21.field_00 << 5);
+                    var_21.field_0A = (short) (var_21.field_02 << 5);
 
                     d = System.Math.Sin(var_C) * 16.0 * System.Math.Sin(var_12);
 
-                    var_21.field_0C = (short)(var_1A + ((ushort)d));
+                    var_21.field_0C = (short) (var_1A + ((ushort) d));
 
                     d = System.Math.Cos(var_C) * 16.0 * System.Math.Sin(var_12);
-                    var_21.field_0E = (short)(var_1C + ((ushort)d));
+                    var_21.field_0E = (short) (var_1C + ((ushort) d));
 
                     var_21.field_10 = 1;
                     var_21.field_12 = 1;
 
-                    var_21.field_13 = (byte)(var_16 + seg051.Random(7) - 4);
-                    var_21.field_14 = (byte)(var_18 + seg051.Random(11) - 6);
-                    var_21.field_15 = (byte)(var_15 + seg051.Random(7));
+                    var_21.field_13 = (byte) (var_16 + seg051.Random(7) - 4);
+                    var_21.field_14 = (byte) (var_18 + seg051.Random(11) - 6);
+                    var_21.field_15 = (byte) (var_15 + seg051.Random(7));
 
                     /*HACK commented out this code as it does not make sense
                     var_21.field_16 = var_21.field_16;
@@ -171,8 +171,8 @@ namespace engine
 
                     var_7.field_08 = var_7.field_0C;
                     var_7.field_0A = var_7.field_0E;
-                    var_7.field_04 = (short)(var_7.field_08 / 0x20);
-                    var_7.field_06 = (short)(var_7.field_0A / 0x20);
+                    var_7.field_04 = (short) (var_7.field_08 / 0x20);
+                    var_7.field_06 = (short) (var_7.field_0A / 0x20);
 
                     if (var_1 == 0)
                     {
@@ -216,8 +216,8 @@ namespace engine
                 {
                     Struct_1ADF6 var_7 = arg_2[var_2 + (var_3 * 40)];
 
-                    var_7.field_00 = (ushort)var_7.field_04;
-                    var_7.field_02 = (ushort)var_7.field_06;
+                    var_7.field_00 = (ushort) var_7.field_04;
+                    var_7.field_02 = (ushort) var_7.field_06;
 
                     if (var_7.field_02 > 8 &&
                         var_7.field_02 < 0x41)
@@ -274,7 +274,8 @@ namespace engine
         }
 
 
-        internal static void endgame_5285E(byte arg_0, short arg_2, ref short arg_4, ref ushort arg_8, ref ushort arg_C, ref ushort arg_10) /* sub_5285E */
+        internal static void endgame_5285E(byte arg_0, short arg_2, ref short arg_4, ref ushort arg_8, ref ushort arg_C,
+            ref ushort arg_10) /* sub_5285E */
         {
             short var_D;
             byte var_B;
@@ -289,8 +290,8 @@ namespace engine
                 sub_52068();
             }
 
-            var_6 = (ushort)(arg_10 << 5);
-            var_8 = (ushort)(arg_C << 5);
+            var_6 = (ushort) (arg_10 << 5);
+            var_8 = (ushort) (arg_C << 5);
 
 
             if (arg_0 != 0 &&
@@ -310,10 +311,10 @@ namespace engine
             for (var_A = 1; var_A <= var_D; var_A++)
             {
                 var_6 += arg_8;
-                var_8 += (ushort)(arg_4 + 1);
+                var_8 += (ushort) (arg_4 + 1);
 
-                var_2 = (ushort)(var_6 / 0x20);
-                var_4 = (ushort)(var_8 / 0x20);
+                var_2 = (ushort) (var_6 / 0x20);
+                var_4 = (ushort) (var_8 / 0x20);
 
                 arg_4 += 1;
 
@@ -325,7 +326,7 @@ namespace engine
 
                     var_B = GetPixel(var_4, var_2);
 
-                    SetPixel((byte)(seg051.Random(7) + 8), var_4, var_2);
+                    SetPixel((byte) (seg051.Random(7) + 8), var_4, var_2);
                 }
 
                 seg049.SysDelay(0x0F);
@@ -342,10 +343,10 @@ namespace engine
             }
 
             var_6 += arg_8;
-            var_8 += (ushort)(arg_4 + 1);
+            var_8 += (ushort) (arg_4 + 1);
 
-            var_2 = (ushort)(var_6 / 0x20);
-            var_4 = (ushort)(var_8 / 0x20);
+            var_2 = (ushort) (var_6 / 0x20);
+            var_4 = (ushort) (var_8 / 0x20);
 
             arg_4 += 1;
             arg_10 = var_2;
@@ -360,6 +361,7 @@ namespace engine
             {
                 gbl.dword_1ADF6[i] = new Struct_1ADF6();
             }
+
             gbl.byte_1AE0A = 0;
 
             do
@@ -368,23 +370,24 @@ namespace engine
                     seg051.Random(10000) < 1)
                 {
                     seg051.FillChar(1, 3, gbl.unk_1AE0B);
-                    gbl.byte_1AE1B = seg051.Random((byte)2);
+                    gbl.byte_1AE1B = seg051.Random((byte) 2);
 
                     for (byte i = 0; i < gbl.byte_1AE1B; i++)
                     {
-                        gbl.unk_1AE0B[i] = (byte)(seg051.Random(5) + 2);
+                        gbl.unk_1AE0B[i] = (byte) (seg051.Random(5) + 2);
                     }
 
                     gbl.word_1AE0F = 65;
                     gbl.word_1AE11 = 65;
-                    gbl.word_1AE13 = (ushort)(seg051.Random(20) + 35);
+                    gbl.word_1AE13 = (ushort) (seg051.Random(20) + 35);
 
-                    gbl.word_1AE15 = (short)(-(seg051.Random(5) + 50));
+                    gbl.word_1AE15 = (short) (-(seg051.Random(5) + 50));
 
                     gbl.word_1AE19 = gbl.word_1AE15;
                     gbl.word_1AE17 = gbl.word_1AE13;
 
-                    endgame_5285E(0, 0x3C, ref gbl.word_1AE15, ref gbl.word_1AE13, ref gbl.word_1AE11, ref gbl.word_1AE0F);
+                    endgame_5285E(0, 0x3C, ref gbl.word_1AE15, ref gbl.word_1AE13, ref gbl.word_1AE11,
+                        ref gbl.word_1AE0F);
                     sub_520B8(gbl.unk_1AE0B, gbl.word_1AE15, gbl.word_1AE13, gbl.word_1AE11, gbl.word_1AE0F);
 
                     gbl.word_1AE13 = gbl.word_1AE17;
@@ -393,9 +396,11 @@ namespace engine
                     gbl.word_1AE0F = 0x41;
                     gbl.word_1AE11 = 0x41;
 
-                    endgame_5285E(1, 0x3C, ref gbl.word_1AE15, ref gbl.word_1AE13, ref gbl.word_1AE11, ref gbl.word_1AE0F);
+                    endgame_5285E(1, 0x3C, ref gbl.word_1AE15, ref gbl.word_1AE13, ref gbl.word_1AE11,
+                        ref gbl.word_1AE0F);
 
-                    sub_5279B(gbl.unk_1AE0B);/*TODO - extra params - gbl.word_1AE15, gbl.word_1AE13, gbl.word_1AE11, gbl.word_1AE0F );*/
+                    sub_5279B(gbl
+                        .unk_1AE0B); /*TODO - extra params - gbl.word_1AE15, gbl.word_1AE13, gbl.word_1AE11, gbl.word_1AE0F );*/
 
                     if (seg049.KEYPRESSED() == true)
                     {
@@ -411,7 +416,7 @@ namespace engine
         internal static void ShowAnimation(int num_loops, byte block_id, short row_y, short col_x) // sub_52B79
         {
             int loop_count = 0;
-            int start_time = seg041.time01();
+            int start_time = Seg041.time01();
 
             DaxArray animation = new DaxArray();
 
@@ -422,7 +427,7 @@ namespace engine
             do
             {
                 ovr030.DrawMaybeOverlayed(animation.CurrentPicture(), true, row_y, col_x);
-                int current_time = seg041.time01();
+                int current_time = Seg041.time01();
 
                 int delay = animation.CurrentDelay() * (gbl.game_speed_var + 3);
 
@@ -470,42 +475,41 @@ namespace engine
         static string aFromTheNearbyS = "from the nearby stands. 'You have won!'";
 
 
-
         internal static void end_game_text()
         {
             gbl.last_game_state = gbl.game_state;
             gbl.game_state = GameState.EndGame;
 
-            seg041.press_any_key(aTyranthraxusSp, true, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aStormGiant_You, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aTheAmuletOfLyt, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aYouOfYourVicto, false, 10, TextRegion.NormalBottom);
-            seg041.DisplayAndPause("Press any key to continue.", 13);
+            Seg041.press_any_key(aTyranthraxusSp, true, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aStormGiant_You, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aTheAmuletOfLyt, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aYouOfYourVicto, false, 10, TextRegion.NormalBottom);
+            Seg041.DisplayAndPause("Press any key to continue.", 13);
 
-            seg041.press_any_key(aAsYouReachForT, true, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aOutKeepTheGaun, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aWillUnleashDan, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aGauntletContac, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aAsYouReachForT, true, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aOutKeepTheGaun, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aWillUnleashDan, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aGauntletContac, false, 10, TextRegion.NormalBottom);
 
             ShowAnimation(1, 0x4a, 3, 3);
 
-            seg041.DisplayAndPause("Press any key to continue.", 13);
+            Seg041.DisplayAndPause("Press any key to continue.", 13);
             ovr027.ClearPromptArea();
 
-            seg041.press_any_key(aIAmTrappedWith, true, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aWhereArmiesHav, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aIsSlainThisDay, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aNothingness_, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aIAmTrappedWith, true, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aWhereArmiesHav, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aIsSlainThisDay, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aNothingness_, false, 10, TextRegion.NormalBottom);
 
             ShowAnimation(1, 0x4B, 3, 3);
 
-            seg041.DisplayAndPause("Press any key to continue.", 13);
+            Seg041.DisplayAndPause("Press any key to continue.", 13);
             ovr027.ClearPromptArea();
 
-            seg041.press_any_key(aYouAreCertainH, true, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aFinalBondFades, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aHasFinallyBeen, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aLast, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aYouAreCertainH, true, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aFinalBondFades, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aHasFinallyBeen, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aLast, false, 10, TextRegion.NormalBottom);
 
             gbl.area_ptr.picture_fade = 1;
 
@@ -516,21 +520,21 @@ namespace engine
             ovr030.head_body(0x41, 0x41);
             ovr030.draw_head_and_body(true, 3, 3);
 
-            seg041.press_any_key(aTheKnightsOfMy, true, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aCongratulati_0, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aWithThePowerOf, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aThisFoulPlaceT, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aTheKnightsOfMy, true, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aCongratulati_0, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aWithThePowerOf, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aThisFoulPlaceT, false, 10, TextRegion.NormalBottom);
 
-            seg041.DisplayAndPause("Press any key to continue.", 13);
+            Seg041.DisplayAndPause("Press any key to continue.", 13);
             ovr027.ClearPromptArea();
             ovr030.load_bigpic(0x7A);
 
             ovr030.draw_bigpic();
 
-            seg041.press_any_key(aYouAreTeleport, true, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aHaveAlreadyBeg, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aGharriAndNacac, false, 10, TextRegion.NormalBottom);
-            seg041.press_any_key(aFromTheNearbyS, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aYouAreTeleport, true, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aHaveAlreadyBeg, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aGharriAndNacac, false, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(aFromTheNearbyS, false, 10, TextRegion.NormalBottom);
             endgame_529F4();
 
             gbl.game_state = gbl.last_game_state;

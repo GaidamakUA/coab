@@ -1,5 +1,5 @@
-using Classes;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
@@ -78,6 +78,7 @@ namespace engine
                     val = item_ptr._value;
                     break;
             }
+
             return val;
         }
 
@@ -208,6 +209,7 @@ namespace engine
                         {
                             ovr022.poolMoney();
                         }
+
                         break;
 
 
@@ -225,8 +227,11 @@ namespace engine
 
                         if (money_on_ground == true)
                         {
-                            seg041.press_any_key("As you Leave the Shopkeeper says, \"Excuse me but you have Left Some Money here.\"  ", true, 10, TextRegion.NormalBottom);
-                            seg041.press_any_key("Do you want to go back and get your Money?", false, 15, TextRegion.NormalBottom);
+                            Seg041.press_any_key(
+                                "As you Leave the Shopkeeper says, \"Excuse me but you have Left Some Money here.\"  ",
+                                true, 10, TextRegion.NormalBottom);
+                            Seg041.press_any_key("Do you want to go back and get your Money?", false, 15,
+                                TextRegion.NormalBottom);
 
                             int menu_selected = ovr008.sub_317AA(false, false, gbl.defaultMenuColors, "~Yes ~No", "");
 
@@ -243,6 +248,7 @@ namespace engine
                         {
                             exitShop = true;
                         }
+
                         break;
 
                     case 'G':
@@ -266,7 +272,6 @@ namespace engine
                 }
 
                 ovr025.PartySummary(gbl.SelectedPlayer);
-
             } while (exitShop == false);
         }
     }

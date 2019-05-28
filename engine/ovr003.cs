@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Classes;
 using Logging;
-using System.Collections.Generic;
 
 namespace engine
 {
@@ -101,27 +101,28 @@ namespace engine
             switch (gbl.command)
             {
                 case 4:
-                    value = (ushort)(val_a + val_b);
+                    value = (ushort) (val_a + val_b);
                     break;
 
                 case 5:
-                    value = (ushort)(val_b - val_a);
+                    value = (ushort) (val_b - val_a);
                     break;
 
                 case 6:
-                    value = (ushort)(val_a / val_b);
-                    gbl.area2_ptr.field_67E = (short)(val_a % val_b);
+                    value = (ushort) (val_a / val_b);
+                    gbl.area2_ptr.field_67E = (short) (val_a % val_b);
                     break;
 
                 case 7:
-                    value = (ushort)(val_a * val_b);
+                    value = (ushort) (val_a * val_b);
                     break;
 
                 default:
                     value = 0;
                     throw (new System.Exception("can't get here."));
             }
-            string[] sym = { "", "", "", "", "A + B", "B - A", "A / B", "A * B" };
+
+            string[] sym = {"", "", "", "", "A + B", "B - A", "A / B", "A * B"};
             VmLog.WriteLine("CMD_AdSubDivMulti: {0} A: {1} B: {2} Loc: {3} Res: {4}",
                 sym[gbl.command], val_a, val_b, new MemLoc(location), value);
 
@@ -133,7 +134,7 @@ namespace engine
         {
             ovr008.vm_LoadCmdSets(2);
 
-            byte rand_max = (byte)ovr008.vm_GetCmdValue(1);
+            byte rand_max = (byte) ovr008.vm_GetCmdValue(1);
 
             if (rand_max < 0xff)
             {
@@ -175,7 +176,7 @@ namespace engine
         {
             ovr008.vm_LoadCmdSets(1);
 
-            int player_index = (byte)ovr008.vm_GetCmdValue(1);
+            int player_index = (byte) ovr008.vm_GetCmdValue(1);
             VmLog.WriteLine("CMD_LoadCharacter: 0x{0:X}", player_index);
 
             gbl.restore_player_ptr = true;
@@ -203,6 +204,7 @@ namespace engine
                 {
                     gbl.restore_player_ptr = false;
                 }
+
                 gbl.SelectedPlayer = ovr018.FreeCurrentPlayer(gbl.SelectedPlayer, true, false);
 
                 ovr025.PartySummary(gbl.SelectedPlayer);
@@ -216,11 +218,12 @@ namespace engine
         {
             ovr008.vm_LoadCmdSets(3);
 
-            byte sprite_id = (byte)ovr008.vm_GetCmdValue(1);
-            byte max_distance = (byte)ovr008.vm_GetCmdValue(2);
-            byte pic_id = (byte)ovr008.vm_GetCmdValue(3);
+            byte sprite_id = (byte) ovr008.vm_GetCmdValue(1);
+            byte max_distance = (byte) ovr008.vm_GetCmdValue(2);
+            byte pic_id = (byte) ovr008.vm_GetCmdValue(3);
 
-            VmLog.WriteLine("CMD_SetupMonster: sprite id: {0} area2_ptr.field_580: {1} pic id: {2}", sprite_id, max_distance, pic_id);
+            VmLog.WriteLine("CMD_SetupMonster: sprite id: {0} area2_ptr.field_580: {1} pic id: {2}", sprite_id,
+                max_distance, pic_id);
 
             gbl.sprite_block_id = sprite_id;
             gbl.area2_ptr.max_encounter_distance = max_distance;
@@ -232,7 +235,9 @@ namespace engine
             {
                 gbl.area2_ptr.encounter_distance = gbl.area2_ptr.max_encounter_distance;
             }
-            ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+
+            ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id,
+                gbl.sprite_block_id);
         }
 
         internal static void CMD_LoadMonster() /* sub_26465 */
@@ -303,8 +308,10 @@ namespace engine
             {
                 gbl.area2_ptr.encounter_distance--;
 
-                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id,
+                    gbl.sprite_block_id);
             }
+
             gbl.ecl_offset++;
         }
 
@@ -312,7 +319,7 @@ namespace engine
         internal static void CMD_Picture() /* sub_26873 */
         {
             ovr008.vm_LoadCmdSets(1);
-            byte blockId = (byte)ovr008.vm_GetCmdValue(1);
+            byte blockId = (byte) ovr008.vm_GetCmdValue(1);
 
             if (blockId != 0xff)
             {
@@ -337,7 +344,7 @@ namespace engine
                 }
                 else
                 {
-                    ovr008.set_and_draw_head_body(blockId, (byte)gbl.area2_ptr.HeadBlockId);
+                    ovr008.set_and_draw_head_body(blockId, (byte) gbl.area2_ptr.HeadBlockId);
                 }
             }
             else
@@ -351,6 +358,7 @@ namespace engine
                     gbl.displayPlayerSprite = false;
                     gbl.byte_1EE8D = true;
                 }
+
                 gbl.encounter_flags[0] = false;
                 gbl.encounter_flags[1] = false;
             }
@@ -363,7 +371,7 @@ namespace engine
 
             ushort loc = gbl.cmd_opps[2].Word;
 
-            ushort var_4 = seg041.getUserInputShort(0, 0x0a, string.Empty);
+            ushort var_4 = Seg041.getUserInputShort(0, 0x0a, string.Empty);
 
             ovr008.vm_SetMemoryValue(var_4, loc);
         }
@@ -375,7 +383,7 @@ namespace engine
 
             ushort loc = gbl.cmd_opps[2].Word;
 
-            string str = seg041.getUserInputString(0x28, 0, 10, string.Empty);
+            string str = Seg041.getUserInputString(0x28, 0, 10, string.Empty);
 
             if (str.Length == 0)
             {
@@ -403,14 +411,14 @@ namespace engine
 
             if (gbl.command == 0x11)
             {
-                seg041.press_any_key(gbl.unk_1D972[1], false, 10, TextRegion.NormalBottom);
+                Seg041.press_any_key(gbl.unk_1D972[1], false, 10, TextRegion.NormalBottom);
             }
             else
             {
                 gbl.textYCol = 0x11;
                 gbl.textXCol = 1;
 
-                seg041.press_any_key(gbl.unk_1D972[1], true, 10, TextRegion.NormalBottom);
+                Seg041.press_any_key(gbl.unk_1D972[1], true, 10, TextRegion.NormalBottom);
             }
 
             gbl.DelayBetweenCharacters = false;
@@ -466,7 +474,7 @@ namespace engine
             gbl.ecl_offset++;
 
             int index = gbl.command - 0x16;
-            string[] types = { "==", "!=", "<", ">", "<=", ">=" };
+            string[] types = {"==", "!=", "<", ">", "<=", ">="};
 
             VmLog.WriteLine("CMD_if: {0} {1}", types[index], gbl.compare_flags[index]);
 
@@ -481,7 +489,7 @@ namespace engine
         {
             ovr008.vm_LoadCmdSets(1);
 
-            byte block_id = (byte)ovr008.vm_GetCmdValue(1);
+            byte block_id = (byte) ovr008.vm_GetCmdValue(1);
 
             VmLog.WriteLine("CMD_NewECL: block_id {0}", block_id);
 
@@ -504,9 +512,9 @@ namespace engine
 
             gbl.byte_1AB0B = true;
 
-            byte var_3 = (byte)ovr008.vm_GetCmdValue(1);
-            byte var_2 = (byte)ovr008.vm_GetCmdValue(2);
-            byte var_1 = (byte)ovr008.vm_GetCmdValue(3);
+            byte var_3 = (byte) ovr008.vm_GetCmdValue(1);
+            byte var_2 = (byte) ovr008.vm_GetCmdValue(2);
+            byte var_1 = (byte) ovr008.vm_GetCmdValue(3);
 
             VmLog.WriteLine("CMD_LoadFile: {0} A: {1} B: {2} C: {3}",
                 gbl.command == 0x21 ? "Files" : "Pieces", var_1, var_2, var_3);
@@ -599,6 +607,7 @@ namespace engine
                     ovr025.PartySummary(gbl.SelectedPlayer);
                     ovr025.display_map_position_time();
                 }
+
                 gbl.byte_1EE98 = false;
             }
         }
@@ -617,15 +626,16 @@ namespace engine
             if (gbl.command == 0x2F)
             {
                 sym = "And";
-                resultant = (byte)(val_a & val_b);
+                resultant = (byte) (val_a & val_b);
             }
             else
             {
                 sym = "Or";
-                resultant = (byte)(val_a | val_b);
+                resultant = (byte) (val_a | val_b);
             }
 
-            VmLog.WriteLine("CMD_AndOr: {0} A: {1} B: {2} Loc: {3} Val: {4}", sym, val_a, val_b, new MemLoc(loc), resultant);
+            VmLog.WriteLine("CMD_AndOr: {0} A: {1} B: {2} Loc: {3} Val: {4}", sym, val_a, val_b, new MemLoc(loc),
+                resultant);
 
             ovr008.compare_variables(resultant, 0);
             ovr008.vm_SetMemoryValue(resultant, loc);
@@ -637,11 +647,11 @@ namespace engine
             ovr008.vm_LoadCmdSets(3);
 
             ushort var_2 = gbl.cmd_opps[1].Word;
-            byte var_9 = (byte)ovr008.vm_GetCmdValue(2);
+            byte var_9 = (byte) ovr008.vm_GetCmdValue(2);
 
             ushort result_loc = gbl.cmd_opps[3].Word;
 
-            ushort var_6 = (ushort)(var_9 + var_2);
+            ushort var_6 = (ushort) (var_9 + var_2);
 
             ushort var_8 = ovr008.vm_GetMemoryValue(var_6);
             ovr008.vm_SetMemoryValue(var_8, result_loc);
@@ -670,7 +680,7 @@ namespace engine
 
             string delay_text = gbl.unk_1D972[1];
 
-            byte menuCount = (byte)ovr008.vm_GetCmdValue(3);
+            byte menuCount = (byte) ovr008.vm_GetCmdValue(3);
             gbl.ecl_offset--;
             ovr008.vm_LoadCmdSets(menuCount);
 
@@ -679,7 +689,7 @@ namespace engine
             gbl.textXCol = 1;
             gbl.textYCol = 0x11;
 
-            seg041.press_any_key(delay_text, true, 10, 22, 38, 17, 1);
+            Seg041.press_any_key(delay_text, true, 10, 22, 38, 17, 1);
 
             for (int i = 0; i < menuCount; i++)
             {
@@ -688,7 +698,7 @@ namespace engine
 
             int index = ovr008.VertMenuSelect(0, true, false, menuList, 0x16, 0x26, gbl.textYCol + 1, 1);
 
-            ovr008.vm_SetMemoryValue((ushort)index, mem_loc);
+            ovr008.vm_SetMemoryValue((ushort) index, mem_loc);
 
             menuList.Clear();
             seg037.draw8x8_clear_area(TextRegion.NormalBottom);
@@ -703,7 +713,7 @@ namespace engine
             ovr008.vm_LoadCmdSets(2);
 
             ushort loc = gbl.cmd_opps[1].Word;
-            byte string_count = (byte)ovr008.vm_GetCmdValue(2);
+            byte string_count = (byte) ovr008.vm_GetCmdValue(2);
 
             gbl.ecl_offset--;
 
@@ -745,7 +755,7 @@ namespace engine
 
             text += "~" + gbl.unk_1D972[string_count];
 
-            byte menu_selected = (byte)ovr008.sub_317AA(useOverlay, var_3B, colors, text, "");
+            byte menu_selected = (byte) ovr008.sub_317AA(useOverlay, var_3B, colors, text, "");
 
             ovr008.vm_SetMemoryValue(menu_selected, loc);
 
@@ -801,7 +811,8 @@ namespace engine
                     hit_bonus = 0;
                 }
 
-                power_value += (byte)(((cleric_power * 4) + hit_points + (armor_class * 5) + (hit_bonus * 5) + (magic_power * 8)) / 10);
+                power_value += (byte) (((cleric_power * 4) + hit_points + (armor_class * 5) + (hit_bonus * 5) +
+                                        (magic_power * 8)) / 10);
             }
 
             ushort loc = gbl.cmd_opps[1].Word;
@@ -810,12 +821,12 @@ namespace engine
 
 
         internal static void setMemoryFour(bool val_d, byte val_c, byte val_b, byte val_a,
-        ushort loc_a, ushort loc_b, ushort loc_c, ushort loc_d) /* sub_273F6 */
+            ushort loc_a, ushort loc_b, ushort loc_c, ushort loc_d) /* sub_273F6 */
         {
             ovr008.vm_SetMemoryValue(val_a, loc_a);
             ovr008.vm_SetMemoryValue(val_b, loc_b);
             ovr008.vm_SetMemoryValue(val_c, loc_c);
-            ovr008.vm_SetMemoryValue(val_d ? (ushort)1 : (ushort)0, loc_d);
+            ovr008.vm_SetMemoryValue(val_d ? (ushort) 1 : (ushort) 0, loc_d);
         }
 
 
@@ -835,7 +846,7 @@ namespace engine
                 var_2 = ovr008.vm_GetCmdValue(1);
             }
 
-            Affects affect_id = (Affects)ovr008.vm_GetCmdValue(2);
+            Affects affect_id = (Affects) ovr008.vm_GetCmdValue(2);
 
             var loc_a = gbl.cmd_opps[3].Word;
             var loc_b = gbl.cmd_opps[4].Word;
@@ -876,7 +887,7 @@ namespace engine
                     var_4 += player.thief_skills[index - 1];
                 }
 
-                val_c = (byte)(var_4 / count);
+                val_c = (byte) (var_4 / count);
 
                 setMemoryFour(false, val_c, val_b, val_a, loc_a, loc_b, loc_c, loc_d);
             }
@@ -900,7 +911,7 @@ namespace engine
                     var_4 += player.movement;
                 }
 
-                val_c = (byte)(var_4 / count);
+                val_c = (byte) (var_4 / count);
 
                 setMemoryFour(false, val_c, val_b, val_a, loc_a, loc_b, loc_c, loc_d);
             }
@@ -936,13 +947,13 @@ namespace engine
             ovr008.vm_LoadCmdSets(4);
             byte val_a = 0;
 
-            byte var_8 = (byte)ovr008.vm_GetCmdValue(1);
-            byte var_7 = (byte)ovr008.vm_GetCmdValue(2);
-            byte var_6 = (byte)ovr008.vm_GetCmdValue(3);
-            byte var_5 = (byte)ovr008.vm_GetCmdValue(4);
+            byte var_8 = (byte) ovr008.vm_GetCmdValue(1);
+            byte var_7 = (byte) ovr008.vm_GetCmdValue(2);
+            byte var_6 = (byte) ovr008.vm_GetCmdValue(3);
+            byte var_5 = (byte) ovr008.vm_GetCmdValue(4);
 
-            byte var_9 = (byte)((var_5 + 2) - var_8);
-            byte var_A = (byte)((var_7 + 2) - var_6);
+            byte var_9 = (byte) ((var_5 + 2) - var_8);
+            byte var_A = (byte) ((var_7 + 2) - var_6);
 
             byte var_1 = ovr024.roll_dice(6, 1);
             byte var_2 = ovr024.roll_dice(6, 1);
@@ -1032,8 +1043,8 @@ namespace engine
         internal static void CMD_OnGotoGoSub() /* sub_27AE5 */
         {
             ovr008.vm_LoadCmdSets(2);
-            byte var_1 = (byte)ovr008.vm_GetCmdValue(1);
-            byte var_2 = (byte)ovr008.vm_GetCmdValue(2);
+            byte var_1 = (byte) ovr008.vm_GetCmdValue(1);
+            byte var_2 = (byte) ovr008.vm_GetCmdValue(2);
             gbl.ecl_offset--;
             ovr008.vm_LoadCmdSets(var_2);
 
@@ -1064,7 +1075,6 @@ namespace engine
         }
 
 
-
         internal static void CMD_Treasure() /* load_item */
         {
             byte[] data;
@@ -1078,7 +1088,7 @@ namespace engine
                 gbl.pooled_money.SetCoins(coin, ovr008.vm_GetCmdValue(coin + 1));
             }
 
-            byte block_id = (byte)ovr008.vm_GetCmdValue(8);
+            byte block_id = (byte) ovr008.vm_GetCmdValue(8);
 
             if (block_id < 0x80)
             {
@@ -1116,7 +1126,7 @@ namespace engine
                             }
                             else
                             {
-                                item_type = (ItemType)var_64;
+                                item_type = (ItemType) var_64;
                             }
                         }
                         else if (var_64 >= 60 && var_64 <= 90)
@@ -1202,11 +1212,11 @@ namespace engine
         internal static void CMD_Rob() /* sub_27F76*/
         {
             ovr008.vm_LoadCmdSets(3);
-            byte allParty = (byte)ovr008.vm_GetCmdValue(1);
-            byte var_2 = (byte)ovr008.vm_GetCmdValue(2);
+            byte allParty = (byte) ovr008.vm_GetCmdValue(1);
+            byte var_2 = (byte) ovr008.vm_GetCmdValue(2);
 
             double percentage = (100 - var_2) / 100.0;
-            int robChance = (byte)ovr008.vm_GetCmdValue(3);
+            int robChance = (byte) ovr008.vm_GetCmdValue(3);
 
             if (allParty == 0)
             {
@@ -1250,15 +1260,15 @@ namespace engine
 
             ovr008.vm_LoadCmdSets(0x0e);
 
-            gbl.sprite_block_id = (byte)ovr008.vm_GetCmdValue(1);
+            gbl.sprite_block_id = (byte) ovr008.vm_GetCmdValue(1);
             gbl.area2_ptr.max_encounter_distance = ovr008.vm_GetCmdValue(2);
-            gbl.pic_block_id = (byte)ovr008.vm_GetCmdValue(3);
+            gbl.pic_block_id = (byte) ovr008.vm_GetCmdValue(3);
 
             var_43D = gbl.cmd_opps[4].Word;
 
             for (int i = 0; i < 5; i++)
             {
-                var_6[i] = (byte)ovr008.vm_GetCmdValue(i + 5);
+                var_6[i] = (byte) ovr008.vm_GetCmdValue(i + 5);
             }
 
             for (int i = 0; i < 3; i++)
@@ -1266,8 +1276,8 @@ namespace engine
                 strings[i] = gbl.unk_1D972[i + 1];
             }
 
-            var_407 = (byte)ovr008.vm_GetCmdValue(0x0d);
-            var_408 = (byte)ovr008.vm_GetCmdValue(0x0e);
+            var_407 = (byte) ovr008.vm_GetCmdValue(0x0d);
+            var_408 = (byte) ovr008.vm_GetCmdValue(0x0e);
 
             gbl.area2_ptr.encounter_distance = ovr008.sub_304B4(gbl.mapDirection, gbl.mapPosY, gbl.mapPosX);
 
@@ -1276,7 +1286,8 @@ namespace engine
                 gbl.area2_ptr.encounter_distance = gbl.area2_ptr.max_encounter_distance;
             }
 
-            ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+            ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id,
+                gbl.sprite_block_id);
 
             do
             {
@@ -1308,6 +1319,7 @@ namespace engine
                             text = strings[var_43B];
                             var_43B++;
                         } while (text.Length == 0 && var_43B < 3);
+
                         break;
 
                     case 1:
@@ -1323,6 +1335,7 @@ namespace engine
                                 var_43B = 0;
                             }
                         } while (text.Length == 0 && var_43B != 1);
+
                         break;
 
                     case 2:
@@ -1337,8 +1350,8 @@ namespace engine
                             {
                                 var_43B = 0;
                             }
-
                         } while (text.Length == 0 && var_43B != 2);
+
                         break;
                 }
 
@@ -1347,7 +1360,7 @@ namespace engine
                     clearTextArea = false;
                 }
 
-                seg041.press_any_key(text, clearTextArea, 10, TextRegion.NormalBottom);
+                Seg041.press_any_key(text, clearTextArea, 10, TextRegion.NormalBottom);
 
                 if (gbl.area2_ptr.encounter_distance == 0 ||
                     gbl.area_ptr.inDungeon == 0)
@@ -1390,6 +1403,7 @@ namespace engine
                                 ovr008.vm_SetMemoryValue(1, var_43D);
                             }
                         }
+
                         break;
 
                     case 1:
@@ -1400,7 +1414,7 @@ namespace engine
                         else if (menu_selected == 1)
                         {
                             init_max = 1;
-                            seg041.press_any_key("Both sides wait.", true, 10, TextRegion.NormalBottom);
+                            Seg041.press_any_key("Both sides wait.", true, 10, TextRegion.NormalBottom);
                         }
                         else if (menu_selected == 2)
                         {
@@ -1412,11 +1426,12 @@ namespace engine
                             {
                                 gbl.area2_ptr.encounter_distance--;
 
-                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance,
+                                    gbl.pic_block_id, gbl.sprite_block_id);
                             }
                             else
                             {
-                                seg041.press_any_key("Both sides wait.", true, 10, TextRegion.NormalBottom);
+                                Seg041.press_any_key("Both sides wait.", true, 10, TextRegion.NormalBottom);
                             }
 
                             init_max = 1;
@@ -1426,7 +1441,8 @@ namespace engine
                             if (gbl.area2_ptr.encounter_distance > 0)
                             {
                                 gbl.area2_ptr.encounter_distance--;
-                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance,
+                                    gbl.pic_block_id, gbl.sprite_block_id);
                                 init_max = 1;
                             }
                             else
@@ -1434,6 +1450,7 @@ namespace engine
                                 ovr008.vm_SetMemoryValue(3, var_43D);
                             }
                         }
+
                         break;
 
                     case 2:
@@ -1445,7 +1462,7 @@ namespace engine
 
                                 gbl.textXCol = 1;
                                 gbl.textYCol = 0x11;
-                                seg041.press_any_key("The monsters flee.", true, 10, TextRegion.NormalBottom);
+                                Seg041.press_any_key("The monsters flee.", true, 10, TextRegion.NormalBottom);
                             }
                             else
                             {
@@ -1458,8 +1475,9 @@ namespace engine
 
                             gbl.textXCol = 1;
                             gbl.textYCol = 0x11;
-                            seg041.press_any_key("The monsters flee.", true, 10, TextRegion.NormalBottom);
+                            Seg041.press_any_key("The monsters flee.", true, 10, TextRegion.NormalBottom);
                         }
+
                         break;
 
                     case 3:
@@ -1473,11 +1491,12 @@ namespace engine
                             {
                                 gbl.area2_ptr.encounter_distance--;
 
-                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance,
+                                    gbl.pic_block_id, gbl.sprite_block_id);
                             }
                             else
                             {
-                                seg041.press_any_key("Both sides wait.", true, 10, TextRegion.NormalBottom);
+                                Seg041.press_any_key("Both sides wait.", true, 10, TextRegion.NormalBottom);
                             }
 
                             init_max = 1;
@@ -1496,10 +1515,12 @@ namespace engine
                             {
                                 gbl.area2_ptr.encounter_distance--;
 
-                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance,
+                                    gbl.pic_block_id, gbl.sprite_block_id);
                                 init_max = 1;
                             }
                         }
+
                         break;
 
                     case 4:
@@ -1509,7 +1530,6 @@ namespace engine
                         }
                         else if (menu_selected == 1 || menu_selected == 3 || menu_selected == 4)
                         {
-
                             if (gbl.area2_ptr.encounter_distance <= 0)
                             {
                                 ovr008.vm_SetMemoryValue(3, var_43D);
@@ -1518,7 +1538,8 @@ namespace engine
                             {
                                 gbl.area2_ptr.encounter_distance -= 1;
 
-                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance, gbl.pic_block_id, gbl.sprite_block_id);
+                                ovr008.sub_30580(gbl.encounter_flags, gbl.area2_ptr.encounter_distance,
+                                    gbl.pic_block_id, gbl.sprite_block_id);
                                 init_max = 1;
                             }
                         }
@@ -1544,10 +1565,11 @@ namespace engine
             byte[] values = new byte[5];
             for (int i = 0; i < 5; i++)
             {
-                values[i] = (byte)ovr008.vm_GetCmdValue(i + 1);
+                values[i] = (byte) ovr008.vm_GetCmdValue(i + 1);
             }
 
-            int menu_selected = ovr008.sub_317AA(false, false, gbl.defaultMenuColors, "~HAUGHTY ~SLY ~NICE ~MEEK ~ABUSIVE", " ");
+            int menu_selected = ovr008.sub_317AA(false, false, gbl.defaultMenuColors,
+                "~HAUGHTY ~SLY ~NICE ~MEEK ~ABUSIVE", " ");
 
             ushort location = gbl.cmd_opps[6].Word;
 
@@ -1561,7 +1583,7 @@ namespace engine
         {
             ovr008.vm_LoadCmdSets(1);
 
-            ItemType item_type = (ItemType)ovr008.vm_GetCmdValue(1);
+            ItemType item_type = (ItemType) ovr008.vm_GetCmdValue(1);
 
             for (int i = 0; i < 6; i++)
             {
@@ -1588,7 +1610,7 @@ namespace engine
         internal static void CMD_Delay()
         {
             gbl.ecl_offset++;
-            seg041.GameDelay();
+            Seg041.GameDelay();
         }
 
 
@@ -1597,11 +1619,11 @@ namespace engine
             Player currentPlayerBackup = gbl.SelectedPlayer;
 
             ovr008.vm_LoadCmdSets(5);
-            byte var_1 = (byte)ovr008.vm_GetCmdValue(1);
+            byte var_1 = (byte) ovr008.vm_GetCmdValue(1);
             int dice_count = ovr008.vm_GetCmdValue(2);
             int dice_size = ovr008.vm_GetCmdValue(3);
             int dam_plus = ovr008.vm_GetCmdValue(4);
-            byte var_6 = (byte)ovr008.vm_GetCmdValue(5);
+            byte var_6 = (byte) ovr008.vm_GetCmdValue(5);
 
             int damage = ovr024.roll_dice(dice_size, dice_count) + dam_plus;
 
@@ -1624,7 +1646,7 @@ namespace engine
                         {
                             ovr008.sub_32200(player03, damage);
                         }
-                        else if (ovr024.RollSavingThrow(saveBonus, (SaveVerseType)bonusType, player03) == false)
+                        else if (ovr024.RollSavingThrow(saveBonus, (SaveVerseType) bonusType, player03) == false)
                         {
                             ovr008.sub_32200(player03, damage);
                         }
@@ -1639,7 +1661,8 @@ namespace engine
                     if ((var_6 & 0x80) != 0)
                     {
                         if (bonusType == 0 ||
-                            ovr024.RollSavingThrow(saveBonus, (SaveVerseType)(bonusType - 1), gbl.SelectedPlayer) == false)
+                            ovr024.RollSavingThrow(saveBonus, (SaveVerseType) (bonusType - 1), gbl.SelectedPlayer) ==
+                            false)
                         {
                             ovr008.sub_32200(gbl.SelectedPlayer, damage);
                         }
@@ -1652,7 +1675,7 @@ namespace engine
                     {
                         Player target = gbl.TeamList[rnd_player_id - 1];
 
-                        if (ovr024.RollSavingThrow(saveBonus, (SaveVerseType)bonusType, target) == false)
+                        if (ovr024.RollSavingThrow(saveBonus, (SaveVerseType) bonusType, target) == false)
                         {
                             ovr008.sub_32200(target, damage);
                         }
@@ -1695,12 +1718,12 @@ namespace engine
                 gbl.textXCol = 2;
                 gbl.textYCol = 2;
 
-                seg041.press_any_key("The entire party is killed!", true, 10, 0x16, 0x26, 1, 1);
+                Seg041.press_any_key("The entire party is killed!", true, 10, 0x16, 0x26, 1, 1);
                 seg049.SysDelay(3000);
             }
 
             gbl.SelectedPlayer = currentPlayerBackup;
-            seg041.DisplayAndPause("press <enter>/<return> to continue", 15);
+            Seg041.DisplayAndPause("press <enter>/<return> to continue", 15);
         }
 
 
@@ -1769,13 +1792,13 @@ namespace engine
         internal static void CMD_AddNPC() // sub_28DCA
         {
             ovr008.vm_LoadCmdSets(2);
-            int npc_id = (byte)ovr008.vm_GetCmdValue(1);
+            int npc_id = (byte) ovr008.vm_GetCmdValue(1);
 
             ovr017.load_npc(npc_id);
 
-            byte morale = (byte)ovr008.vm_GetCmdValue(2);
+            byte morale = (byte) ovr008.vm_GetCmdValue(2);
 
-            gbl.SelectedPlayer.control_morale = (byte)((morale >> 1) + Control.NPC_Base);
+            gbl.SelectedPlayer.control_morale = (byte) ((morale >> 1) + Control.NPC_Base);
 
             ovr025.reclac_player_values(gbl.SelectedPlayer);
             ovr025.PartySummary(gbl.SelectedPlayer);
@@ -1786,7 +1809,7 @@ namespace engine
         {
             ovr008.vm_LoadCmdSets(3);
 
-            byte spell_id = (byte)ovr008.vm_GetCmdValue(1);
+            byte spell_id = (byte) ovr008.vm_GetCmdValue(1);
             ushort loc_a = gbl.cmd_opps[2].Word;
             ushort loc_b = gbl.cmd_opps[3].Word;
 
@@ -1834,7 +1857,7 @@ namespace engine
             ovr008.vm_LoadCmdSets(1);
 
             ushort var_2 = gbl.cmd_opps[1].Word;
-            ushort var_4 = (ushort)(var_2 - 0x7fff);
+            ushort var_4 = (ushort) (var_2 - 0x7fff);
 
             VmLog.WriteLine("CMD_Call: {0:X}", var_4);
 
@@ -1863,6 +1886,7 @@ namespace engine
                             gbl.mapWallType = ovr031.getMap_wall_type(gbl.mapDirection, gbl.mapPosY, gbl.mapPosX);
                         }
                     }
+
                     break;
 
                 case 1:
@@ -1886,6 +1910,7 @@ namespace engine
                     {
                         seg044.PlaySound(Sound.sound_a);
                     }
+
                     break;
 
                 case 0x401F:
@@ -1897,6 +1922,7 @@ namespace engine
                     {
                         gbl.mapWallType = ovr031.getMap_wall_type(gbl.mapDirection, gbl.mapPosY, gbl.mapPosX);
                     }
+
                     break;
 
                 case 0xE804:
@@ -1904,7 +1930,7 @@ namespace engine
 
                     gbl.byte_1D556.NextFrame();
 
-                    seg041.GameDelay();
+                    Seg041.GameDelay();
                     break;
             }
         }
@@ -1929,7 +1955,7 @@ namespace engine
         internal static void CMD_Program() //YourHaveWon
         {
             ovr008.vm_LoadCmdSets(1);
-            byte var_1 = (byte)ovr008.vm_GetCmdValue(1);
+            byte var_1 = (byte) ovr008.vm_GetCmdValue(1);
 
             if (gbl.restore_player_ptr == true)
             {
@@ -2000,6 +2026,7 @@ namespace engine
             {
                 ovr004.copy_protection();
             }
+
             ovr025.LoadPic();
         }
 
@@ -2026,7 +2053,7 @@ namespace engine
             }
 
             ovr008.vm_LoadCmdSets(1);
-            Affects affect_type = (Affects)ovr008.vm_GetCmdValue(1);
+            Affects affect_type = (Affects) ovr008.vm_GetCmdValue(1);
 
             if (gbl.SelectedPlayer.HasAffect(affect_type) == true)
             {
@@ -2042,7 +2069,7 @@ namespace engine
         internal static void CMD_DestroyItems() // sub_292F9
         {
             ovr008.vm_LoadCmdSets(1);
-            ItemType item_type = (ItemType)ovr008.vm_GetCmdValue(1);
+            ItemType item_type = (ItemType) ovr008.vm_GetCmdValue(1);
 
             VmLog.WriteLine("CMD_DestroyItems: type: {0}", item_type);
 
@@ -2053,7 +2080,6 @@ namespace engine
                 ovr025.reclac_player_values(player);
             }
         }
-
 
 
         static Dictionary<int, CmdItem> CommandTable = new Dictionary<int, CmdItem>();
@@ -2165,6 +2191,7 @@ namespace engine
                     {
                         Logger.Debug("{0} 0x{1:X}", cmd.Name(), gbl.command);
                     }
+
                     cmd.Run();
                 }
                 else
@@ -2200,11 +2227,13 @@ namespace engine
 
                 if (gbl.vmFlag01 == false)
                 {
-                    if (((gbl.last_game_state != GameState.DungeonMap || gbl.game_state == GameState.DungeonMap) && gbl.byte_1AB0B == true) ||
+                    if (((gbl.last_game_state != GameState.DungeonMap || gbl.game_state == GameState.DungeonMap) &&
+                         gbl.byte_1AB0B == true) ||
                         (gbl.last_game_state == GameState.DungeonMap && gbl.game_state == GameState.DungeonMap))
                     {
                         ovr029.RedrawView();
                     }
+
                     gbl.vmFlag01 = false;
 
                     RunEclVm(gbl.vm_run_addr_1);
@@ -2219,7 +2248,6 @@ namespace engine
                             ovr025.PartySummary(gbl.SelectedPlayer);
                         }
                     }
-
                 }
             } while (gbl.vmFlag01 == true);
 
@@ -2257,7 +2285,7 @@ namespace engine
             }
             else
             {
-                gbl.EclBlockId = (byte)(gbl.area_ptr.LastEclBlockId);
+                gbl.EclBlockId = (byte) (gbl.area_ptr.LastEclBlockId);
             }
 
             if (gbl.area_ptr.inDungeon == 0)
@@ -2285,6 +2313,7 @@ namespace engine
                 {
                     ovr018.FreeCurrentPlayer(gbl.TeamList[0], true, true);
                 }
+
                 gbl.SelectedPlayer = null;
             }
             else
@@ -2324,7 +2353,7 @@ namespace engine
                     }
 
                     while ((gbl.area2_ptr.search_flags > 1 || char.ToUpper(var_1) == 'E') &&
-                        gbl.party_killed == false)
+                           gbl.party_killed == false)
                     {
                         if (char.ToUpper(var_1) == 'E')
                         {
@@ -2344,7 +2373,7 @@ namespace engine
                                 sub_29677();
                             }
 
-                            gbl.area2_ptr.search_flags = (ushort)gbl.search_flag_bkup;
+                            gbl.area2_ptr.search_flags = (ushort) gbl.search_flag_bkup;
                         }
 
                         if (gbl.party_killed == false)
@@ -2368,8 +2397,8 @@ namespace engine
                     {
                         if (gbl.party_killed == false)
                         {
-                            gbl.area_ptr.lastXPos = (short)gbl.mapPosX;
-                            gbl.area_ptr.lastYPos = (short)gbl.mapPosY;
+                            gbl.area_ptr.lastXPos = (short) gbl.mapPosX;
+                            gbl.area_ptr.lastYPos = (short) gbl.mapPosY;
 
                             ovr015.locked_door();
                             ovr029.RedrawView();

@@ -1,5 +1,5 @@
-using Classes;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
@@ -58,7 +58,7 @@ namespace engine
         internal static short AskNumberValue(byte fgColor, string prompt, int maxValue) // sub_592AD
         {
             ovr027.ClearPromptAreaNoUpdate();
-            seg041.displayString(prompt, 0, fgColor, 0x18, 0);
+            Seg041.displayString(prompt, 0, fgColor, 0x18, 0);
 
             int prompt_width = prompt.Length;
             int xCol = prompt_width;
@@ -69,7 +69,7 @@ namespace engine
 
             do
             {
-                inputKey = (char)seg043.GetInputKey();
+                inputKey = (char) seg043.GetInputKey();
 
                 if (inputKey >= 0x30 &&
                     inputKey <= 0x39)
@@ -89,14 +89,14 @@ namespace engine
                         xCol = maxValueStr.Length + prompt_width;
                     }
 
-                    seg041.displayString(currentValueStr, 0, 15, 0x18, prompt_width);
+                    Seg041.displayString(currentValueStr, 0, 15, 0x18, prompt_width);
                 }
                 else if (inputKey == 8 && currentValueStr.Length > 0)
                 {
                     int i = currentValueStr.Length - 1;
                     currentValueStr = seg051.Copy(i, 0, currentValueStr);
 
-					seg041.displaySpaceChar(0x18, xCol-1);
+                    Seg041.DisplaySpaceChar(0x18, xCol - 1);
                     xCol--;
                 }
             } while (inputKey != 0x0D && inputKey != 0x1B);
@@ -104,7 +104,7 @@ namespace engine
             ovr027.ClearPromptAreaNoUpdate();
 
             int var_44;
-            if (inputKey == 0x1B || 
+            if (inputKey == 0x1B ||
                 (inputKey == 0x0D && currentValueStr.Length == 0))
             {
                 var_44 = 0;
@@ -114,7 +114,7 @@ namespace engine
                 var_44 = int.Parse(currentValueStr);
             }
 
-            return (short)var_44;
+            return (short) var_44;
         }
 
 
@@ -147,6 +147,7 @@ namespace engine
                     {
                         player.RemoveWeight(player.Money.GetCoins(coin));
                     }
+
                     player.Money.ClearAll();
                 }
             }
@@ -347,63 +348,64 @@ namespace engine
         }
 
 
-		internal static void TakePoolMoney() // takeItems
-		{
-			bool noMoneyLeft;
+        internal static void TakePoolMoney() // takeItems
+        {
+            bool noMoneyLeft;
 
-			List<MenuItem> money = new List<MenuItem>();
+            List<MenuItem> money = new List<MenuItem>();
 
-			seg037.DrawFrame_Outer();
+            seg037.DrawFrame_Outer();
 
-			do
-			{
-				bool var_118 = true;
+            do
+            {
+                bool var_118 = true;
 
-				money.Clear();
+                money.Clear();
 
-				for (int coin = 6; coin >= 0; coin--)
-				{
-					if (gbl.pooled_money.GetCoins(coin) > 0)
-					{
-						money.Add(new MenuItem(string.Format("{0} {1}", Money.names[coin], gbl.pooled_money.GetCoins(coin))));
-					}
-				}
+                for (int coin = 6; coin >= 0; coin--)
+                {
+                    if (gbl.pooled_money.GetCoins(coin) > 0)
+                    {
+                        money.Add(new MenuItem(string.Format("{0} {1}", Money.names[coin],
+                            gbl.pooled_money.GetCoins(coin))));
+                    }
+                }
 
-				int dummyIndex = 0;
+                int dummyIndex = 0;
 
-				MenuItem var_C;
-				char input_key = ovr027.sl_select_item(out var_C, ref dummyIndex, ref var_118, true, money,
-					8, 15, 2, 2, gbl.defaultMenuColors, "Select", "Select type of coin ");
+                MenuItem var_C;
+                char input_key = ovr027.sl_select_item(out var_C, ref dummyIndex, ref var_118, true, money,
+                    8, 15, 2, 2, gbl.defaultMenuColors, "Select", "Select type of coin ");
 
-				if (var_C == null || input_key == 0)
-				{
-					noMoneyLeft = true;
-				}
-				else
-				{
-					noMoneyLeft = false;
-					string text;
+                if (var_C == null || input_key == 0)
+                {
+                    noMoneyLeft = true;
+                }
+                else
+                {
+                    noMoneyLeft = false;
+                    string text;
 
-					int money_slot = GetMoneyIndexFromString(out text, var_C.Text);
+                    int money_slot = GetMoneyIndexFromString(out text, var_C.Text);
 
-					text = string.Format("How much {0} will you take? ", text);
+                    text = string.Format("How much {0} will you take? ", text);
 
-					int num_coins = AskNumberValue(10, text, gbl.pooled_money.GetCoins(money_slot));
+                    int num_coins = AskNumberValue(10, text, gbl.pooled_money.GetCoins(money_slot));
 
-					PickupCoins(money_slot, num_coins, gbl.SelectedPlayer);
-					money.Clear();
+                    PickupCoins(money_slot, num_coins, gbl.SelectedPlayer);
+                    money.Clear();
 
-					noMoneyLeft = true;
-					for (int coin = 0; coin < 7; coin++)
-					{
-						if (gbl.pooled_money.GetCoins(coin) > 0)
-						{
-							noMoneyLeft = false;
-						}
-					}
-				}
-			} while (noMoneyLeft == false);
-		}
+                    noMoneyLeft = true;
+                    for (int coin = 0; coin < 7; coin++)
+                    {
+                        if (gbl.pooled_money.GetCoins(coin) > 0)
+                        {
+                            noMoneyLeft = false;
+                        }
+                    }
+                }
+            } while (noMoneyLeft == false);
+        }
 
 
         internal static void treasureOnGround(out bool items, out bool money)
@@ -431,14 +433,17 @@ namespace engine
             return bonus;
         }
 
-        static short[,] /*seg600:082E unk_16B3E */	preconfiiguredItems = { 
-        {0x00B9, 0x00BB, 0x0040, 0x0001, 0x0320, 0x0003, 0x0063, 0x0000},
-        {0x00EF, 0x00A7, 0x0040, 0x0001, 0x044C, 0x0001, 0x003b, 0x0000},
-        {0x00b9, 0x00a7, 0x0040, 0x0001, 0x0190, 0x0001, 0x0003, 0x0000},
-        {0x00AD, 0x00a7, 0x0040, 0x0001, 0x01C2, 0x0001, 0x0030, 0x0000},
-        {0x00CE, 0x00A7, 0x0045, 0x0001, 0x2AF8, 0x001E, 0x000F, 0x0000},
-        {0x00E2, 0x00A7, 0x0064, 0x000A, 0x3A98, 0x0000, 0x0026, 0x0083},
-        {0x009d, 0x00a7, 0x0015, 0x0014, 0x0bb8, 0x0001, 0x0033, 0x0000} };
+        static short[,] /*seg600:082E unk_16B3E */
+            preconfiiguredItems =
+            {
+                {0x00B9, 0x00BB, 0x0040, 0x0001, 0x0320, 0x0003, 0x0063, 0x0000},
+                {0x00EF, 0x00A7, 0x0040, 0x0001, 0x044C, 0x0001, 0x003b, 0x0000},
+                {0x00b9, 0x00a7, 0x0040, 0x0001, 0x0190, 0x0001, 0x0003, 0x0000},
+                {0x00AD, 0x00a7, 0x0040, 0x0001, 0x01C2, 0x0001, 0x0030, 0x0000},
+                {0x00CE, 0x00A7, 0x0045, 0x0001, 0x2AF8, 0x001E, 0x000F, 0x0000},
+                {0x00E2, 0x00A7, 0x0064, 0x000A, 0x3A98, 0x0000, 0x0026, 0x0083},
+                {0x009d, 0x00a7, 0x0015, 0x0014, 0x0bb8, 0x0001, 0x0033, 0x0000}
+            };
 
         internal static Item create_item(ItemType item_type) /* sub_5A007 */
         {
@@ -475,14 +480,14 @@ namespace engine
                 else if (item.type == ItemType.LeatherArmor ||
                          item.type == ItemType.PaddedArmor)
                 {
-                    item.namenum3 = (int)item.type;
+                    item.namenum3 = (int) item.type;
                     item.namenum2 = 0x31;
                     item.namenum1 = item.plus + 0xA1;
                     item.hidden_names_flag = 4;
                 }
                 else if (item.type == ItemType.StuddedLeather)
                 {
-                    item.namenum3 = (int)item.type;
+                    item.namenum3 = (int) item.type;
                     item.namenum2 = 0x32;
                     item.namenum1 = item.plus + 0xA1;
                     item.hidden_names_flag = 4;
@@ -490,7 +495,7 @@ namespace engine
                 else if (item.type >= ItemType.RingMail &&
                          item.type <= ItemType.PlateMail)
                 {
-                    item.namenum3 = (int)item.type;
+                    item.namenum3 = (int) item.type;
                     item.namenum2 = 0x30;
                     item.namenum1 = item.plus + 0xA1;
                     item.hidden_names_flag = 4;
@@ -523,7 +528,7 @@ namespace engine
                 }
                 else
                 {
-                    item.namenum3 = (int)item.type;
+                    item.namenum3 = (int) item.type;
                     item.namenum2 = item.plus + 0xA1;
                 }
 
@@ -666,36 +671,35 @@ namespace engine
 
                 if (item.type == ItemType.Shield)
                 {
-                    item._value = (short)(item.plus * 2500);
+                    item._value = (short) (item.plus * 2500);
                 }
                 else if (item.type == ItemType.Arrow || item.type == ItemType.Quarrel)
                 {
-                    item._value = (short)(item.plus * 150);
+                    item._value = (short) (item.plus * 150);
                 }
                 else if (item.type == ItemType.RingMail || item.type == ItemType.ScaleMail)
                 {
-                    item._value = (short)(item.plus * 3000);
+                    item._value = (short) (item.plus * 3000);
                 }
                 else if (item.type == ItemType.ChainMail || item.type == ItemType.SplintMail)
                 {
-                    item._value = (short)(item.plus * 3500);
+                    item._value = (short) (item.plus * 3500);
                 }
                 else if (item.type == ItemType.BandedMail)
                 {
-                    item._value = (short)(item.plus * 4000);
-
+                    item._value = (short) (item.plus * 4000);
                 }
                 else if (item.type == ItemType.PlateMail)
                 {
-                    item._value = (short)(item.plus * 5000);
+                    item._value = (short) (item.plus * 5000);
                 }
                 else if (item.type == ItemType.Bracers)
                 {
-                    item._value = (short)(item.plus * 3000);
+                    item._value = (short) (item.plus * 3000);
                 }
                 else
                 {
-                    item._value = (short)(item.plus * 2000);
+                    item._value = (short) (item.plus * 2000);
                 }
             }
             else if (type == ItemType.MUScroll || type == ItemType.ClrcScroll)
@@ -727,23 +731,23 @@ namespace engine
                         switch (var_1)
                         {
                             case 1:
-                                var_5 = (byte)(ovr024.roll_dice(13, 1) + 8);
+                                var_5 = (byte) (ovr024.roll_dice(13, 1) + 8);
                                 break;
 
                             case 2:
-                                var_5 = (byte)(ovr024.roll_dice(7, 1) + 28);
+                                var_5 = (byte) (ovr024.roll_dice(7, 1) + 28);
                                 break;
 
                             case 3:
-                                var_5 = (byte)(ovr024.roll_dice(0x0B, 1) + 44);
+                                var_5 = (byte) (ovr024.roll_dice(0x0B, 1) + 44);
                                 break;
 
                             case 4:
-                                var_5 = (byte)(ovr024.roll_dice(9, 1) + 80);
+                                var_5 = (byte) (ovr024.roll_dice(9, 1) + 80);
                                 break;
 
                             case 5:
-                                var_5 = (byte)(ovr024.roll_dice(4, 1) + 90);
+                                var_5 = (byte) (ovr024.roll_dice(4, 1) + 90);
                                 break;
                         }
                     }
@@ -756,25 +760,25 @@ namespace engine
                                 break;
 
                             case 2:
-                                var_5 = (byte)(ovr024.roll_dice(7, 1) + 0x15);
+                                var_5 = (byte) (ovr024.roll_dice(7, 1) + 0x15);
                                 break;
 
                             case 3:
-                                var_5 = (byte)(ovr024.roll_dice(8, 1) + 0x24);
+                                var_5 = (byte) (ovr024.roll_dice(8, 1) + 0x24);
                                 break;
 
                             case 4:
-                                var_5 = (byte)(ovr024.roll_dice(5, 1) + 0x41);
+                                var_5 = (byte) (ovr024.roll_dice(5, 1) + 0x41);
                                 break;
 
                             case 5:
-                                var_5 = (byte)(ovr024.roll_dice(6, 1) + 0x46);
+                                var_5 = (byte) (ovr024.roll_dice(6, 1) + 0x46);
                                 break;
                         }
                     }
 
-                    item.setAffect(var_3, (Affects)var_5);
-                    item._value += (short)(var_1 * 300);
+                    item.setAffect(var_3, (Affects) var_5);
+                    item._value += (short) (var_1 * 300);
                 }
             }
             else if (type == ItemType.Gauntlets || type == ItemType.Type_67)
@@ -819,7 +823,7 @@ namespace engine
 
                 for (int var_3 = 1; var_3 <= 3; var_3++)
                 {
-                    item.setAffect(var_3, (Affects)(byte)preconfiiguredItems[var_4, 4 + var_3]);
+                    item.setAffect(var_3, (Affects) (byte) preconfiiguredItems[var_4, 4 + var_3]);
                 }
             }
 
@@ -887,9 +891,9 @@ namespace engine
                     seg037.draw8x8_clear_area(0x16, 0x26, 1, 1);
                     ovr025.displayPlayerName(false, 1, 1, gbl.SelectedPlayer);
 
-                    seg041.displayString("You have a fine collection of:", 0, 0xf, 7, 1);
-                    seg041.displayString(gem_text, 0, 0x0f, 9, 1);
-                    seg041.displayString(jewel_text, 0, 0x0f, 0x0a, 1);
+                    Seg041.displayString("You have a fine collection of:", 0, 0xf, 7, 1);
+                    Seg041.displayString(gem_text, 0, 0x0f, 9, 1);
+                    Seg041.displayString(jewel_text, 0, 0x0f, 0x0a, 1);
                     string prompt = string.Empty;
 
                     if (gbl.SelectedPlayer.Money.Gems != 0)
@@ -904,7 +908,8 @@ namespace engine
 
                     prompt += " Exit";
 
-                    char input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors, prompt, "Appraise : ");
+                    char input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors, prompt,
+                        "Appraise : ");
 
                     if (input_key == 'G')
                     {
@@ -945,7 +950,7 @@ namespace engine
 
                             string value_text = "The Gem is Valued at " + value.ToString() + " gp.";
 
-                            seg041.displayString(value_text, 0, 15, 12, 1);
+                            Seg041.displayString(value_text, 0, 15, 12, 1);
 
                             bool must_sell;
 
@@ -961,11 +966,13 @@ namespace engine
                                 must_sell = false;
                             }
 
-                            input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors, sell_text, "You can : ");
+                            input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors, sell_text,
+                                "You can : ");
 
                             if (input_key == 'K' && must_sell == false)
                             {
-                                Item gem_item = new Item(0, 0, 0, value, 0, 1, false, 0, false, 0, 0, 0x65, 0, 0, ItemType.Necklace, true);
+                                Item gem_item = new Item(0, 0, 0, value, 0, 1, false, 0, false, 0, 0, 0x65, 0, 0,
+                                    ItemType.Necklace, true);
 
                                 gbl.SelectedPlayer.items.Add(gem_item);
                             }
@@ -986,31 +993,31 @@ namespace engine
 
                             if (roll >= 1 && roll <= 10)
                             {
-                                value = (short)(seg051.Random(900) + 100);
+                                value = (short) (seg051.Random(900) + 100);
                             }
                             else if (roll >= 11 && roll <= 20)
                             {
-                                value = (short)(seg051.Random(1000) + 200);
+                                value = (short) (seg051.Random(1000) + 200);
                             }
                             else if (roll >= 21 && roll <= 40)
                             {
-                                value = (short)(seg051.Random(1500) + 300);
+                                value = (short) (seg051.Random(1500) + 300);
                             }
                             else if (roll >= 41 && roll <= 50)
                             {
-                                value = (short)(seg051.Random(2500) + 500);
+                                value = (short) (seg051.Random(2500) + 500);
                             }
                             else if (roll >= 51 && roll <= 70)
                             {
-                                value = (short)(seg051.Random(5000) + 1000);
+                                value = (short) (seg051.Random(5000) + 1000);
                             }
                             else if (roll >= 0x47 && roll <= 0x5A)
                             {
-                                value = (short)(seg051.Random(6000) + 2000);
+                                value = (short) (seg051.Random(6000) + 2000);
                             }
                             else if (roll >= 0x5B && roll <= 0x64)
                             {
-                                value = (short)(seg051.Random(10000) + 2000);
+                                value = (short) (seg051.Random(10000) + 2000);
                             }
                             else
                             {
@@ -1018,7 +1025,7 @@ namespace engine
                             }
 
                             string value_text = string.Format("The Jewel is Valued at {0} gp.", value);
-                            seg041.displayString(value_text, 0, 15, 12, 1);
+                            Seg041.displayString(value_text, 0, 15, 12, 1);
 
                             bool must_sell;
                             if (willOverload(1, gbl.SelectedPlayer) == true ||
@@ -1033,11 +1040,13 @@ namespace engine
                                 must_sell = false;
                             }
 
-                            input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors, sell_text, "You can : ");
+                            input_key = ovr027.displayInput(out special_key, false, 1, gbl.defaultMenuColors, sell_text,
+                                "You can : ");
 
                             if (input_key == 'K' && must_sell == false)
                             {
-                                Item jewel_item = new Item(0, 0, 0, value, 0, 1, false, 0, false, 0, 0, 0xd6, 0, 0, ItemType.Necklace, true);
+                                Item jewel_item = new Item(0, 0, 0, value, 0, 1, false, 0, false, 0, 0, 0xd6, 0, 0,
+                                    ItemType.Necklace, true);
 
                                 gbl.SelectedPlayer.items.Add(jewel_item);
                             }
@@ -1055,7 +1064,6 @@ namespace engine
 
                     ovr025.reclac_player_values(gbl.SelectedPlayer);
                 }
-
             } while (stop_loop == false);
 
             return true;

@@ -124,7 +124,8 @@ namespace engine
                 int save_bonus = (gbl.SelectedPlayer.combat_team == CombatTeam.Ours) ? -2 : 8;
                 var opp = gbl.SelectedPlayer.OppositeTeam();
 
-                var sortedCombatants = ovr032.Rebuild_SortedCombatantList(1, spell_entry.field_F, pos, p => p.combat_team != opp);
+                var sortedCombatants =
+                    ovr032.Rebuild_SortedCombatantList(1, spell_entry.field_F, pos, p => p.combat_team != opp);
 
                 foreach (var sc in sortedCombatants)
                 {
@@ -136,6 +137,7 @@ namespace engine
                     }
                 }
             }
+
             return result;
         }
 
@@ -170,6 +172,7 @@ namespace engine
                                     return false;
                                 }
                             }
+
                             return true;
                         }
                     }
@@ -196,10 +199,10 @@ namespace engine
 
                     foreach (var item_ptr in player.items)
                     {
-                        byte spell_id = (byte)item_ptr.affect_2;
+                        byte spell_id = (byte) item_ptr.affect_2;
 
                         if (item_ptr.IsScroll() == false &&
-                            (int)item_ptr.affect_3 < 0x80 &&
+                            (int) item_ptr.affect_3 < 0x80 &&
                             item_ptr.readied &&
                             spell_id > 0)
                         {
@@ -239,7 +242,7 @@ namespace engine
             {
                 foreach (int id in player.spellList.LearntList())
                 {
-                    spell_list[spells_count++] = (byte)id;
+                    spell_list[spells_count++] = (byte) id;
                 }
             }
 
@@ -287,10 +290,12 @@ namespace engine
             return casting_spell;
         }
 
-        static int[,] data_2B8 = new int[,]{ 
-            {8, 7, 6, 1, 2, 8}, {8, 1, 2, 7, 6, 7}, {7, 1, 8, 6, 2, 1}, {1, 7, 8, 2, 6, 8}, {8, 7, 6, 5, 4, 8}, 
-            {8, 1, 2, 3, 4, 8}, {8, 4, 6, 2, 8, 6}, {6, 4, 0, 8, 0, 6}, {6, 2, 8, 2, 0, 4}, {4, 0, 0, 2, 6, 2}, 
-            {2, 2, 0, 4, 4, 4} /*, {4, 2, 6, 6}*/ };/* actual from seg600:02BD - seg600:02F8 */
+        static int[,] data_2B8 = new int[,]
+        {
+            {8, 7, 6, 1, 2, 8}, {8, 1, 2, 7, 6, 7}, {7, 1, 8, 6, 2, 1}, {1, 7, 8, 2, 6, 8}, {8, 7, 6, 5, 4, 8},
+            {8, 1, 2, 3, 4, 8}, {8, 4, 6, 2, 8, 6}, {6, 4, 0, 8, 0, 6}, {6, 2, 8, 2, 0, 4}, {4, 0, 0, 2, 6, 2},
+            {2, 2, 0, 4, 4, 4} /*, {4, 2, 6, 6}*/
+        }; /* actual from seg600:02BD - seg600:02F8 */
 
         internal static bool CanMove(out bool groundClear, int baseDirecction, int dirStep, Player player) // sub_3573B
         {
@@ -304,7 +309,8 @@ namespace engine
             int playerIndex;
             bool isPoisonousCloud;
             bool isNoxiousCloud;
-            ovr033.getGroundInformation(out isPoisonousCloud, out isNoxiousCloud, out groundTile, out playerIndex, playerDirection, player);
+            ovr033.getGroundInformation(out isPoisonousCloud, out isNoxiousCloud, out groundTile, out playerIndex,
+                playerDirection, player);
 
             if (groundTile == 0)
             {
@@ -373,7 +379,7 @@ namespace engine
 
             string prompt = string.Format("Move/Attack, Move Left = {0} ", player.actions.move / 2);
 
-            seg041.displayString(prompt, 0, 10, 0x18, 0);
+            Seg041.displayString(prompt, 0, 10, 0x18, 0);
 
             if (process_input_in_monsters_turn(player))
             {
@@ -384,7 +390,8 @@ namespace engine
                 player.actions.delay > 0)
             {
                 if (player.control_morale < Control.NPC_Base ||
-                   (player.control_morale >= Control.NPC_Base && gbl.enemyHealthPercentage <= (ovr024.roll_dice(100, 1) + gbl.monster_morale)) ||
+                    (player.control_morale >= Control.NPC_Base &&
+                     gbl.enemyHealthPercentage <= (ovr024.roll_dice(100, 1) + gbl.monster_morale)) ||
                     player.combat_team == CombatTeam.Enemy)
                 {
                     if (player.actions.moral_failure == true ||
@@ -413,7 +420,7 @@ namespace engine
                         int dirStep = 1;
 
                         while (dirStep < 6 && var_5 == false &&
-                            CanMove(out zeroTitle, dir, dirStep, player) == false)
+                               CanMove(out zeroTitle, dir, dirStep, player) == false)
                         {
                             if (player.actions.moral_failure == true &&
                                 zeroTitle == true)
@@ -435,7 +442,7 @@ namespace engine
                         }
                         else
                         {
-                            var_2 = (data_2B8[player.actions.field_15, dirStep-1] + dir) % 8;
+                            var_2 = (data_2B8[player.actions.field_15, dirStep - 1] + dir) % 8;
 
                             if (dirStep == 6 || ((var_2 + 4) % 8) == byte_1AB18)
                             {
@@ -471,7 +478,9 @@ namespace engine
 
                         if (var_5 == false)
                         {
-                            gbl.focusCombatAreaOnPlayer = (gbl.byte_1D90E || ovr033.PlayerOnScreen(false, player) || player.combat_team == CombatTeam.Ours);
+                            gbl.focusCombatAreaOnPlayer =
+                                (gbl.byte_1D90E || ovr033.PlayerOnScreen(false, player) ||
+                                 player.combat_team == CombatTeam.Ours);
 
                             ovr033.draw_74B3F(false, Icon.Normal, var_2, player);
                             ovr014.move_step_away_attack(player.actions.direction, player);
@@ -497,6 +506,7 @@ namespace engine
                                 ovr024.in_poison_cloud(1, player);
                             }
                         }
+
                         return;
                     }
                 }
@@ -530,8 +540,8 @@ namespace engine
                 if (player.actions.moral_failure == true)
                 {
                     while (player.actions.move > 0 &&
-                        player.actions.delay > 0 &&
-                        player.actions.delay < 20)
+                           player.actions.delay > 0 &&
+                           player.actions.delay < 20)
                     {
                         moralFailureEscape(player);
                     }
@@ -575,7 +585,7 @@ namespace engine
 
                     if (target != null &&
                         (target.in_combat == false ||
-                        target.combat_team == CombatTeam.Ours))
+                         target.combat_team == CombatTeam.Ours))
                     {
                         target = null;
                     }
@@ -627,7 +637,7 @@ namespace engine
                                 stop = true;
                             }
                             else if (ovr025.getTargetRange(target, player) == 1 ||
-                                ovr014.CanSeeTargetA(target, player) == true)
+                                     ovr014.CanSeeTargetA(target, player) == true)
                             {
                                 gbl.byte_1D90E = true;
                             }
@@ -636,7 +646,8 @@ namespace engine
 
                     if (gbl.byte_1D90E == true)
                     {
-                        ovr033.redrawCombatArea(ovr014.getTargetDirection(target, player), 2, ovr033.PlayerMapPos(player));
+                        ovr033.redrawCombatArea(ovr014.getTargetDirection(target, player), 2,
+                            ovr033.PlayerMapPos(player));
                     }
 
                     if (gbl.byte_1D90E == true)
@@ -777,6 +788,7 @@ namespace engine
                 {
                     gbl.monster_morale = 0;
                 }
+
                 ovr024.CheckAffectsEffect(player, CheckType.Morale);
 
                 if (gbl.monster_morale < (100 - ((player.hit_point_current * 100) / player.hit_point_max)) ||
@@ -853,7 +865,7 @@ namespace engine
             }
 
             if (item.affect_3 == Affects.cast_throw_lightening &&
-                ((int)item.affect_2 & 0x0f) != player.alignment)
+                ((int) item.affect_2 & 0x0f) != player.alignment)
             {
                 rating = 0;
             }
@@ -872,8 +884,8 @@ namespace engine
         }
 
 
-        static void AI_items_selection(Player player)  // sub_36673 
-        {         
+        static void AI_items_selection(Player player) // sub_36673 
+        {
             player.weaponsHandsUsed -= player.activeItems.PrimaryWeaponHandCount();
             player.weaponsHandsUsed -= player.activeItems.SecondaryWeaponHandCount();
 
@@ -1021,7 +1033,8 @@ namespace engine
             replace_weapon = true;
 
             if (player.activeItems.secondaryWeapon != null &&
-                (player.activeItems.secondaryWeapon == best_weapon || player.activeItems.secondaryWeapon.cursed == true))
+                (player.activeItems.secondaryWeapon == best_weapon ||
+                 player.activeItems.secondaryWeapon.cursed == true))
             {
                 replace_weapon = false;
             }
@@ -1046,6 +1059,7 @@ namespace engine
                 {
                     ovr020.ready_Item(player.activeItems.secondaryWeapon);
                 }
+
                 ovr025.reclac_player_values(player);
 
                 if (best_weapon != null)

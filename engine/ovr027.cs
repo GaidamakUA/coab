@@ -99,21 +99,21 @@ namespace engine
                         highlights[highlighed_word].end >= i &&
                         highlightFgColor != 0)
                     {
-                        seg041.display_char01(text[i], 1, highlightFgColor, 0, 0x18, xOffset + i);
+                        Seg041.display_char01(text[i], 1, highlightFgColor, 0, 0x18, xOffset + i);
                     }
                     else if (highlightable_text.MemberOf(text[i]) == true)
                     {
-                        seg041.display_char01(text[i], 1, 0, highlightFgColor, 0x18, xOffset + i);
+                        Seg041.display_char01(text[i], 1, 0, highlightFgColor, 0x18, xOffset + i);
                     }
                     else
                     {
-                        seg041.display_char01(text[i], 1, 0, fgColor, 0x18, xOffset + i);
+                        Seg041.display_char01(text[i], 1, 0, fgColor, 0x18, xOffset + i);
                     }
                 }
 
                 if (text.Length + xOffset < 0x27)
                 {
-                    seg041.display_char01(' ', (0x27 - text.Length - xOffset) + 1,
+                    Seg041.display_char01(' ', (0x27 - text.Length - xOffset) + 1,
                         0, 0, 0x18, xOffset + text.Length);
                 }
 
@@ -161,7 +161,7 @@ namespace engine
 
             if (displayExtraString.Length != 0)
             {
-                seg041.displayString(displayExtraString, 0, colors.prompt, 0x18, 0);
+                Seg041.displayString(displayExtraString, 0, colors.prompt, 0x18, 0);
             }
 
             int displayInputXOffset = displayExtraString.Length;
@@ -359,7 +359,7 @@ namespace engine
 
         internal static void ClearPromptAreaNoUpdate()
         {
-            seg041.ClearRectangle(0x18, 0x27, 0x18, 0);
+            Seg041.ClearRectangle(0x18, 0x27, 0x18, 0);
         }
 
         static void sub_6C897(int index,
@@ -375,11 +375,11 @@ namespace engine
 
             foreach (var menu in list.GetRange(index, count))
             {
-                seg041.displayString(menu.Text, 0, menu.Heading ? headingColor : normalColor, yCol, xStart);
+                Seg041.displayString(menu.Text, 0, menu.Heading ? headingColor : normalColor, yCol, xStart);
 
                 if (menu.Text.Length < displayFillWidth)
                 {
-                    seg041.display_char01(' ', displayFillWidth - menu.Text.Length, 0, 0, yCol,
+                    Seg041.display_char01(' ', displayFillWidth - menu.Text.Length, 0, 0, yCol,
                         menu.Text.Length + xStart);
                 }
 
@@ -399,7 +399,7 @@ namespace engine
 
             int stringStart = getBegingOfString(menu_item.Text);
 
-            seg041.displayString(
+            Seg041.displayString(
                 menu_item.Text.Trim(),
                 bgColor,
                 0,
@@ -419,11 +419,11 @@ namespace engine
 
             if (menu_item.Heading)
             {
-                seg041.displayString(text, 0, headingColor, yCol + (index - gbl.menuScreenIndex), xCol + var_5);
+                Seg041.displayString(text, 0, headingColor, yCol + (index - gbl.menuScreenIndex), xCol + var_5);
             }
             else
             {
-                seg041.displayString(text, 0, normalColor, yCol + (index - gbl.menuScreenIndex), xCol + var_5);
+                Seg041.displayString(text, 0, normalColor, yCol + (index - gbl.menuScreenIndex), xCol + var_5);
             }
         }
 

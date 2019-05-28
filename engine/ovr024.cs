@@ -1,5 +1,5 @@
-using Classes;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
@@ -53,7 +53,7 @@ namespace engine
                     ovr033.CombatantKilled(player);
                 }
 
-                seg041.GameDelay();
+                Seg041.GameDelay();
                 ovr025.ClearPlayerTextArea();
 
                 if (gbl.game_state != GameState.Combat)
@@ -94,7 +94,11 @@ namespace engine
             }
         }
 
-        static Affects[] unk_6325A = { Affects.silence_15_radius, Affects.prot_from_evil_10_radius, Affects.prot_from_good_10_radius, Affects.prayer };
+        static Affects[] unk_6325A =
+        {
+            Affects.silence_15_radius, Affects.prot_from_evil_10_radius, Affects.prot_from_good_10_radius,
+            Affects.prayer
+        };
 
         internal static void calc_affect_effect(Affects affect_type, Player player)
         {
@@ -105,7 +109,7 @@ namespace engine
             {
                 found = true;
             }
-            else if (System.Array.Exists(unk_6325A, vv => vv ==affect_type) == true)
+            else if (System.Array.Exists(unk_6325A, vv => vv == affect_type) == true)
             {
                 foreach (Player team_member in gbl.TeamList)
                 {
@@ -405,7 +409,8 @@ namespace engine
                 bool isNoxiouxCloud;
                 int dummyGroundTile;
                 int dummyPlayerIndex;
-                ovr033.getGroundInformation(out isPoisonousCloud, out isNoxiouxCloud, out dummyGroundTile, out dummyPlayerIndex, 8, player);
+                ovr033.getGroundInformation(out isPoisonousCloud, out isNoxiouxCloud, out dummyGroundTile,
+                    out dummyPlayerIndex, 8, player);
 
                 Affect affect;
 
@@ -421,9 +426,11 @@ namespace engine
                     {
                         Player tmp_player_ptr = gbl.SelectedPlayer;
 
-                        gbl.SelectedPlayer = sub_63D03(gbl.unk_18AEA, 4, gbl.StinkingCloud, ovr033.PlayerMapPos(player));
+                        gbl.SelectedPlayer =
+                            sub_63D03(gbl.unk_18AEA, 4, gbl.StinkingCloud, ovr033.PlayerMapPos(player));
 
-                        ApplyAttackSpellAffect("starts to cough", save_passed, 0, false, 0xff, 1, Affects.stinking_cloud, player);
+                        ApplyAttackSpellAffect("starts to cough", save_passed, 0, false, 0xff, 1,
+                            Affects.stinking_cloud, player);
 
                         if (player.HasAffect(Affects.stinking_cloud) == true)
                         {
@@ -436,9 +443,11 @@ namespace engine
                     {
                         Player tmp_player_ptr = gbl.SelectedPlayer;
 
-                        gbl.SelectedPlayer = sub_63D03(gbl.unk_18AEA, 4, gbl.StinkingCloud, ovr033.PlayerMapPos(player));
+                        gbl.SelectedPlayer =
+                            sub_63D03(gbl.unk_18AEA, 4, gbl.StinkingCloud, ovr033.PlayerMapPos(player));
 
-                        ApplyAttackSpellAffect("chokes and gags from nausea", save_passed, 0, false, 0xff, (ushort)(roll_dice(4, 1) + 1), Affects.helpless, player);
+                        ApplyAttackSpellAffect("chokes and gags from nausea", save_passed, 0, false, 0xff,
+                            (ushort) (roll_dice(4, 1) + 1), Affects.helpless, player);
 
                         if (ovr025.FindAffect(out affect, Affects.helpless, player) == true)
                         {
@@ -455,7 +464,7 @@ namespace engine
                     if (player.HitDice >= 0 && player.HitDice <= 4)
                     {
                         ovr025.DisplayPlayerStatusString(false, 10, "is Poisoned", player);
-                        seg041.GameDelay();
+                        Seg041.GameDelay();
                         add_affect(false, 0xff, 0, Affects.minor_globe_of_invulnerability, player);
                         KillPlayer("is killed", Status.dead, player);
                     }
@@ -464,7 +473,7 @@ namespace engine
                         if (RollSavingThrow(-4, 0, player) == false)
                         {
                             ovr025.DisplayPlayerStatusString(false, 10, "is Poisoned", player);
-                            seg041.GameDelay();
+                            Seg041.GameDelay();
                             add_affect(false, 0xff, 0, Affects.poisoned, player);
                             KillPlayer("is killed", Status.dead, player);
                         }
@@ -474,7 +483,7 @@ namespace engine
                         if (RollSavingThrow(0, 0, player) == false)
                         {
                             ovr025.DisplayPlayerStatusString(false, 10, "is Poisoned", player);
-                            seg041.GameDelay();
+                            Seg041.GameDelay();
                             add_affect(false, 0xff, 0, Affects.poisoned, player);
                             KillPlayer("is killed", Status.dead, player);
                         }
@@ -547,6 +556,7 @@ namespace engine
                     }
                 }
             }
+
             return hit;
         }
 
@@ -576,7 +586,7 @@ namespace engine
 
                 CheckAffectsEffect(player, CheckType.SavingThrow);
 
-                gbl.savingThrowMade = gbl.savingThrowRoll >= player.saveVerse[(int)saveType];
+                gbl.savingThrowMade = gbl.savingThrowRoll >= player.saveVerse[(int) saveType];
             }
 
             return gbl.savingThrowMade;
@@ -592,7 +602,7 @@ namespace engine
                 roll_total += seg051.Random(dice_size) + 1;
             }
 
-            byte byte_total = (byte)roll_total;
+            byte byte_total = (byte) roll_total;
 
             return byte_total;
         }
@@ -606,9 +616,10 @@ namespace engine
         }
 
 
-        internal static void add_affect(bool call_spell_jump_list, int data, ushort minutes, Affects type, Player player)
+        internal static void add_affect(bool call_spell_jump_list, int data, ushort minutes, Affects type,
+            Player player)
         {
-            Affect affect = new Affect(type, minutes, (byte)data, call_spell_jump_list);
+            Affect affect = new Affect(type, minutes, (byte) data, call_spell_jump_list);
 
             player.affects.Add(affect);
             //TODO simplify this funcation.
@@ -660,27 +671,28 @@ namespace engine
 
         internal static void RemoveCombatAffects(Player player) // sub_645AB
         {
-            Affects[] table = { 
-								  Affects.faerie_fire,
-								  Affects.charm_person,
-								  Affects.reduce,
-								  Affects.silence_15_radius,
-								  Affects.spiritual_hammer,
-								  Affects.stinking_cloud,
-								  Affects.helpless,
-								  Affects.animate_dead,
-								  Affects.snake_charm,
-								  Affects.paralyze,
-								  Affects.sleep,
-								  Affects.clear_movement,
-								  Affects.regenerate,
-								  Affects.affect_5F,
-								  Affects.regen_3_hp,
-								  Affects.entangle,
-								  Affects.affect_89,
-								  Affects.affect_8b,
-								  Affects.owlbear_hug_round_attack
-							  };
+            Affects[] table =
+            {
+                Affects.faerie_fire,
+                Affects.charm_person,
+                Affects.reduce,
+                Affects.silence_15_radius,
+                Affects.spiritual_hammer,
+                Affects.stinking_cloud,
+                Affects.helpless,
+                Affects.animate_dead,
+                Affects.snake_charm,
+                Affects.paralyze,
+                Affects.sleep,
+                Affects.clear_movement,
+                Affects.regenerate,
+                Affects.affect_5F,
+                Affects.regen_3_hp,
+                Affects.entangle,
+                Affects.affect_89,
+                Affects.affect_8b,
+                Affects.owlbear_hug_round_attack
+            };
 
             System.Array.ForEach(table, affect => remove_affect(null, affect, player));
 
@@ -693,10 +705,13 @@ namespace engine
 
         internal static void RemoveAttackersAffects(Player player) // sub_6460D
         {
-            Affects[] table = {   Affects.reduce, 
-								  Affects.clear_movement, 
-								  Affects.affect_8b, 
-								  Affects.owlbear_hug_round_attack };
+            Affects[] table =
+            {
+                Affects.reduce,
+                Affects.clear_movement,
+                Affects.affect_8b,
+                Affects.owlbear_hug_round_attack
+            };
 
             System.Array.ForEach(table, affect => remove_affect(null, affect, player));
         }
@@ -734,11 +749,11 @@ namespace engine
         internal static void decode_strength(out int str_00, out int str, Affect arg_8) /* sub_646D9 */
         {
             str_00 = 0;
-            str = (byte)(arg_8.affect_data & 0x7F);
+            str = (byte) (arg_8.affect_data & 0x7F);
 
             if (str <= 101)
             {
-                str_00 = (byte)(str - 1);
+                str_00 = (byte) (str - 1);
                 str = 18;
             }
             else
@@ -783,9 +798,9 @@ namespace engine
         {
             int returnVal = 0;
 
-            if (gbl.max_class_hit_dice[(int)class_index] <= classLvl)
+            if (gbl.max_class_hit_dice[(int) class_index] <= classLvl)
             {
-                classLvl = gbl.max_class_hit_dice[(int)class_index] - 1;
+                classLvl = gbl.max_class_hit_dice[(int) class_index] - 1;
             }
 
             if (class_index == SkillType.Ranger &&
@@ -794,8 +809,8 @@ namespace engine
                 classLvl += 1;
             }
 
-            if (class_index == SkillType.Fighter || 
-                class_index == SkillType.Paladin || 
+            if (class_index == SkillType.Fighter ||
+                class_index == SkillType.Paladin ||
                 class_index == SkillType.Ranger)
             {
                 if (cons >= 15 && cons <= 19)
@@ -837,20 +852,20 @@ namespace engine
             int str_00_b = 0;
             int var_11 = 0x0FF;
 
-            int stat_a = player.stats2[(int)stat_index].cur;
+            int stat_a = player.stats2[(int) stat_index].cur;
             int str_00_a = player.stats2.Str00.full;
 
             foreach (Item item in player.items)
             {
-                if ((int)item.affect_3 > 0x80 && item.readied == true)
+                if ((int) item.affect_3 > 0x80 && item.readied == true)
                 {
-                    int var_12 = (int)item.affect_3 & 0x7F;
+                    int var_12 = (int) item.affect_3 & 0x7F;
 
                     if (stat_index == Stat.STR)
                     {
                         if (var_12 == 5)
                         {
-                            switch ((int)item.affect_2)
+                            switch ((int) item.affect_2)
                             {
                                 case 0:
                                     stat_b = 18;
@@ -887,7 +902,7 @@ namespace engine
                             if (player.stats2.Str.cur < 18 &&
                                 item.affect_2 == 0)
                             {
-                                stat_b = (byte)(player.stats2.Str.cur + 1);
+                                stat_b = (byte) (player.stats2.Str.cur + 1);
                                 str_00_b = 0;
                             }
                         }
@@ -905,8 +920,8 @@ namespace engine
                             stat_a++;
                         }
                         else if (var_12 == 8 &&
-                            player.stats2.Con.cur < 18 &&
-                            (int)item.affect_2 == 4)
+                                 player.stats2.Con.cur < 18 &&
+                                 (int) item.affect_2 == 4)
                         {
                             stat_a++;
                         }
@@ -916,7 +931,7 @@ namespace engine
                         if (var_12 == 8)
                         {
                             if (player.stats2.Int.cur < 0x18 &&
-                                (int)item.affect_2 == 1)
+                                (int) item.affect_2 == 1)
                             {
                                 stat_a++;
                             }
@@ -933,7 +948,7 @@ namespace engine
                     else if (stat_index == Stat.WIS)
                     {
                         if (var_12 == 8 &&
-                            (int)item.affect_2 == 2 &&
+                            (int) item.affect_2 == 2 &&
                             player.stats2.Wis.cur < 18)
                         {
                             stat_a++;
@@ -959,7 +974,7 @@ namespace engine
                         else if (var_12 == 8)
                         {
                             if (player.stats2.Dex.cur < 18 &&
-                                (int)item.affect_2 == 3)
+                                (int) item.affect_2 == 3)
                             {
                                 stat_a++;
                             }
@@ -976,8 +991,8 @@ namespace engine
                             stat_a -= 1;
                         }
                         else if (var_12 == 8 &&
-                            player.stats2.Cha.cur < 18 &&
-                            (int)item.affect_2 == 5)
+                                 player.stats2.Cha.cur < 18 &&
+                                 (int) item.affect_2 == 5)
                         {
                             stat_a += 1;
                         }
@@ -985,7 +1000,7 @@ namespace engine
                 }
             }
 
-            if (stat_index == Stat.STR) 
+            if (stat_index == Stat.STR)
             {
                 Affect affect_ptr;
 
@@ -1007,7 +1022,7 @@ namespace engine
                                 player.ranger_lvl > 0 ||
                                 player.ranger_old_lvl > 0)
                             {
-                                str_00_b = (byte)(player.stats2.Str00.cur + ((stat_b - 18) * 10));
+                                str_00_b = (byte) (player.stats2.Str00.cur + ((stat_b - 18) * 10));
 
                                 if (str_00_b > 100)
                                 {
@@ -1059,23 +1074,23 @@ namespace engine
 
                 for (SkillType classId = SkillType.Cleric; classId <= SkillType.Monk; classId++)
                 {
-                    byte classLvl = player.ClassLevelsOld[(int)classId];
+                    byte classLvl = player.ClassLevelsOld[(int) classId];
 
                     if (classLvl > 0)
                     {
                         hitPointBonus += ConHitPointBonus(classLvl, classId, stat_a, player);
                     }
 
-                    classLvl = player.ClassLevel[(int)classId];
+                    classLvl = player.ClassLevel[(int) classId];
 
                     if (classLvl > 0)
                     {
                         classCount++;
                     }
 
-                    if (gbl.max_class_hit_dice[(int)classId] < classLvl)
+                    if (gbl.max_class_hit_dice[(int) classId] < classLvl)
                     {
-                        classLvl = gbl.max_class_hit_dice[(int)classId];
+                        classLvl = gbl.max_class_hit_dice[(int) classId];
                     }
 
                     if (classLvl > player.multiclassLevel)
@@ -1087,17 +1102,17 @@ namespace engine
                 }
 
                 hitPointBonus /= classCount;
-                player.hit_point_max += (byte)hitPointBonus;
+                player.hit_point_max += (byte) hitPointBonus;
 
                 if (player.hit_point_max > orig_max_hp)
                 {
-                    player.hit_point_current += (byte)(player.hit_point_max - orig_max_hp);
+                    player.hit_point_current += (byte) (player.hit_point_max - orig_max_hp);
                 }
                 else if (player.hit_point_max < orig_max_hp)
                 {
                     if (player.hit_point_current > (orig_max_hp - player.hit_point_max))
                     {
-                        player.hit_point_current -= (byte)(orig_max_hp - player.hit_point_max);
+                        player.hit_point_current -= (byte) (orig_max_hp - player.hit_point_max);
                     }
                     else
                     {
@@ -1210,7 +1225,7 @@ namespace engine
                     text = "takes 1 point of damage ";
                 }
 
-                int mask = (int)gbl.damage_flags & 0xf7;
+                int mask = (int) gbl.damage_flags & 0xf7;
                 if (mask == 0x01)
                 {
                     text += "from Fire";
@@ -1252,7 +1267,7 @@ namespace engine
 
                     if (player.health_status == Status.dead ||
                         player.health_status == Status.stoned ||
-                        player.health_status == Status.gone )
+                        player.health_status == Status.gone)
                     {
                         text = "is killed";
                     }
@@ -1261,7 +1276,7 @@ namespace engine
 
                     if (gbl.game_state != GameState.Combat)
                     {
-                        seg041.GameDelay();
+                        Seg041.GameDelay();
                     }
                     else
                     {
@@ -1275,7 +1290,7 @@ namespace engine
                         }
                         else
                         {
-                            seg041.GameDelay();
+                            Seg041.GameDelay();
                         }
                     }
                 }
@@ -1298,8 +1313,9 @@ namespace engine
         }
 
 
-        internal static void ApplyAttackSpellAffect(string text, bool saved, DamageOnSave can_save, bool call_affect_table, int data, ushort time, Affects affect_id, Player target) // is_unaffected
-		{
+        internal static void ApplyAttackSpellAffect(string text, bool saved, DamageOnSave can_save,
+            bool call_affect_table, int data, ushort time, Affects affect_id, Player target) // is_unaffected
+        {
             gbl.current_affect = affect_id;
 
             CheckAffectsEffect(target, CheckType.MagicResistance);
@@ -1335,13 +1351,13 @@ namespace engine
             if (player.health_status == Status.okey ||
                 player.health_status == Status.animated ||
                 player.health_status == Status.unconscious ||
-                player.health_status == Status.dying )
+                player.health_status == Status.dying)
             {
                 if (player.hit_point_current < player.hit_point_max ||
                     (player.hit_point_current >= player.hit_point_max &&
-                    arg_0 == 0))
+                     arg_0 == 0))
                 {
-                    player.hit_point_current = (byte)(amount_healed + player.hit_point_current);
+                    player.hit_point_current = (byte) (amount_healed + player.hit_point_current);
 
                     if (player.hit_point_current > player.hit_point_max)
                     {

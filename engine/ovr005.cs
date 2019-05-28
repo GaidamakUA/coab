@@ -1,16 +1,23 @@
-using Classes;
 using System;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
     class ovr005
     {
-        static Affects[] disease_types = {  Affects.helpless,  Affects.cause_disease_1,
-                                            Affects.weaken, Affects.cause_disease_2,
-                                            Affects.animate_dead, Affects.affect_39 };
+        static Affects[] disease_types =
+        {
+            Affects.helpless, Affects.cause_disease_1,
+            Affects.weaken, Affects.cause_disease_2,
+            Affects.animate_dead, Affects.affect_39
+        };
 
-        static string[] temple_sl = { "Cure Blindness", "Cure Disease", "Cure Light Wounds", "Cure Serious Wounds", "Cure Critical Wounds", "Heal", "Neutralize Poison", "Raise Dead", "Remove Curse", "Stone to Flesh", "Exit" };
+        static string[] temple_sl =
+        {
+            "Cure Blindness", "Cure Disease", "Cure Light Wounds", "Cure Serious Wounds", "Cure Critical Wounds",
+            "Heal", "Neutralize Poison", "Raise Dead", "Remove Curse", "Stone to Flesh", "Exit"
+        };
 
 
         static bool CastCureAnyway(string text)
@@ -28,7 +35,7 @@ namespace engine
         internal static bool buy_cure(int cost, string cure_name) /* buy_cure */
         {
             string text = string.Format("{0} will only cost {1} gold pieces.", cure_name, cost);
-            seg041.press_any_key(text, true, 10, TextRegion.NormalBottom);
+            Seg041.press_any_key(text, true, 10, TextRegion.NormalBottom);
 
             bool buy = false;
 
@@ -116,6 +123,7 @@ namespace engine
                         int heal_amount = ovr024.roll_dice(8, 1);
                         ovr024.heal_player(0, heal_amount, gbl.SelectedPlayer);
                     }
+
                     break;
 
                 case 2:
@@ -124,6 +132,7 @@ namespace engine
                         int heal_amount = ovr024.roll_dice(8, 2) + 1;
                         ovr024.heal_player(0, heal_amount, gbl.SelectedPlayer);
                     }
+
                     break;
 
                 case 3:
@@ -132,6 +141,7 @@ namespace engine
                         int heal_amount = ovr024.roll_dice(8, 3) + 3;
                         ovr024.heal_player(0, heal_amount, gbl.SelectedPlayer);
                     }
+
                     break;
 
                 case 4:
@@ -154,6 +164,7 @@ namespace engine
                         ovr024.CalcStatBonuses(Stat.INT, gbl.SelectedPlayer);
                         ovr024.CalcStatBonuses(Stat.WIS, gbl.SelectedPlayer);
                     }
+
                     break;
             }
         }
@@ -233,7 +244,7 @@ namespace engine
                             player.fighter_lvl > 0 ||
                             player.fighter_lvl > player.multiclassLevel)
                         {
-                            player.hit_point_max = (byte)var_107;
+                            player.hit_point_max = (byte) var_107;
                         }
                     }
                 }
@@ -318,7 +329,7 @@ namespace engine
             do
             {
                 string text = gbl.SelectedPlayer.name + ", how can we help you?";
-                seg041.displayString(text, 0, 15, 1, 1);
+                Seg041.displayString(text, 0, 15, 1, 1);
                 MenuItem dummySelected;
 
                 char sl_output = ovr027.sl_select_item(out dummySelected, ref sl_index, ref redrawMenuItems, false,
@@ -377,7 +388,6 @@ namespace engine
                 {
                     end_shop = true;
                 }
-
             } while (end_shop == false);
 
             stringList.Clear();
@@ -428,6 +438,7 @@ namespace engine
                         {
                             temple_heal();
                         }
+
                         break;
 
                     case 'V':
@@ -443,6 +454,7 @@ namespace engine
                         {
                             ovr022.poolMoney();
                         }
+
                         break;
 
                     case 'S':
@@ -460,8 +472,11 @@ namespace engine
                         {
                             string prompt = "~Yes ~No";
 
-                            seg041.press_any_key("As you leave a priest says, \"Excuse me but you have left some money here\" ", true, 10, TextRegion.NormalBottom);
-                            seg041.press_any_key("Do you want to go back and retrieve your money?", true, 10, TextRegion.NormalBottom);
+                            Seg041.press_any_key(
+                                "As you leave a priest says, \"Excuse me but you have left some money here\" ", true,
+                                10, TextRegion.NormalBottom);
+                            Seg041.press_any_key("Do you want to go back and retrieve your money?", true, 10,
+                                TextRegion.NormalBottom);
                             int menu_selected = ovr008.sub_317AA(false, false, gbl.defaultMenuColors, prompt, "");
 
                             if (menu_selected == 1)

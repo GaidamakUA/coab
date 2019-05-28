@@ -1,5 +1,5 @@
-using Classes;
 using System.Collections.Generic;
+using Classes;
 
 namespace engine
 {
@@ -31,9 +31,9 @@ namespace engine
                 {
                     for (int loop_var = 1; loop_var <= 3; loop_var++)
                     {
-                        if ((int)item.getAffect(loop_var) > 0x7f)
+                        if ((int) item.getAffect(loop_var) > 0x7f)
                         {
-                            int var_C = gbl.spellCastingTable[(int)item.getAffect(loop_var) & 0x7f].spellLevel;
+                            int var_C = gbl.spellCastingTable[(int) item.getAffect(loop_var) & 0x7f].spellLevel;
 
                             if (var_C > max_scribe_level)
                             {
@@ -78,9 +78,9 @@ namespace engine
             {
                 if (item.IsScroll() == true)
                 {
-                    item.affect_1 &= (Affects)0x7F;
-                    item.affect_2 &= (Affects)0x7F;
-                    item.affect_3 &= (Affects)0x7F;
+                    item.affect_1 &= (Affects) 0x7F;
+                    item.affect_2 &= (Affects) 0x7F;
+                    item.affect_3 &= (Affects) 0x7F;
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace engine
                 }
             }
 
-            return gbl.SelectedPlayer.spellCastCount[(int)spellClass, spellLevel - 1] - alreadyLearning;
+            return gbl.SelectedPlayer.spellCastCount[(int) spellClass, spellLevel - 1] - alreadyLearning;
         }
 
 
@@ -125,7 +125,7 @@ namespace engine
                 }
             }
             else if (gbl.SelectedPlayer.health_status == Status.animated ||
-                gbl.SelectedPlayer.in_combat == false)
+                     gbl.SelectedPlayer.in_combat == false)
             {
                 text = "is in no condition to ";
 
@@ -212,19 +212,20 @@ namespace engine
 
             for (var spellClass = SpellClass.Cleric; spellClass < SpellClass.Monster; spellClass++)
             {
-                canLearnSpellClass[(int)spellClass] = false;
+                canLearnSpellClass[(int) spellClass] = false;
 
                 for (int spellLevel = 0; spellLevel < MaxSpellLevel; spellLevel++)
                 {
-                    var_60[(int)spellClass, spellLevel] = HowManySpellsPlayerCanLearn(spellClass, spellLevel + 1).ToString();
+                    var_60[(int) spellClass, spellLevel] =
+                        HowManySpellsPlayerCanLearn(spellClass, spellLevel + 1).ToString();
 
-                    if (gbl.SelectedPlayer.spellCastCount[(int)spellClass, spellLevel] == 0)
+                    if (gbl.SelectedPlayer.spellCastCount[(int) spellClass, spellLevel] == 0)
                     {
-                        var_60[(int)spellClass, spellLevel] = " ";
+                        var_60[(int) spellClass, spellLevel] = " ";
                     }
                     else
                     {
-                        canLearnSpellClass[(int)spellClass] = true;
+                        canLearnSpellClass[(int) spellClass] = true;
                         found = true;
                     }
                 }
@@ -255,13 +256,14 @@ namespace engine
                                 break;
                         }
 
-                        seg041.displayString(text, 0, 10, y_col + 17, 1);
+                        Seg041.displayString(text, 0, 10, y_col + 17, 1);
                         int x_col = 0x13;
                         for (int spellLevel = 0; spellLevel < MaxSpellLevel; spellLevel++)
                         {
-                            seg041.displayString(var_60[spellClass, spellLevel], 0, 10, y_col + 0x11, x_col + 1);
+                            Seg041.displayString(var_60[spellClass, spellLevel], 0, 10, y_col + 0x11, x_col + 1);
                             x_col += 3;
                         }
+
                         y_col++;
                     }
                 }
@@ -284,9 +286,9 @@ namespace engine
                 }
             }
 
-            gbl.timeToRest.field_6 = (ushort)(max_rest_time / 60);
-            gbl.timeToRest.field_4 = (ushort)((max_rest_time - (gbl.timeToRest.field_6 * 60)) / 10);
-            gbl.timeToRest.field_2 = (ushort)(max_rest_time % 10);
+            gbl.timeToRest.field_6 = (ushort) (max_rest_time / 60);
+            gbl.timeToRest.field_4 = (ushort) ((max_rest_time - (gbl.timeToRest.field_6 * 60)) / 10);
+            gbl.timeToRest.field_2 = (ushort) (max_rest_time % 10);
 
             bool action_interrupted = ovr021.resting(true);
 
@@ -346,7 +348,8 @@ namespace engine
                         {
                             var_1 = true;
                         }
-                        else if (HowManySpellsPlayerCanLearn(gbl.spellCastingTable[spellId].spellClass, gbl.spellCastingTable[spellId].spellLevel) > 0)
+                        else if (HowManySpellsPlayerCanLearn(gbl.spellCastingTable[spellId].spellClass,
+                                     gbl.spellCastingTable[spellId].spellLevel) > 0)
                         {
                             gbl.SelectedPlayer.spellList.AddLearn(spellId);
                         }
@@ -426,7 +429,7 @@ namespace engine
                     else
                     {
                         redraw = true;
-                        if (gbl.SelectedPlayer.KnowsSpell((Spells)var_4))
+                        if (gbl.SelectedPlayer.KnowsSpell((Spells) var_4))
                         {
                             ovr025.string_print01("You already know that spell");
                         }
@@ -435,9 +438,9 @@ namespace engine
                             bool var_D = gbl.SelectedPlayer.items.Find(item =>
                             {
                                 return (item.IsScroll() == true &&
-                                    (item.ScrollLearning(1, var_4) ||
-                                    item.ScrollLearning(2, var_4) ||
-                                    item.ScrollLearning(3, var_4)));
+                                        (item.ScrollLearning(1, var_4) ||
+                                         item.ScrollLearning(2, var_4) ||
+                                         item.ScrollLearning(3, var_4)));
                             }) != null;
 
 
@@ -448,7 +451,7 @@ namespace engine
                             else
                             {
                                 int spell_level = gbl.spellCastingTable[var_4].spellLevel;
-                                int spell_class = (int)gbl.spellCastingTable[var_4].spellClass;
+                                int spell_class = (int) gbl.spellCastingTable[var_4].spellClass;
 
                                 if (gbl.SelectedPlayer.spellCastCount[spell_class, spell_level - 1] > 0)
                                 {
@@ -457,9 +460,9 @@ namespace engine
                                         int var_6 = 1;
                                         do
                                         {
-                                            if (var_C.getAffect(var_6) == (Affects)var_4)
+                                            if (var_C.getAffect(var_6) == (Affects) var_4)
                                             {
-                                                var_C.setAffect(var_6, (Affects)((int)var_C.getAffect(var_6) | 0x80));
+                                                var_C.setAffect(var_6, (Affects) ((int) var_C.getAffect(var_6) | 0x80));
                                                 var_D = true;
                                             }
 
@@ -502,14 +505,17 @@ namespace engine
 
         internal static void BuildEffectNameMap()
         {
-            Affects[] affects = { Affects.bless, Affects.cursed, Affects.detect_magic, Affects.protection_from_evil, 
-                                  Affects.protection_from_good, Affects.resist_cold, Affects.charm_person, Affects.enlarge, 
-                                  Affects.friends, Affects.read_magic, Affects.shield, Affects.find_traps, Affects.resist_fire, 
-                                  Affects.silence_15_radius, Affects.slow_poison, Affects.spiritual_hammer, Affects.detect_invisibility, 
-                                  Affects.invisibility, Affects.mirror_image, Affects.ray_of_enfeeblement, Affects.animate_dead, 
-                                  Affects.blinded, Affects.cause_disease_1, Affects.bestow_curse, Affects.blink, Affects.strength, 
-                                  Affects.haste, Affects.prot_from_normal_missiles, Affects.slow, Affects.prot_from_evil_10_radius, 
-                                  Affects.prot_from_good_10_radius, Affects.prayer, Affects.snake_charm, Affects.paralyze, Affects.sleep };
+            Affects[] affects =
+            {
+                Affects.bless, Affects.cursed, Affects.detect_magic, Affects.protection_from_evil,
+                Affects.protection_from_good, Affects.resist_cold, Affects.charm_person, Affects.enlarge,
+                Affects.friends, Affects.read_magic, Affects.shield, Affects.find_traps, Affects.resist_fire,
+                Affects.silence_15_radius, Affects.slow_poison, Affects.spiritual_hammer, Affects.detect_invisibility,
+                Affects.invisibility, Affects.mirror_image, Affects.ray_of_enfeeblement, Affects.animate_dead,
+                Affects.blinded, Affects.cause_disease_1, Affects.bestow_curse, Affects.blink, Affects.strength,
+                Affects.haste, Affects.prot_from_normal_missiles, Affects.slow, Affects.prot_from_evil_10_radius,
+                Affects.prot_from_good_10_radius, Affects.prayer, Affects.snake_charm, Affects.paralyze, Affects.sleep
+            };
 
             foreach (Affects aff in affects)
             {
@@ -549,7 +555,6 @@ namespace engine
             EffectNameMap.Add(Affects.prot_drag_breath, "protected from dragon breath");
             EffectNameMap.Add(Affects.berserk, "berserk");
             EffectNameMap.Add(Affects.displace, "Displaced");
-
         }
 
 
@@ -605,7 +610,8 @@ namespace engine
             while (actionInterrupted == false && AlterSet.MemberOf(inputKey) == false)
             {
                 bool controlKey;
-                inputKey = ovr027.displayInput(out controlKey, true, 1, gbl.defaultMenuColors, "Cast Memorize Scribe Display Rest Exit", string.Empty);
+                inputKey = ovr027.displayInput(out controlKey, true, 1, gbl.defaultMenuColors,
+                    "Cast Memorize Scribe Display Rest Exit", string.Empty);
 
                 if (controlKey == true)
                 {
@@ -682,8 +688,9 @@ namespace engine
             }
         }
 
-        static string[] reorderStrings = { "Select Exit", "Place Exit" }; //seg600_04A6
-        static Set reorderSet = new Set(13,80,83);
+        static string[] reorderStrings = {"Select Exit", "Place Exit"}; //seg600_04A6
+        static Set reorderSet = new Set(13, 80, 83);
+
         static void reorder_party()
         {
             int reorderState = 0;
@@ -692,7 +699,8 @@ namespace engine
             while (AlterSet.MemberOf(inputKey) == false)
             {
                 bool controlKey;
-                inputKey = ovr027.displayInput(out controlKey, true, 1, gbl.defaultMenuColors, reorderStrings[reorderState], "Party Order: ");
+                inputKey = ovr027.displayInput(out controlKey, true, 1, gbl.defaultMenuColors,
+                    reorderStrings[reorderState], "Party Order: ");
 
                 if (controlKey == true)
                 {
@@ -711,6 +719,7 @@ namespace engine
                         {
                             MoveCurrentPlayerDown();
                         }
+
                         ovr025.PartySummary(gbl.SelectedPlayer);
                     }
                 }
@@ -775,7 +784,8 @@ namespace engine
 
             do
             {
-                seg041.displayString(string.Format("Game Speed = {0} (0=fastest 9=slowest)", gbl.game_speed_var), 0, 10, 18, 1);
+                Seg041.displayString(string.Format("Game Speed = {0} (0=fastest 9=slowest)", gbl.game_speed_var), 0, 10,
+                    18, 1);
 
                 string text = string.Empty;
 
@@ -822,7 +832,6 @@ namespace engine
                         gbl.game_speed_var++;
                     }
                 }
-
             } while (AlterSet.MemberOf(inputKey) == false);
 
             ovr025.ClearPlayerTextArea();
@@ -837,7 +846,8 @@ namespace engine
             while (AlterSet.MemberOf(inputKey) == false)
             {
                 bool controlKey;
-                inputKey = ovr027.displayInput(out controlKey, true, 1, gbl.defaultMenuColors, "Order Drop Speed Icon Exit", "Alter: ");
+                inputKey = ovr027.displayInput(out controlKey, true, 1, gbl.defaultMenuColors,
+                    "Order Drop Speed Icon Exit", "Alter: ");
 
                 if (controlKey == true)
                 {
@@ -868,7 +878,6 @@ namespace engine
                 }
             }
         }
-
 
 
         static int CalculateInitialHealing() // sub_45F22
@@ -903,7 +912,8 @@ namespace engine
         }
 
 
-        static void CalculateHealing(ref int healingAvailable, int numCureLight, int numCureSerious, int numCureCritical) // sub_45FDD
+        static void CalculateHealing(ref int healingAvailable, int numCureLight, int numCureSerious,
+            int numCureCritical) // sub_45FDD
         {
             for (int i = 0; i < numCureLight; i++)
             {
@@ -934,7 +944,8 @@ namespace engine
         }
 
 
-        internal static void CalculateTimeAndSpellNumbers(out int numCureCritical, out int numCureSerious, out int numCureLight) //sub_460ED
+        internal static void CalculateTimeAndSpellNumbers(out int numCureCritical, out int numCureSerious,
+            out int numCureLight) //sub_460ED
         {
             numCureLight = 0;
             numCureSerious = 0;
@@ -1091,16 +1102,17 @@ namespace engine
             ovr025.LoadPic();
             seg037.draw8x8_clear_area(TextRegion.NormalBottom);
 
-            seg041.displayString("The party makes camp...", 0, 10, 18, 1);
+            Seg041.displayString("The party makes camp...", 0, 10, 18, 1);
             cancel_spells();
             bool actionInterrupted = false;
             char input_key = ' ';
 
             while (actionInterrupted == false &&
-                unk_463F4.MemberOf(input_key) == false)
+                   unk_463F4.MemberOf(input_key) == false)
             {
                 bool special_key;
-                input_key = ovr027.displayInput(out special_key, true, 1, gbl.defaultMenuColors, "Save View Magic Rest Alter Fix Exit", "Camp:");
+                input_key = ovr027.displayInput(out special_key, true, 1, gbl.defaultMenuColors,
+                    "Save View Magic Rest Alter Fix Exit", "Camp:");
 
                 if (special_key == true)
                 {
@@ -1117,6 +1129,7 @@ namespace engine
                             {
                                 seg043.print_and_exit();
                             }
+
                             break;
 
                         case 'V':
