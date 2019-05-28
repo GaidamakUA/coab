@@ -52,7 +52,7 @@ namespace Classes
             set => _updateCallback = value;
         }
 
-        private static readonly int[] MonoBitMask = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
+        private static readonly int[] MonoBitMask = {128, 64, 32, 16, 8, 4, 2, 1};
 
         public static void DisplayMono8X8(int xCol, int yCol, byte[] monoData8X8, int bgColor, int fgColor)
         {

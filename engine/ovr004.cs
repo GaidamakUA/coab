@@ -25,9 +25,9 @@ namespace engine
 
             seg037.DrawFrame_Outer();
 
-            Seg041.displayString("Align the espruar and dethek runes", 0, 10, 2, 3);
-            Seg041.displayString("shown below, on translation wheel", 0, 10, 3, 3);
-            Seg041.displayString("like this:", 0, 10, 4, 3);
+            Seg041.DisplayString("Align the espruar and dethek runes", 0, 10, 2, 3);
+            Seg041.DisplayString("shown below, on translation wheel", 0, 10, 3, 3);
+            Seg041.DisplayString("like this:", 0, 10, 4, 3);
             int attempt = 0;
 
             do
@@ -64,11 +64,11 @@ namespace engine
 
                 string text = "Type the character in box number " + (6 - code_row);
 
-                Seg041.displayString(text, 0, 10, 12, 3);
+                Seg041.DisplayString(text, 0, 10, 12, 3);
 
-                Seg041.displayString("under the ", 0, 10, 13, 3);
-                Seg041.displayString(code_path_str, 0, 15, 13, 14);
-                Seg041.displayString("path.", 0, 10, 13, 0x19);
+                Seg041.DisplayString("under the ", 0, 10, 13, 3);
+                Seg041.DisplayString(code_path_str, 0, 15, 13, 14);
+                Seg041.DisplayString("path.", 0, 10, 13, 0x19);
 
                 int code_index = var_6 + 0x22 - var_7 + (code_path * 12) + ((5 - code_row) << 1);
 
@@ -84,7 +84,7 @@ namespace engine
 
                 input_expected = codeWheel[code_row][code_index];
 
-                string input = Seg041.getUserInputString(1, 0, 13, "type character and press return: ");
+                string input = Seg041.GetUserInputString(1, 0, 13, "type character and press return: ");
 
                 input_key = (input == null || input.Length == 0) ? ' ' : input[0];
                 attempt++;

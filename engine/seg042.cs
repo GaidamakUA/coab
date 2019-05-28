@@ -1,5 +1,4 @@
 using Classes;
-using System.Collections.Generic;
 
 namespace engine
 {
@@ -19,7 +18,6 @@ namespace engine
                 System.IO.File.Delete(fileString);
             }
         }
-
 
 
         internal static bool find_and_open_file(out File file_ptr, bool noError, string full_file_name)
@@ -63,7 +61,7 @@ namespace engine
         }
 
 
-        static char[] unk_16FA9 = { ' ', '.', '*', ',', '?', '/', '\\', ':', ';', '|' };
+        static char[] unk_16FA9 = {' ', '.', '*', ',', '?', '/', '\\', ':', ';', '|'};
 
         internal static string clean_string(string s)
         {
@@ -78,7 +76,8 @@ namespace engine
         }
 
 
-        static bool setupDaxFiles(out System.IO.BinaryReader fileA, out System.IO.BinaryReader fileB, out short arg_8, string file_name)
+        static bool setupDaxFiles(out System.IO.BinaryReader fileA, out System.IO.BinaryReader fileB, out short arg_8,
+            string file_name)
         {
             fileA = null;
             fileB = null;
@@ -92,8 +91,10 @@ namespace engine
 
             try
             {
-                System.IO.FileStream fsA = new System.IO.FileStream(file_name, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
-                System.IO.FileStream fsB = new System.IO.FileStream(file_name, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
+                System.IO.FileStream fsA = new System.IO.FileStream(file_name, System.IO.FileMode.Open,
+                    System.IO.FileAccess.Read, System.IO.FileShare.Read);
+                System.IO.FileStream fsB = new System.IO.FileStream(file_name, System.IO.FileMode.Open,
+                    System.IO.FileAccess.Read, System.IO.FileShare.Read);
 
                 fileA = new System.IO.BinaryReader(fsA);
                 fileB = new System.IO.BinaryReader(fsB);
@@ -112,12 +113,12 @@ namespace engine
         }
 
 
-        internal static void load_decode_dax(out byte[] out_data, out short decodeSize, int block_id, string file_name)
+        internal static void load_decode_dax(out byte[] outData, out short decodeSize, int blockId, string fileName)
         {
             seg044.PlaySound(Sound.sound_0);
 
-            out_data = Classes.DaxFiles.DaxCache.LoadDax(file_name.ToLower(), block_id);
-            decodeSize = out_data == null ? (short)0 : (short)out_data.Length;
+            outData = Classes.DaxFiles.DaxCache.LoadDax(fileName.ToLower(), blockId);
+            decodeSize = outData == null ? (short) 0 : (short) outData.Length;
         }
 
 

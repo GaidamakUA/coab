@@ -120,10 +120,10 @@ namespace engine
                     {
                         if (menuFlags[i] == true)
                         {
-                            Seg041.displayString(menuStrings[i][0].ToString(), 0, 15, yCol + 12, 2);
+                            Seg041.DisplayString(menuStrings[i][0].ToString(), 0, 15, yCol + 12, 2);
 
                             string var_111 = seg051.Copy(menuStrings[i].Length, 1, menuStrings[i]);
-                            Seg041.displayString(var_111, 0, 10, yCol + 12, 3);
+                            Seg041.DisplayString(var_111, 0, 10, yCol + 12, 3);
                             yCol++;
                         }
                     }
@@ -878,7 +878,7 @@ namespace engine
                     }
                 }
 
-                Seg041.displayString(text, 0, 15, 15, 7);
+                Seg041.DisplayString(text, 0, 15, 15, 7);
                 ovr020.display_player_stats01();
                 ovr020.displayMoney();
 
@@ -889,7 +889,7 @@ namespace engine
 
             do
             {
-                player.name = Seg041.getUserInputString(15, 0, 13, "Character name: ");
+                player.name = Seg041.GetUserInputString(15, 0, 13, "Character name: ");
             } while (player.name.Length == 0);
 
             icon_builder();
@@ -999,22 +999,22 @@ namespace engine
                 if (highlighted == true)
                 {
                     Seg041.DisplaySpaceChar(1, gbl.SelectedPlayer.name.Length + 1);
-                    Seg041.displayString(gbl.SelectedPlayer.name, 0, 13, 1, 1);
+                    Seg041.DisplayString(gbl.SelectedPlayer.name, 0, 13, 1, 1);
 
                     if (name_cursor_pos > gbl.SelectedPlayer.name.Length ||
                         gbl.SelectedPlayer.name[name_cursor_pos - 1] == ' ')
                     {
-                        Seg041.displayString("%", 0, 15, 1, name_cursor_pos);
+                        Seg041.DisplayString("%", 0, 15, 1, name_cursor_pos);
                     }
                     else
                     {
-                        Seg041.displayString(gbl.SelectedPlayer.name[name_cursor_pos - 1].ToString(), 0, 15, 1,
+                        Seg041.DisplayString(gbl.SelectedPlayer.name[name_cursor_pos - 1].ToString(), 0, 15, 1,
                             name_cursor_pos);
                     }
                 }
                 else
                 {
-                    Seg041.displayString(gbl.SelectedPlayer.name, 0, 10, 1, 1);
+                    Seg041.DisplayString(gbl.SelectedPlayer.name, 0, 10, 1, 1);
                 }
             }
         }
@@ -1718,10 +1718,10 @@ namespace engine
                 duplicateCombatIcon(true, 12, player.icon_id);
                 drawIconEditorIcons(2, 1);
 
-                Seg041.displayString("old", 0, 15, 6, 8);
-                Seg041.displayString("ready   action", 0, 15, 10, 3);
-                Seg041.displayString("new", 0, 15, 12, 8);
-                Seg041.displayString("ready   action", 0, 15, 16, 3);
+                Seg041.DisplayString("old", 0, 15, 6, 8);
+                Seg041.DisplayString("ready   action", 0, 15, 10, 3);
+                Seg041.DisplayString("new", 0, 15, 12, 8);
+                Seg041.DisplayString("ready   action", 0, 15, 16, 3);
 
                 do
                 {
@@ -2399,7 +2399,7 @@ namespace engine
 
                 ovr025.displayPlayerName(false, y_offset, 4, gbl.SelectedPlayer);
 
-                Seg041.displayString(" will become:", 0, 10, y_offset, player.name.Length + 4);
+                Seg041.DisplayString(" will become:", 0, 10, y_offset, player.name.Length + 4);
 
                 for (int _class = 0; _class <= 7; _class++)
                 {
@@ -2413,14 +2413,14 @@ namespace engine
                             string text = System.String.Format("    a level {0} {1}",
                                 player.ClassLevel[_class] + 1, ovr020.classString[_class]);
 
-                            Seg041.displayString(text, 0, 10, y_offset, 6);
+                            Seg041.DisplayString(text, 0, 10, y_offset, 6);
                         }
                         else
                         {
                             string text = System.String.Format("and a level {0} {1}",
                                 player.ClassLevel[_class] + 1, ovr020.classString[_class]);
 
-                            Seg041.displayString(text, 0, 10, y_offset, 6);
+                            Seg041.DisplayString(text, 0, 10, y_offset, 6);
                         }
                     }
                 }

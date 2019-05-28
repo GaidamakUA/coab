@@ -1,4 +1,3 @@
-using Classes;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -12,7 +11,7 @@ namespace engine
         {
             if (milliseconds != 0)
             {
-                System.Threading.Thread.Sleep(milliseconds);
+                Thread.Sleep(milliseconds);
             }
         }
 
@@ -83,7 +82,6 @@ namespace engine
         }
 
 
-
         internal static bool KEYPRESSED()
         {
             if (skipReadFlag == 0)
@@ -106,11 +104,11 @@ namespace engine
             if (lastCode == 0)
             {
                 ushort responce = int_get_keyPressed();
-                lastCode = (byte)responce;
+                lastCode = (byte) responce;
 
                 if ((responce & 0x00ff) == 0)
                 {
-                    skipReadFlag = (byte)(responce >> 8);
+                    skipReadFlag = (byte) (responce >> 8);
                     if (skipReadFlag == 0)
                     {
                         lastCode = 3;

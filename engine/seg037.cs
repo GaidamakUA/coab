@@ -210,7 +210,7 @@ namespace engine
         internal static void draw8x8_clear_area(TextRegion region)
         {
             int r = (int) region;
-            draw8x8_clear_area(Seg041.bounds[r, 0], Seg041.bounds[r, 1], Seg041.bounds[r, 2], Seg041.bounds[r, 3]);
+            draw8x8_clear_area(Seg041.Bounds[r, 0], Seg041.Bounds[r, 1], Seg041.Bounds[r, 2], Seg041.Bounds[r, 3]);
         }
 
         internal static void draw8x8_clear_area(int yEnd, int xEnd, int yStart, int xStart)

@@ -42,7 +42,7 @@ namespace engine
                     if (gbl.AnimationsOn)
                     {
                         ovr027.ClearPromptAreaNoUpdate();
-                        Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+                        Seg041.DisplayString("Loading...Please Wait", 0, 10, 0x18, 0);
                     }
 
                     DaxArrayFreeDaxBlocks(daxArray);

@@ -329,7 +329,7 @@ namespace engine
             do
             {
                 string text = gbl.SelectedPlayer.name + ", how can we help you?";
-                Seg041.displayString(text, 0, 15, 1, 1);
+                Seg041.DisplayString(text, 0, 15, 1, 1);
                 MenuItem dummySelected;
 
                 char sl_output = ovr027.sl_select_item(out dummySelected, ref sl_index, ref redrawMenuItems, false,

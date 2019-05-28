@@ -371,7 +371,7 @@ namespace engine
 
             ushort loc = gbl.cmd_opps[2].Word;
 
-            ushort var_4 = Seg041.getUserInputShort(0, 0x0a, string.Empty);
+            ushort var_4 = Seg041.GetUserInputShort(0, 0x0a, string.Empty);
 
             ovr008.vm_SetMemoryValue(var_4, loc);
         }
@@ -383,7 +383,7 @@ namespace engine
 
             ushort loc = gbl.cmd_opps[2].Word;
 
-            string str = Seg041.getUserInputString(0x28, 0, 10, string.Empty);
+            string str = Seg041.GetUserInputString(0x28, 0, 10, string.Empty);
 
             if (str.Length == 0)
             {

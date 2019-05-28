@@ -1202,7 +1202,7 @@ namespace engine
             ovr027.ClearPromptArea();
             Seg041.GameDelay();
 
-            Seg041.displayString("A battle begins...", 0, 0x0a, 0x18, 0);
+            Seg041.DisplayString("A battle begins...", 0, 0x0a, 0x18, 0);
 
             gbl.AutoPCsCastMagic = false; // TODO review this...
             gbl.combat_round = 0;

@@ -5,7 +5,19 @@ namespace engine
     internal static class Seg041
     {
         private const int FontCharactersCount = 177;
-        private static byte[][] FontData = new byte[FontCharactersCount][];
+        private static readonly byte[][] FontData = new byte[FontCharactersCount][];
+
+
+        internal static readonly int[,] Bounds =
+        {
+            {22, 38, 17, 1},
+            {22, 38, 21, 1},
+            {21, 38, 1, 23} // TextRegion.CombatSummary
+        };
+
+        //static const char[] syms = { '!', ',', '-', '.', ':', ';', '?' };
+        private static readonly Set
+            Punctuation = new Set(33, 44, 45, 46, 58, 59, 63); // "!,-.:;?" // 33,44,45,46,58,59,63
 
         internal static void ClearRectangle(int yEnd, int xEnd, int yStart, int xStart)
         {
@@ -18,37 +30,32 @@ namespace engine
             Display.ClearRectangle(x, y, width, height);
         }
 
-        internal static void Load8x8Tiles() // load_8x8d1_201
+        internal static void Load8X8Tiles() // load_8x8d1_201
         {
-            byte[] block_ptr;
-            short block_size;
+            seg042.load_decode_dax(out var blockData, out var blockSize, 201, "8X8d1.dax");
 
-            seg042.load_decode_dax(out block_ptr, out block_size, 201, "8X8d1.dax");
-
-            if (block_size == 0) return;
-            for (int i = 0, j = 0; i < block_size && j < 177; i += 8, j++)
+            if (blockSize == 0) return;
+            for (int i = 0, j = 0; i < blockSize && j < FontCharactersCount; i += 8, j++)
             {
                 FontData[j] = new byte[8];
-                for (int k = 0; k < 8 && (i + k) < block_size; k++)
+                for (int k = 0; k < 8 && (i + k) < blockSize; k++)
                 {
-                    FontData[j][k] = block_ptr[i + k];
+                    FontData[j][k] = blockData[i + k];
                 }
             }
         }
 
         internal static void
-            display_char01(char ch, int repeatCount, int bgColor, int fgColor, int YCol, int XCol) // display_char01
+            DisplayChar(char ch, int repeatCount, int bgColor, int fgColor, int YCol, int XCol) // display_char01
         {
-            if (XCol < 40 &&
-                YCol < 25)
-            {
-                char index = (char) (char.ToUpper(ch) % 0x40);
-                byte[] monoCharData = FontData[index];
+            if (XCol >= 40 || YCol >= 25) return;
 
-                for (int i = 0; i < repeatCount; i++)
-                {
-                    Display.DisplayMono8X8(XCol + i, YCol, monoCharData, bgColor, fgColor);
-                }
+            var index = (char) (char.ToUpper(ch) % 64);
+            var monoCharData = FontData[index];
+
+            for (var i = 0; i < repeatCount; i++)
+            {
+                Display.DisplayMono8X8(XCol + i, YCol, monoCharData, bgColor, fgColor);
             }
         }
 
@@ -57,20 +64,19 @@ namespace engine
             if (xCol >= 0 && xCol <= 0x27 &&
                 yCol >= 0 && yCol <= 0x18)
             {
-                display_char01(' ', 1, 0, 0, yCol, xCol);
+                DisplayChar(' ', 1, 0, 0, yCol, xCol);
 
                 Display.Update();
             }
         }
 
-
-        internal static void displayString(string str, int bgColor, int fgColor, int yCol, int xCol)
+        internal static void DisplayString(string str, int bgColor, int fgColor, int yCol, int xCol)
         {
             if (xCol <= 0x27 && yCol <= 0x27)
             {
                 foreach (char ch in str)
                 {
-                    display_char01(ch, 1, bgColor, fgColor, yCol, xCol);
+                    DisplayChar(ch, 1, bgColor, fgColor, yCol, xCol);
                     xCol++;
                 }
 
@@ -79,12 +85,11 @@ namespace engine
         }
 
 
-        internal static int displayStringSlow(string text
-            , int text_index, int text_length, int fgColor) // sub_107DE
+        private static int DisplayStringSlow(string text, int text_index, int text_length, int fgColor) // sub_107DE
         {
             while (text_index <= text_length)
             {
-                display_char01(text[text_index - 1], 1, 0, fgColor, gbl.textYCol, gbl.textXCol);
+                DisplayChar(text[text_index - 1], 1, 0, fgColor, gbl.textYCol, gbl.textXCol);
 
                 if (gbl.DelayBetweenCharacters)
                 {
@@ -107,24 +112,14 @@ namespace engine
             }
         }
 
-        internal static int[,] bounds = new int[3, 4]
-        {
-            {0x16, 0x26, 0x11, 1},
-            {0x16, 0x26, 0x15, 1},
-            {0x15, 0x26, 1, 0x17} // TextRegion.CombatSummary
-        };
-
         internal static void press_any_key(string text, bool clearArea, int fgColor, TextRegion region)
         {
             int r = (int) region;
-            press_any_key(text, clearArea, fgColor, bounds[r, 0], bounds[r, 1], bounds[r, 2], bounds[r, 3]);
+            press_any_key(text, clearArea, fgColor, Bounds[r, 0], Bounds[r, 1], Bounds[r, 2], Bounds[r, 3]);
         }
 
-        //static const char[] syms = { '!', ',', '-', '.', ':', ';', '?' };
-        static Set puncutation = new Set(33, 44, 45, 46, 58, 59, 63); // "!,-.:;?" // 33,44,45,46,58,59,63
-
-        internal static void press_any_key(string text, bool clearArea, int fgColor,
-            int yEnd, int xEnd, int yStart, int xStart)
+        internal static void press_any_key(string text, bool clearArea, int fgColor, int yEnd, int xEnd, int yStart,
+            int xStart)
         {
             if (xStart > 0x27 || yStart > 0x18 ||
                 xEnd > 0x27 && yEnd > 0x27)
@@ -159,13 +154,13 @@ namespace engine
                     //text.LastIndexOfAny(syms, text_start);
 
                     while (text_end < input_lenght &&
-                           puncutation.MemberOf(text[text_end - 1]) == true)
+                           Punctuation.MemberOf(text[text_end - 1]) == true)
                     {
                         text_end++;
                     }
 
                     while (text_end < input_lenght &&
-                           puncutation.MemberOf(text[text_end - 1]) == false &&
+                           Punctuation.MemberOf(text[text_end - 1]) == false &&
                            text[text_end - 1] != ' ')
                     {
                         text_end++;
@@ -174,7 +169,7 @@ namespace engine
                     if (text[text_end - 1] != ' ')
                     {
                         while (text_end + 1 < input_lenght &&
-                               puncutation.MemberOf(text[text_end]) == true)
+                               Punctuation.MemberOf(text[text_end]) == true)
                         {
                             text_end++;
                         }
@@ -186,7 +181,7 @@ namespace engine
                             text[text_end - 1] == ' ')
                         {
                             text_end -= 1;
-                            text_start = displayStringSlow(text, text_start, text_end, fgColor);
+                            text_start = DisplayStringSlow(text, text_start, text_end, fgColor);
                         }
 
                         gbl.textXCol = xStart;
@@ -204,12 +199,12 @@ namespace engine
 
                             seg037.draw8x8_clear_area(yEnd, xEnd, yStart, xStart);
 
-                            text_start = displayStringSlow(text, text_start, text_end, fgColor);
+                            text_start = DisplayStringSlow(text, text_start, text_end, fgColor);
                         }
                     }
                     else
                     {
-                        text_start = displayStringSlow(text, text_start, text_end, fgColor);
+                        text_start = DisplayStringSlow(text, text_start, text_end, fgColor);
                         Display.Update();
                     }
                 } while (text_start <= input_lenght);
@@ -222,11 +217,11 @@ namespace engine
             }
         }
 
-        internal static string getUserInputString(byte inputLen, byte bgColor, byte fgColor, string prompt)
+        internal static string GetUserInputString(byte inputLen, byte bgColor, byte fgColor, string prompt)
         {
             ovr027.ClearPromptAreaNoUpdate();
 
-            displayString(prompt, bgColor, fgColor, 0x18, 0);
+            DisplayString(prompt, bgColor, fgColor, 0x18, 0);
 
             int xPos = prompt.Length;
 
@@ -242,7 +237,7 @@ namespace engine
                     if (resultString.Length < inputLen)
                     {
                         resultString += ch.ToString();
-                        displayString(ch.ToString(), 0, 15, 0x18, xPos++);
+                        DisplayString(ch.ToString(), 0, 15, 0x18, xPos++);
                     }
                 }
                 else if (ch == 8 && resultString.Length > 0)
@@ -259,14 +254,14 @@ namespace engine
         }
 
 
-        internal static ushort getUserInputShort(byte bgColor, byte fgColor, string prompt)
+        internal static ushort GetUserInputShort(byte bgColor, byte fgColor, string prompt)
         {
             bool good_input;
             int value = 0;
 
             do
             {
-                string input = getUserInputString(6, bgColor, fgColor, prompt);
+                string input = GetUserInputString(6, bgColor, fgColor, prompt);
 
                 good_input = int.TryParse(input, out value);
 
@@ -284,7 +279,7 @@ namespace engine
         {
             ovr027.ClearPromptAreaNoUpdate();
 
-            displayString(txt, 0, fgColor, 0x18, 0);
+            DisplayString(txt, 0, fgColor, 0x18, 0);
             seg043.GetInputKey();
         }
 
@@ -292,11 +287,11 @@ namespace engine
         /// <summary>
         /// Gets the centi seconds since midnight
         /// </summary>
-        internal static int time01() // time01
+        internal static int CentiSeconds() // time01
         {
-            System.DateTime dt = System.DateTime.Now;
+            var now = System.DateTime.Now;
 
-            return (dt.Hour * 360000) + (dt.Minute * 6000) + (dt.Second * 100) + (dt.Millisecond / 10);
+            return (now.Hour * 360000) + (now.Minute * 6000) + (now.Second * 100) + (now.Millisecond / 10);
         }
 
 
@@ -310,7 +305,7 @@ namespace engine
         {
             ovr027.ClearPromptAreaNoUpdate();
 
-            displayString(text, bgColor, fgColor, 0x18, 0);
+            DisplayString(text, bgColor, fgColor, 0x18, 0);
 
             GameDelay();
 

@@ -713,8 +713,8 @@ namespace engine
             {
                 if (gbl.spell_from_item == false)
                 {
-                    Seg041.displayString(SpellNames[spell_id], 0, 10, 0x13, 1);
-                    Seg041.displayString("can't be cast here...", 0, 10, 0x14, 1);
+                    Seg041.DisplayString(SpellNames[spell_id], 0, 10, 0x13, 1);
+                    Seg041.DisplayString("can't be cast here...", 0, 10, 0x14, 1);
 
                     if (ovr027.yes_no(gbl.defaultMenuColors, "Lose it? ") == 'Y')
                     {
@@ -723,8 +723,8 @@ namespace engine
                 }
                 else
                 {
-                    Seg041.displayString("That Item", 0, 10, 0x13, 1);
-                    Seg041.displayString("is a combat-only item...", 0, 10, 0x14, 1);
+                    Seg041.DisplayString("That Item", 0, 10, 0x13, 1);
+                    Seg041.DisplayString("is a combat-only item...", 0, 10, 0x14, 1);
 
                     if (ovr027.yes_no(gbl.defaultMenuColors, "Use it? ") == 'Y')
                     {
@@ -3199,7 +3199,7 @@ namespace engine
                 ovr025.DisplayPlayerStatusString(true, 10, "Casts a Spell", player);
                 seg037.draw8x8_clear_area(0x17, 0x27, 0x17, 0);
 
-                Seg041.displayString("Spell:" + SpellNames[spellId], 0, 10, 0x17, 0);
+                Seg041.DisplayString("Spell:" + SpellNames[spellId], 0, 10, 0x17, 0);
             }
             else
             {
@@ -3207,8 +3207,8 @@ namespace engine
 
                 ovr025.displayPlayerName(false, 0x13, 1, player);
 
-                Seg041.displayString(arg_2, 0, 10, 0x13, player.name.Length + 2);
-                Seg041.displayString(SpellNames[spellId], 0, 10, 0x14, 1);
+                Seg041.DisplayString(arg_2, 0, 10, 0x13, player.name.Length + 2);
+                Seg041.DisplayString(SpellNames[spellId], 0, 10, 0x14, 1);
                 Seg041.GameDelay();
                 ovr025.ClearPlayerTextArea();
             }

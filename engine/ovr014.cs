@@ -193,7 +193,7 @@ namespace engine
 
                 if (target.health_status == Status.dying)
                 {
-                    Seg041.displayString("and is Dying", 0, 10, line, 0x17);
+                    Seg041.DisplayString("and is Dying", 0, 10, line, 0x17);
                 }
 
                 if (target.health_status == Status.dead ||
@@ -1783,7 +1783,7 @@ namespace engine
             if (showRange == true)
             {
                 string range_txt = "Range = " + range.ToString() + "  ";
-                Seg041.displayString(range_txt, 0, 10, 0x17, 0);
+                Seg041.DisplayString(range_txt, 0, 10, 0x17, 0);
             }
 
             if (range <= maxRange)
@@ -1921,7 +1921,7 @@ namespace engine
                     {
                         string range_text = "Range = " + (range / 2).ToString() + "  ";
 
-                        Seg041.displayString(range_text, 0, 10, 0x17, 0);
+                        Seg041.DisplayString(range_text, 0, 10, 0x17, 0);
                     }
                 }
                 else

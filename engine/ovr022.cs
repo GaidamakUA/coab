@@ -58,7 +58,7 @@ namespace engine
         internal static short AskNumberValue(byte fgColor, string prompt, int maxValue) // sub_592AD
         {
             ovr027.ClearPromptAreaNoUpdate();
-            Seg041.displayString(prompt, 0, fgColor, 0x18, 0);
+            Seg041.DisplayString(prompt, 0, fgColor, 0x18, 0);
 
             int prompt_width = prompt.Length;
             int xCol = prompt_width;
@@ -89,7 +89,7 @@ namespace engine
                         xCol = maxValueStr.Length + prompt_width;
                     }
 
-                    Seg041.displayString(currentValueStr, 0, 15, 0x18, prompt_width);
+                    Seg041.DisplayString(currentValueStr, 0, 15, 0x18, prompt_width);
                 }
                 else if (inputKey == 8 && currentValueStr.Length > 0)
                 {
@@ -891,9 +891,9 @@ namespace engine
                     seg037.draw8x8_clear_area(0x16, 0x26, 1, 1);
                     ovr025.displayPlayerName(false, 1, 1, gbl.SelectedPlayer);
 
-                    Seg041.displayString("You have a fine collection of:", 0, 0xf, 7, 1);
-                    Seg041.displayString(gem_text, 0, 0x0f, 9, 1);
-                    Seg041.displayString(jewel_text, 0, 0x0f, 0x0a, 1);
+                    Seg041.DisplayString("You have a fine collection of:", 0, 0xf, 7, 1);
+                    Seg041.DisplayString(gem_text, 0, 0x0f, 9, 1);
+                    Seg041.DisplayString(jewel_text, 0, 0x0f, 0x0a, 1);
                     string prompt = string.Empty;
 
                     if (gbl.SelectedPlayer.Money.Gems != 0)
@@ -950,7 +950,7 @@ namespace engine
 
                             string value_text = "The Gem is Valued at " + value.ToString() + " gp.";
 
-                            Seg041.displayString(value_text, 0, 15, 12, 1);
+                            Seg041.DisplayString(value_text, 0, 15, 12, 1);
 
                             bool must_sell;
 
@@ -1025,7 +1025,7 @@ namespace engine
                             }
 
                             string value_text = string.Format("The Jewel is Valued at {0} gp.", value);
-                            Seg041.displayString(value_text, 0, 15, 12, 1);
+                            Seg041.DisplayString(value_text, 0, 15, 12, 1);
 
                             bool must_sell;
                             if (willOverload(1, gbl.SelectedPlayer) == true ||

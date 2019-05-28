@@ -77,7 +77,7 @@ namespace engine
 
             while (true)
             {
-                if (gbl.inDemo == true)
+                if (gbl.inDemo)
                 {
                     gbl.game_area = 1;
                     gbl.game_speed_var = 9;
@@ -96,7 +96,7 @@ namespace engine
 
                 InitAgain();
 
-                if (gbl.inDemo == true)
+                if (gbl.inDemo)
                 {
                     ovr002.title_screen();
                     seg043.clear_keyboard();
@@ -123,7 +123,7 @@ namespace engine
             }
         }
 
-        static void InitFirst() /* sub_39054 */
+        private static void InitFirst() /* sub_39054 */
         {
             seg051.Randomize();
 
@@ -247,9 +247,9 @@ namespace engine
             gbl.sky_dax_251 = null;
             gbl.sky_dax_252 = null;
             gbl.gameWon = false;
-            Seg041.Load8x8Tiles();
+            Seg041.Load8X8Tiles();
             ovr027.ClearPromptArea();
-            Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+            Seg041.DisplayString("Loading...Please Wait", 0, 10, 0x18, 0);
 
             ovr038.Load8x8D(4, 0xca);
             ovr038.Load8x8D(0, 0xcb);

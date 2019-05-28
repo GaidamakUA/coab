@@ -143,7 +143,7 @@ namespace engine
             do
             {
                 ovr027.ClearPromptArea();
-                Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+                Seg041.DisplayString("Loading...Please Wait", 0, 10, 0x18, 0);
 
                 seg042.load_decode_dax(out block_mem, out block_size, block_id,
                     string.Format("ECL{0}.dax", gbl.game_area));

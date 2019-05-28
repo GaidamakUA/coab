@@ -379,7 +379,7 @@ namespace engine
 
             string prompt = string.Format("Move/Attack, Move Left = {0} ", player.actions.move / 2);
 
-            Seg041.displayString(prompt, 0, 10, 0x18, 0);
+            Seg041.DisplayString(prompt, 0, 10, 0x18, 0);
 
             if (process_input_in_monsters_turn(player))
             {

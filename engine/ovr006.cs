@@ -394,7 +394,7 @@ namespace engine
             {
                 if (gbl.party_fled == true)
                 {
-                    Seg041.displayString("The party has fled.", 0, 10, 3, 1);
+                    Seg041.DisplayString("The party has fled.", 0, 10, 3, 1);
 
                     exp = 0;
 
@@ -408,7 +408,7 @@ namespace engine
                         (gbl.battleWon == false && gbl.area2_ptr.isDuel == true))
                     {
                         gbl.area2_ptr.field_58E = 0x80;
-                        Seg041.displayString("You have lost the fight.", 0, 10, 3, 1);
+                        Seg041.DisplayString("You have lost the fight.", 0, 10, 3, 1);
 
                         exp = 0;
                     }
@@ -416,18 +416,18 @@ namespace engine
                     {
                         if (gbl.combat_type == CombatType.duel)
                         {
-                            Seg041.displayString("You have won the duel.", 0, 10, 3, 1);
+                            Seg041.DisplayString("You have won the duel.", 0, 10, 3, 1);
                         }
                         else
                         {
-                            Seg041.displayString("The party has won.", 0, 10, 3, 1);
+                            Seg041.DisplayString("The party has won.", 0, 10, 3, 1);
                         }
                     }
                 }
             }
             else
             {
-                Seg041.displayString("The party has found Treasure!", 0, 10, 3, 1);
+                Seg041.DisplayString("The party has found Treasure!", 0, 10, 3, 1);
             }
 
             string text;
@@ -440,8 +440,8 @@ namespace engine
                 text = "Each character receives " + exp.ToString();
             }
 
-            Seg041.displayString(text, 0, 10, 5, 1);
-            Seg041.displayString("experience points.", 0, 10, 7, 1);
+            Seg041.DisplayString(text, 0, 10, 5, 1);
+            Seg041.DisplayString("experience points.", 0, 10, 7, 1);
 
             ovr027.displayInput(false, 1, new MenuColorSet(15, 15, 15), "press <enter>/<return> to continue",
                 string.Empty);

@@ -172,7 +172,7 @@ namespace engine
 
                     while (file_text == string.Empty)
                     {
-                        file_text = Seg041.getUserInputString(8, 0, 10, "New file name: ");
+                        file_text = Seg041.GetUserInputString(8, 0, 10, "New file name: ");
                     }
                 }
             }
@@ -499,7 +499,7 @@ namespace engine
 
             seg042.find_and_open_file(out file, false, Path.Combine(Config.GetSavePath(), arg_8));
 
-            Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+            Seg041.DisplayString("Loading...Please Wait", 0, 10, 0x18, 0);
 
 
             if (gbl.import_from == ImportSource.Curse)
@@ -991,7 +991,7 @@ namespace engine
             seg042.find_and_open_file(out file, true, file_name);
 
             ovr027.ClearPromptArea();
-            Seg041.displayString("Loading...Please Wait", 0, 10, 0x18, 0);
+            Seg041.DisplayString("Loading...Please Wait", 0, 10, 0x18, 0);
             gbl.reload_ecl_and_pictures = true;
 
             byte[] data = new byte[0x2000];
@@ -1151,7 +1151,7 @@ namespace engine
                 } while (unk_4AEEF.MemberOf(var_1FC) == false);
 
                 ovr027.ClearPromptArea();
-                Seg041.displayString("Saving...Please Wait", 0, 10, 0x18, 0);
+                Seg041.DisplayString("Saving...Please Wait", 0, 10, 0x18, 0);
 
                 gbl.area_ptr.game_speed = (byte) gbl.game_speed_var;
                 gbl.area_ptr.pics_on = (byte) (((gbl.PicsOn) ? 0x02 : 0) | ((gbl.AnimationsOn) ? 0x01 : 0));

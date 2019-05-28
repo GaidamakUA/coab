@@ -416,7 +416,7 @@ namespace engine
         internal static void ShowAnimation(int num_loops, byte block_id, short row_y, short col_x) // sub_52B79
         {
             int loop_count = 0;
-            int start_time = Seg041.time01();
+            int start_time = Seg041.CentiSeconds();
 
             DaxArray animation = new DaxArray();
 
@@ -427,7 +427,7 @@ namespace engine
             do
             {
                 ovr030.DrawMaybeOverlayed(animation.CurrentPicture(), true, row_y, col_x);
-                int current_time = Seg041.time01();
+                int current_time = Seg041.CentiSeconds();
 
                 int delay = animation.CurrentDelay() * (gbl.game_speed_var + 3);
 
