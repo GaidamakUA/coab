@@ -342,8 +342,6 @@ namespace engine
 
             player.activeItems.Reset();
 
-            bool var_8 = false;
-
             player.weaponsHandsUsed = 0;
 
             player.weight = 0;
@@ -449,23 +447,6 @@ namespace engine
             if (var_7 != 0)
             {
                 stat_bonus[3] = 0;
-            }
-
-            if (var_8 == true)
-            {
-                if (player.weight < 5000)
-                {
-                    player.weight = 0;
-                }
-                else
-                {
-                    player.weight -= 5000;
-                }
-
-                if (player.weight < totalItemWeight)
-                {
-                    player.weight = (short) totalItemWeight;
-                }
             }
 
             calc_movement(player);
