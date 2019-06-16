@@ -4,7 +4,7 @@ namespace Classes
 {
     public class DaxBlock
     {
-        static Random random_number = new System.Random(unchecked((int)System.DateTime.Now.Ticks));
+        static Random random_number = new System.Random(unchecked((int) System.DateTime.Now.Ticks));
 
         public int height; // 0x0;
         public int width; // 0x2;
@@ -14,7 +14,8 @@ namespace Classes
         public byte[] field_9; // 0x9; byte[8]
 
         /// <summary>0x11 Bytes Per Picture</summary>
-        public int bpp; // 0x11;
+        public readonly int bpp; // 0x11;
+
         //public byte[] data_ptr; // 0x13;
         public byte[] data; // 0x17;
 
@@ -40,12 +41,12 @@ namespace Classes
             item_count = pic_data[8];
 
             field_9 = new byte[8];
-            System.Array.Copy(pic_data, 9, field_9, 0, 8);
+            Array.Copy(pic_data, 9, field_9, 0, 8);
 
-            int ram_size = item_count * bpp;
-            data = new byte[ram_size];
+            var ramSize = item_count * bpp;
+            data = new byte[ramSize];
 
-            int pic_data_offset = 17;
+            var pic_data_offset = 17;
             DaxToPicture(mask_color, masked, pic_data_offset, pic_data);
         }
 
@@ -53,41 +54,39 @@ namespace Classes
         {
             byte[] t_data = new byte[data.Length];
 
-            int t_width = width * 8;
-            for (int y = 0; y < height; y++)
+            var t_width = width * 8;
+            for (var y = 0; y < height; y++)
             {
-                for (int x = 0; x < t_width; x++)
+                for (var x = 0; x < t_width; x++)
                 {
-                    int di = (y * t_width) + x;
-                    int si = (y * t_width) + (t_width - x) - 1;
+                    var di = (y * t_width) + x;
+                    var si = (y * t_width) + (t_width - x) - 1;
 
                     t_data[di] = data[si];
                 }
             }
 
-            System.Array.Copy(t_data, data, data.Length);
+            Array.Copy(t_data, data, data.Length);
         }
 
         public void Recolor(bool useRandom, byte[] newColors, byte[] oldColors)
         {
-            for (int colorIdx = 0; colorIdx < 16; colorIdx++)
+            for (var colorIdx = 0; colorIdx < 16; colorIdx++)
             {
-                if (oldColors[colorIdx] != newColors[colorIdx])
+                if (oldColors[colorIdx] == newColors[colorIdx]) continue;
+                var offset = 0;
+
+                for (var posY = 0; posY < height; posY++)
                 {
-                    int offset = 0;
-
-                    for (int posY = 0; posY < height; posY++)
+                    for (var posX = 0; posX < (width * 8); posX++)
                     {
-                        for (int posX = 0; posX < (width * 8); posX++)
+                        if (data[offset] == oldColors[colorIdx] &&
+                            (useRandom == false || ((random_number.Next() % 4) == 0)))
                         {
-                            if (data[offset] == oldColors[colorIdx] &&
-                                (useRandom == false || ((random_number.Next() % 4) == 0)))
-                            {
-                                data[offset] = newColors[colorIdx];
-                            }
-
-                            offset += 1;
+                            data[offset] = newColors[colorIdx];
                         }
+
+                        offset += 1;
                     }
                 }
             }
@@ -95,10 +94,10 @@ namespace Classes
 
         public void MergeIcons(DaxBlock srcIcon) /* icon_xx, could be implemented using alpha-blending */
         {
-            for (int i = 0; i < srcIcon.bpp; i++)
+            for (var i = 0; i < srcIcon.bpp; i++)
             {
-                byte a = data[i];
-                byte b = srcIcon.data[i];
+                var a = data[i];
+                var b = srcIcon.data[i];
 
                 if (a == 16 && b == 16)
                 {
@@ -115,38 +114,38 @@ namespace Classes
                 else
                 {
                     //TODO - not sure about this... more likely there should be a presedant, not just blending on the color code..
-                    data[i] = (byte)(a | b);
+                    data[i] = (byte) (a | b);
                 }
             }
         }
 
 
-        public void DaxToPicture(int mask_colour, int masked, int block_offset, byte[] t_data)
+        public void DaxToPicture(int maskColour, int masked, int blockOffset, byte[] t_data)
         {
-            int dest_offset = 0;
+            var dest_offset = 0;
 
-            for (int loop1_var = 1; loop1_var <= item_count; loop1_var++)
+            for (var loop1_var = 1; loop1_var <= item_count; loop1_var++)
             {
-                for (int loop2_var = 0; loop2_var < height; loop2_var++)
+                for (var loop2_var = 0; loop2_var < height; loop2_var++)
                 {
-                    for (int loop3_var = 0; loop3_var < (width * 4); loop3_var++)
+                    for (var loop3_var = 0; loop3_var < (width * 4); loop3_var++)
                     {
-                        byte c = t_data[block_offset];
+                        var c = t_data[blockOffset];
 
-                        SetMaskedColor(dest_offset, c >> 4, masked, mask_colour);
-
-                        dest_offset += 1;
-
-                        SetMaskedColor(dest_offset, c & 0x0F, masked, mask_colour);
+                        SetMaskedColor(dest_offset, c >> 4, masked, maskColour);
 
                         dest_offset += 1;
-                        block_offset += 1;
+
+                        SetMaskedColor(dest_offset, c & 0x0F, masked, maskColour);
+
+                        dest_offset += 1;
+                        blockOffset += 1;
                     }
                 }
             }
         }
 
-        void SetMaskedColor(int offset, int color, int masked, int mask_color)
+        private void SetMaskedColor(int offset, int color, int masked, int mask_color)
         {
             if (masked == 1 && color == mask_color)
             {
@@ -154,7 +153,7 @@ namespace Classes
             }
             else
             {
-                data[offset] = (byte)color;
+                data[offset] = (byte) color;
             }
         }
     }
