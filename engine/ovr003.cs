@@ -338,7 +338,7 @@ namespace engine
                     }
                     else
                     {
-                        ovr030.load_pic_final(ref gbl.byte_1D556, 0, blockId, "PIC");
+                        ovr030.load_pic_final(ref gbl.byte_1D556, false, blockId, "PIC");
                         ovr030.DrawMaybeOverlayed(gbl.byte_1D556.frames[0].picture, true, 3, 3);
                     }
                 }

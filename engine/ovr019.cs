@@ -420,7 +420,7 @@ namespace engine
 
             DaxArray animation = new DaxArray();
 
-            ovr030.load_pic_final(ref animation, 2, block_id, "PIC");
+            ovr030.load_pic_final(ref animation, false, block_id, "PIC");
             seg040.OverlayBounded(animation.frames[0].picture, 0, 0, row_y - 1, col_x - 1);
             seg040.DrawOverlay();
 

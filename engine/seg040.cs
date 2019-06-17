@@ -4,18 +4,14 @@ namespace engine
 {
     class seg040
     {
-        internal static DaxBlock LoadDax(byte mask_colour, byte masked, int block_id, string fileName) // load_dax
+        internal static DaxBlock LoadDax(byte mask_colour, bool shouldMask, int block_id, string fileName) // load_dax
         {
             short pic_size;
             byte[] pic_data;
             seg042.load_decode_dax(out pic_data, out pic_size, block_id, fileName + ".dax");
 
-            if (pic_size != 0)
-            {
-                return new DaxBlock(pic_data, masked, mask_colour);
-            }
-
-            return null;
+            if (pic_size == 0) return null;
+            return new DaxBlock(pic_data, shouldMask, mask_colour);
         }
 
 
@@ -39,16 +35,16 @@ namespace engine
                 int offset = 0;
 
                 int minY = rowY * 8;
-                int maxY = minY + dax_block.height;
+                int maxY = minY + dax_block.Height;
 
                 int minX = colX * 8;
-                int maxX = minX + (dax_block.width * 8);
+                int maxX = minX + (dax_block.Width * 8);
 
                 for (int pixY = minY; pixY < maxY; pixY++)
                 {
                     for (int pixX = minX; pixX < maxX; pixX++)
                     {
-                        dax_block.data[offset] = Display.GetPixel(pixX, pixY);
+                        dax_block.ImageData[offset] = Display.GetPixel(pixX, pixY);
                         offset++;
                     }
                 }
@@ -75,13 +71,13 @@ namespace engine
         {
             if (dax_block != null)
             {
-                int offset = index * dax_block.bpp;
+                int offset = index * dax_block.Bpp;
 
                 int minY = rowY * 8;
-                int maxY = minY + dax_block.height;
+                int maxY = minY + dax_block.Height;
 
                 int minX = colX * 8;
-                int maxX = minX + (dax_block.width * 8);
+                int maxX = minX + (dax_block.Width * 8);
 
                 for (int pixY = minY; pixY < maxY; pixY++)
                 {
@@ -90,7 +86,7 @@ namespace engine
                         if (pixX >= clipMinX && pixX < clipMaxX &&
                             pixY >= clipMinY && pixY < clipMaxY)
                         {
-                            byte color = dax_block.data[offset];
+                            byte color = dax_block.ImageData[offset];
 
                             if (color == color_no_draw)
                             {

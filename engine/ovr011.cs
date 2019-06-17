@@ -1224,7 +1224,7 @@ namespace engine
 
             seg043.clear_one_keypress();
 
-            gbl.missile_dax = new DaxBlock(1, 4, 3, 0x18);
+            gbl.missile_dax = new DaxBlock(4, 3, 0x18);
 
             Point pos = ovr033.PlayerMapPos(gbl.TeamList[0]);
             gbl.mapToBackGroundTile.mapScreenTopLeft = pos - Point.ScreenCenter;

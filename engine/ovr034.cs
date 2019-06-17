@@ -1,6 +1,6 @@
 using Classes;
-using Logging;
 using Classes.Combat;
+using Logging;
 
 namespace engine
 {
@@ -13,14 +13,14 @@ namespace engine
                 Logger.LogAndExit("Start range error in Load24x24Set. {0}", destCellOffset);
             }
 
-            DaxBlock tmp_block = seg040.LoadDax(0, 0, block_id, fileName);
+            DaxBlock tmp_block = seg040.LoadDax(0, false, block_id, fileName);
 
-            int dateLength = cellCount * tmp_block.bpp;
-            int destByteOffset = destCellOffset * tmp_block.bpp;
+            int dateLength = cellCount * tmp_block.Bpp;
+            int destByteOffset = destCellOffset * tmp_block.Bpp;
 
             if (gbl.dax24x24Set != null)
             {
-                System.Array.Copy(tmp_block.data, 0, gbl.dax24x24Set.data, destByteOffset, dateLength);
+                System.Array.Copy(tmp_block.ImageData, 0, gbl.dax24x24Set.ImageData, destByteOffset, dateLength);
             }
 
             seg043.clear_keyboard();
@@ -45,9 +45,9 @@ namespace engine
             gbl.combat_icons[index].Release();
         }
 
-        static byte[] unk_16E30 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 }; // seg600:0B20
-        static byte[] unk_16E40 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 }; // seg600:0B30
-        static byte[] unk_16E50 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 }; // seg600:0B40
+        static byte[] unk_16E30 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}; // seg600:0B20
+        static byte[] unk_16E40 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}; // seg600:0B30
+        static byte[] unk_16E50 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15}; // seg600:0B40
 
         internal static void chead_cbody_comspr_icon(byte combat_icon_index, int block_id, string fileText)
         {
@@ -64,11 +64,11 @@ namespace engine
 
                 file_text = seg051.Copy(file_text.Length - 1, 0, file_text);
 
-                gbl.combat_icons[combat_icon_index].LoadIcons(0, 1, file_text, block_id, block_id + 0x80);
+                gbl.combat_icons[combat_icon_index].LoadIcons(0, true, file_text, block_id, block_id + 0x80);
             }
             else if (file_text == "COMSPR" || file_text == "ICON")
             {
-                gbl.combat_icons[combat_icon_index].LoadIcons(0, 1, file_text, block_id, block_id + 0x80);
+                gbl.combat_icons[combat_icon_index].LoadIcons(0, true, file_text, block_id, block_id + 0x80);
 
                 if (file_text == "ICON")
                 {
@@ -79,7 +79,7 @@ namespace engine
             {
                 file_text += gbl.game_area.ToString();
 
-                gbl.combat_icons[combat_icon_index].LoadIcons(0, 1, file_text, block_id, block_id + 0x80);
+                gbl.combat_icons[combat_icon_index].LoadIcons(0, true, file_text, block_id, block_id + 0x80);
                 gbl.combat_icons[combat_icon_index].Recolor(false, unk_16E40, unk_16E30);
             }
 
@@ -87,7 +87,8 @@ namespace engine
         }
 
 
-        internal static void draw_combat_icon(int iconIndex, Icon iconState, int direction, int tileY, int tileX) /* sub_76504 */
+        internal static void
+            draw_combat_icon(int iconIndex, Icon iconState, int direction, int tileY, int tileX) /* sub_76504 */
         {
             DaxBlock icon = gbl.combat_icons[iconIndex].GetIcon(iconState, direction);
 

@@ -233,7 +233,7 @@ namespace engine
 
                     if (gbl.area_ptr.inDungeon != 0)
                     {
-                        ovr030.load_pic_final(ref gbl.byte_1D556, 1, sprite_block_id, "SPRIT");
+                        ovr030.load_pic_final(ref gbl.byte_1D556, true, sprite_block_id, "SPRIT");
                         flags[0] = true;
                         gbl.displayPlayerSprite = true;
                     }
@@ -261,7 +261,7 @@ namespace engine
                     gbl.spriteChanged = true;
                     if (gbl.area2_ptr.HeadBlockId == 0xff)
                     {
-                        ovr030.load_pic_final(ref gbl.byte_1D556, 0, pic_block_id, "PIC");
+                        ovr030.load_pic_final(ref gbl.byte_1D556, false, pic_block_id, "PIC");
                         flags[1] = true;
 
                         ovr030.DrawMaybeOverlayed(gbl.byte_1D556.frames[0].picture, true, 3, 3);

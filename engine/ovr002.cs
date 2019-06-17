@@ -70,19 +70,19 @@ namespace engine
         {
             DaxBlock dax_ptr;
 
-            dax_ptr = seg040.LoadDax(0, 0, 1, "Title");
+            dax_ptr = seg040.LoadDax(0, false, 1, "Title");
             seg040.draw_picture(dax_ptr, 0, 0, 0);
 
             delay_or_key(5);
 
-            dax_ptr = seg040.LoadDax(0, 0, 2, "Title");
+            dax_ptr = seg040.LoadDax(0, false, 2, "Title");
             seg040.draw_picture(dax_ptr, 0, 0, 0);
 
-            dax_ptr = seg040.LoadDax(0, 0, 3, "Title");
+            dax_ptr = seg040.LoadDax(0, false, 3, "Title");
             seg040.draw_picture(dax_ptr, 0x0b, 6, 0);
             delay_or_key(10);
 
-            dax_ptr = seg040.LoadDax(0, 0, 4, "Title");
+            dax_ptr = seg040.LoadDax(0, false, 4, "Title");
 
             seg044.PlaySound(Sound.sound_d);
 

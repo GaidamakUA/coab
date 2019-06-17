@@ -141,10 +141,10 @@ namespace engine
                 gbl.cmd_opps[i].getMemoryValue = ovr008.vm_GetMemoryValue;
             }
 
-            gbl.cursor_bkup = new DaxBlock(0, 1, 1, 8);
-            gbl.cursor = new DaxBlock(0, 1, 1, 8);
+            gbl.cursor_bkup = new DaxBlock(1, 1, 8);
+            gbl.cursor = new DaxBlock(1, 1, 8);
 
-            seg051.FillChar(0xf, gbl.cursor.bpp, gbl.cursor.data);
+            seg051.FillChar(0xf, gbl.cursor.Bpp, gbl.cursor.ImageData);
 
             gbl.symbol_8x8_set = new DaxBlock[5];
             gbl.symbol_8x8_set[0] = null;
@@ -153,10 +153,9 @@ namespace engine
             gbl.symbol_8x8_set[3] = null;
             gbl.symbol_8x8_set[4] = null;
 
-            gbl.dax24x24Set = null;
             gbl.dword_1C8FC = null;
 
-            gbl.dax24x24Set = new DaxBlock(0, 0x30, 3, 0x18);
+            gbl.dax24x24Set = new DaxBlock(48, 3, 0x18);
 
             gbl.area_ptr.Clear();
 
@@ -251,19 +250,19 @@ namespace engine
             ovr027.ClearPromptArea();
             Seg041.DisplayString("Loading...Please Wait", 0, 10, 0x18, 0);
 
-            ovr038.Load8x8D(4, 0xca);
-            ovr038.Load8x8D(0, 0xcb);
+            ovr038.Load8x8D(4, 202);
+            ovr038.Load8x8D(0, 203);
 
-            for (gbl.byte_1AD44 = 0; gbl.byte_1AD44 <= 0x0b; gbl.byte_1AD44++)
+            for (gbl.byte_1AD44 = 0; gbl.byte_1AD44 <= 11; gbl.byte_1AD44++)
             {
                 ovr034.chead_cbody_comspr_icon((byte) (gbl.byte_1AD44 + 0x0D), gbl.byte_1AD44, "COMSPR");
             }
 
             ovr034.chead_cbody_comspr_icon(0x19, 0x19, "COMSPR");
 
-            gbl.sky_dax_250 = seg040.LoadDax(13, 1, 250, "SKY");
-            gbl.sky_dax_251 = seg040.LoadDax(13, 1, 251, "SKY");
-            gbl.sky_dax_252 = seg040.LoadDax(13, 1, 252, "SKY");
+            gbl.sky_dax_250 = seg040.LoadDax(13, true, 250, "SKY");
+            gbl.sky_dax_251 = seg040.LoadDax(13, true, 251, "SKY");
+            gbl.sky_dax_252 = seg040.LoadDax(13, true, 252, "SKY");
 
             gbl.ItemDataTable = new ItemDataTable("ITEMS");
 

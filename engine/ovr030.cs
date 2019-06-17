@@ -32,7 +32,7 @@ namespace engine
         }
 
 
-        internal static void load_pic_final(ref DaxArray daxArray, byte masked, byte block_id, string file_name)
+        internal static void load_pic_final(ref DaxArray daxArray, bool shouldMask, byte block_id, string file_name)
         {
             if (file_name != gbl.lastDaxFile ||
                 block_id != gbl.lastDaxBlockId)
@@ -92,20 +92,20 @@ namespace engine
 
                             frames_count++;
 
-                            daxArray.frames[frame].picture = new DaxBlock(masked, 1, width, height);
+                            daxArray.frames[frame].picture = new DaxBlock(1, width, height);
 
                             DaxBlock dax_block = daxArray.frames[frame].picture;
 
-                            dax_block.x_pos = Sys.ArrayToShort(uncompressed_data, src_offset);
+                            dax_block.XPos = Sys.ArrayToShort(uncompressed_data, src_offset);
                             src_offset += 2;
 
-                            dax_block.y_pos = Sys.ArrayToShort(uncompressed_data, src_offset);
+                            dax_block.YPos = Sys.ArrayToShort(uncompressed_data, src_offset);
                             src_offset += 3;
 
-                            System.Array.Copy(uncompressed_data, src_offset, dax_block.field_9, 0, 8);
+                            // Skipping unused bytes
                             src_offset += 8;
 
-                            int ega_encoded_size = (daxArray.frames[frame].picture.bpp / 2) - 1;
+                            int ega_encoded_size = (daxArray.frames[frame].picture.Bpp / 2) - 1;
 
                             if (is_pic_or_final == true)
                             {
@@ -126,9 +126,9 @@ namespace engine
                                 }
                             }
 
-                            daxArray.frames[frame].picture.DaxToPicture(0, masked, src_offset, uncompressed_data);
+                            daxArray.frames[frame].picture.DaxToPicture(0, shouldMask, src_offset, uncompressed_data);
 
-                            if ((masked & 1) > 0)
+                            if (shouldMask)
                             {
                                 daxArray.frames[frame].picture
                                     .Recolor(false, transparentNewColors, transparentOldColors);
@@ -175,7 +175,7 @@ namespace engine
             if (head_id != 0xff &&
                 (gbl.current_head_id == 0xff || gbl.current_head_id != head_id))
             {
-                gbl.headX_dax = seg040.LoadDax(0, 0, head_id, "HEAD" + text);
+                gbl.headX_dax = seg040.LoadDax(0, false, head_id, "HEAD" + text);
 
                 if (gbl.headX_dax == null)
                 {
@@ -188,7 +188,7 @@ namespace engine
             if (body_id != 0xff &&
                 (gbl.current_body_id == 0xff || gbl.current_body_id != body_id))
             {
-                gbl.bodyX_dax = seg040.LoadDax(0, 0, body_id, "BODY" + text);
+                gbl.bodyX_dax = seg040.LoadDax(0, false, body_id, "BODY" + text);
                 if (gbl.bodyX_dax == null)
                 {
                     Seg041.DisplayAndPause("body not found", 14);
@@ -225,8 +225,8 @@ namespace engine
             if (arg_0.frames[sprite_index - 1].picture != null)
             {
                 DaxBlock block = arg_0.frames[sprite_index - 1].picture;
-                seg040.OverlayBounded(arg_0.frames[sprite_index - 1].picture, 1, 0, block.y_pos + 3 - 1,
-                    block.x_pos + 3 - 1);
+                seg040.OverlayBounded(arg_0.frames[sprite_index - 1].picture, 1, 0, block.YPos + 3 - 1,
+                    block.XPos + 3 - 1);
                 seg040.DrawOverlay();
             }
         }
@@ -238,7 +238,7 @@ namespace engine
 
             if (gbl.bigpic_block_id != block_id)
             {
-                gbl.bigpic_dax = seg040.LoadDax(0, 0, block_id, "bigpic" + gbl.game_area.ToString());
+                gbl.bigpic_dax = seg040.LoadDax(0, false, block_id, "bigpic" + gbl.game_area.ToString());
                 gbl.bigpic_block_id = block_id;
             }
         }

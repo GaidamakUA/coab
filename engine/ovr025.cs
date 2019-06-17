@@ -833,7 +833,7 @@ namespace engine
         internal static void
             load_missile_dax(bool flipIcon, byte iconOffset, Icon iconAction, int iconIdx) /* sub_67924 */
         {
-            int dataSize = gbl.missile_dax.bpp;
+            int dataSize = gbl.missile_dax.Bpp;
 
             if (flipIcon == true)
             {
@@ -844,11 +844,11 @@ namespace engine
                 DaxBlock src = gbl.combat_icons[iconIdx].GetIcon(iconAction, 0);
                 if (src != null)
                 {
-                    System.Array.Copy(src.data, 0, gbl.missile_dax.data, iconOffset * dataSize, dataSize);
+                    System.Array.Copy(src.ImageData, 0, gbl.missile_dax.ImageData, iconOffset * dataSize, dataSize);
                 }
                 else
                 {
-                    System.Array.Clear(gbl.missile_dax.data, iconOffset * dataSize, dataSize);
+                    System.Array.Clear(gbl.missile_dax.ImageData, iconOffset * dataSize, dataSize);
                 }
             }
         }
@@ -1409,7 +1409,7 @@ namespace engine
 
                 case GameState.Camping:
                     seg037.draw8x8_03();
-                    ovr030.load_pic_final(ref gbl.byte_1D556, 0, 0x1d, "PIC");
+                    ovr030.load_pic_final(ref gbl.byte_1D556, false, 0x1d, "PIC");
                     PartySummary(gbl.SelectedPlayer);
                     display_map_position_time();
                     break;
@@ -1432,7 +1432,7 @@ namespace engine
 
                 case GameState.AfterCombat:
                     seg037.draw8x8_03();
-                    ovr030.load_pic_final(ref gbl.byte_1D556, 0, 1, "PIC");
+                    ovr030.load_pic_final(ref gbl.byte_1D556, false, 1, "PIC");
                     PartySummary(gbl.SelectedPlayer);
                     break;
             }

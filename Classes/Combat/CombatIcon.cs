@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Classes.Combat
+﻿namespace Classes.Combat
 {
     public enum Icon
     {
@@ -28,20 +24,20 @@ namespace Classes.Combat
             attack_f = null;
         }
 
-        private static DaxBlock LoadIconHelper(int maskColor, int masked, int block_id, string file_text)
+        private static DaxBlock LoadIconHelper(int maskColor, bool shouldMask, int block_id, string file_text)
         {
             var data = Classes.DaxFiles.DaxCache.LoadDax(file_text + ".dax", block_id);
-            return new DaxBlock(data, masked, maskColor);
+            return new DaxBlock(data, shouldMask, maskColor);
         }
 
 
-        public void LoadIcons(int maskColor, int masked, string file_text, int normal_id, int attack_id)
+        public void LoadIcons(int maskColor, bool shouldMask, string file_text, int normal_id, int attack_id)
         {
-            normal = LoadIconHelper(maskColor, masked, normal_id, file_text);
-            normal_f = LoadIconHelper(maskColor, masked, normal_id, file_text);
+            normal = LoadIconHelper(maskColor, shouldMask, normal_id, file_text);
+            normal_f = LoadIconHelper(maskColor, shouldMask, normal_id, file_text);
             normal_f.FlipIconLeftToRight();
-            attack = LoadIconHelper(maskColor, masked, attack_id, file_text);
-            attack_f = LoadIconHelper(maskColor, masked, attack_id, file_text);
+            attack = LoadIconHelper(maskColor, shouldMask, attack_id, file_text);
+            attack_f = LoadIconHelper(maskColor, shouldMask, attack_id, file_text);
             attack_f.FlipIconLeftToRight();
         }
 
@@ -75,12 +71,12 @@ namespace Classes.Combat
 
         public void DuplicateIcon(bool Recolour, CombatIcon combatIcon, Player player)
         {
-            int bitPerPixel = normal.bpp;
+            int bitPerPixel = normal.Bpp;
 
-            System.Array.Copy(combatIcon.normal.data, normal.data, combatIcon.normal.data.Length);
-            System.Array.Copy(combatIcon.normal_f.data, normal_f.data, combatIcon.normal_f.data.Length);
-            System.Array.Copy(combatIcon.attack.data, attack.data, combatIcon.attack.data.Length);
-            System.Array.Copy(combatIcon.attack_f.data, attack_f.data, combatIcon.attack_f.data.Length);
+            System.Array.Copy(combatIcon.normal.ImageData, normal.ImageData, combatIcon.normal.ImageData.Length);
+            System.Array.Copy(combatIcon.normal_f.ImageData, normal_f.ImageData, combatIcon.normal_f.ImageData.Length);
+            System.Array.Copy(combatIcon.attack.ImageData, attack.ImageData, combatIcon.attack.ImageData.Length);
+            System.Array.Copy(combatIcon.attack_f.ImageData, attack_f.ImageData, combatIcon.attack_f.ImageData.Length);
 
             if (Recolour)
             {
@@ -95,13 +91,12 @@ namespace Classes.Combat
 
                 for (byte i = 0; i < 6; i++)
                 {
-                    newColors[gbl.default_icon_colours[i]] = (byte)(player.icon_colours[i] & 0x0F);
-                    newColors[gbl.default_icon_colours[i] + 8] = (byte)((player.icon_colours[i] & 0xF0) >> 4);
+                    newColors[gbl.default_icon_colours[i]] = (byte) (player.icon_colours[i] & 0x0F);
+                    newColors[gbl.default_icon_colours[i] + 8] = (byte) ((player.icon_colours[i] & 0xF0) >> 4);
                 }
 
                 Recolor(false, newColors, oldColors);
             }
         }
     }
-
 }
